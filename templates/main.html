@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>DivvyChallenge</title>
+    <style>
+        body { font-family: 'Maven Pro', sans-serif; }
+        #wrap { width: 90%; margin: 30px auto 20px auto; }
+        a, a:hover { text-decoration: none; color: #333; }
+        p { font-size: 1.2em; }
+        #header { height: 60px; background-color: #3DB7E4; margin-bottom: 20px; }
+        #header h1 { padding: 10px; color: white; }
+        #map { height: 600px; }
+        #content { width: 100%; margin: 0px auto; padding: 20px 0 20px 0; }
+        #content-column-1 { width: 48%; margin: 0; padding: 0 10px; float: left; }
+        #content-column-2 { width: 48%; margin: 0; padding: 0 10px; float: left; }
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<div id="wrap">
+    <div id="header">
+        <h1>Divvy Challenge Usage and Availabilty Map</h1>
+    </div>
+    <div id="map">
+    </div>
+    <div id="content">
+        <div id="content-column-1">
+        <p>We should put a good description of the whole challenge and project component of this map thing here.  Something that lets people know what it is, why i did it, who i am, and all that jazz.</p>
+        </div>
+        <div id="content-column-2">
+        <p>The second paragraph or section should be dedicated to explaining how to use the data viewer.   How do the date frames work, and what do the charts show.</p>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script type="text/javascript">
+    var map = L.map('map').setView([41.90, -87.64], 14);
+    L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
+        attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
+        maxZoom: 18,
+    }).addTo(map);
+
+</script>
+</html>

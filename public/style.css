@@ -1,0 +1,13 @@
+#wrap {
+    color: #333;
+    width: 960px;
+    margin: 40px auto 40px auto;
+}
+
+a { color: #333; text-decoration: none; }
+a:hover { color: #333; text-decoration: underline; }
+
+#content {
+    padding: 20px;
+}
+

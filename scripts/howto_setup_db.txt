@@ -1,0 +1,20 @@
+create a database, ycl2_app with user and config slim app
+
+to wipe the schema clean :
+drop schema public cascade;
+create schema public;
+alter schema public owner to ycl2_app;
+
+to update the table structure based on your entities:
+php vendor/bin/doctrine orm:schema-tool:update --force --dump-sql
+
+to import the csv geo-dataset:
+php import_city_and_zip_data.php
+
+to reduce the zipcodes to a relevant set:
+-- less than 40 is south of champaign, less than -89 is west of rockford
+delete from zipcodes where latitude < 40.00 and longitude < -89.00;
+
+to import the listing data:
+php parse_wp_data_to_ycl2.php
+
