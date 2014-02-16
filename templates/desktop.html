@@ -12,8 +12,10 @@
         #content { width: 100%; margin: 0px auto; padding: 20px 0 20px 0; }
         #content-column-1 { width: 48%; margin: 0; padding: 0 10px; float: left; }
         #content-column-2 { width: 48%; margin: 0; padding: 0 10px; float: left; }
+        .markerBox { height: 300px; width: 300px; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
     <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
 </head>
 
@@ -36,13 +38,36 @@
 </body>
 
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<!-- includes for leaflet.js -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<!-- includes for morris.js -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+<!-- my js -->
 <script type="text/javascript">
-    var map = L.map('map').setView([41.90, -87.64], 14);
-    L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
-        attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
-        maxZoom: 18,
-    }).addTo(map);
+  // setup map
+  var map = L.map('map').setView([41.90, -87.64], 14);
+  L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
+    attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
+    minZoom: 13,
+    maxZoom: 16,
+  }).addTo(map);
+
+  // load markers from json-api
+  $.getJSON('/station', function(data) {
+    $.each(data, function(key, s) {
+      var coordinates = [ s['latitude'], s['longitude'] ];
+      L.marker(coordinates)
+      .addTo(map)
+      .on('click', function(e) {
+        this
+          .bindPopup('<div class="markerBox"><p>' + s['name'] + '</p></div>')
+          .openPopup();
+      });
+    });
+  });
+
+
 
 </script>
 </html>

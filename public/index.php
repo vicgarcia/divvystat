@@ -3,6 +3,7 @@ require_once '../bootstrap.php';
 
 use \Slim;
 use \SlimProject;
+use \PDO;
 
 // instantiate the app and view
 $app = new Slim\Slim([
@@ -11,10 +12,13 @@ $app = new Slim\Slim([
     'cookies.encrypt' => true,
 ]);
 
+// load database config
+$app->dbConfig = require 'configure/pdo.php';
+
 // a basic route
 $app->get('/', function() use ($app) {
     // add decision about desktop vs mobile here
-    $app->render('main.html');
+    $app->render('desktop.html');
 });
 
 $app->get('/station(/:id)', function($id = null) use ($app) {
@@ -28,6 +32,17 @@ $app->get('/station(/:id)', function($id = null) use ($app) {
     $output = array();
     if (empty($id)) {
         // get all stations here
+        $config = $app->dbConfig;
+        $db = new PDO($config->dest, $config->user, $config->pass);
+        $sql = "select * from stations";
+        foreach ($db->query($sql) as $row) {
+            $station = new \stdClass();
+            $station->station_id = $row['station_id'];
+            $station->name = $row['name'];
+            $station->latitude = $row['latitude'];
+            $station->longitude = $row['longitude'];
+            $output[] = $station;
+        }
     } else {
         /*
         // have an array of station ids for verification
@@ -42,12 +57,7 @@ $app->get('/station(/:id)', function($id = null) use ($app) {
         /*
         // proceed if the provided id is a valid station id
         if (is_int($id) and in_array($id, $stationIds)) {
-
-
             // get from divvy api current info
-
-
-
         }
         */
     }
