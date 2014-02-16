@@ -1,0 +1,8 @@
+<?php
+
+$config = new \stdClass;
+$config->dest = '';
+$config->user = '';
+$config->pass = '';
+
+return $config;
