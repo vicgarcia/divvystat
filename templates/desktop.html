@@ -12,7 +12,10 @@
         #content { width: 100%; margin: 0px auto; padding: 20px 0 20px 0; }
         #content-column-1 { width: 48%; margin: 0; padding: 0 10px; float: left; }
         #content-column-2 { width: 48%; margin: 0; padding: 0 10px; float: left; }
-        .markerBox { height: 300px; width: 300px; }
+        .markerHeadline { margin-bottom: -12px; width: 300px; clear: both;}
+        .markerAvailabile { margin-bottom: -12px; width: 300px; text-align: right; clear: both;}
+        .markerChart { height: 100px; width: 300px; margin-bottom: 5px; clear: both; background-color: blue; }
+        .markerGraph { height: 150px; width: 300px; margin-bottom: 10px; clear: both; background-color: red; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
@@ -37,6 +40,7 @@
 </div>
 </body>
 
+<!-- almighty jquery -->
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <!-- includes for leaflet.js -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
@@ -53,21 +57,25 @@
     maxZoom: 16,
   }).addTo(map);
 
-  // load markers from json-api
+  // load markers from json-api stations
   $.getJSON('/station', function(data) {
     $.each(data, function(key, s) {
-      var coordinates = [ s['latitude'], s['longitude'] ];
-      L.marker(coordinates)
+      L.marker([ s['latitude'], s['longitude'] ])
       .addTo(map)
       .on('click', function(e) {
-        this
-          .bindPopup('<div class="markerBox"><p>' + s['name'] + '</p></div>')
-          .openPopup();
+        this.bindPopup(
+          '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
+          '<h4 class="markerInfo">' + s['bikes'] + ' bikes available / ' + s['docks'] + ' docks</h4>' +
+          '<div id="markerChart-' + s['station_id'] + '" class="markerChart"></div>' +
+          '<div id="markerGraph-' + s['station_id'] + '" class="markerGraph"></div>'
+        ).openPopup();
+
+        //$.getJSON('/station/' + s['station_id'], function(report) {
+        //  alert(report['timeline']);
+        //});
+
       });
     });
   });
-
-
-
 </script>
 </html>
