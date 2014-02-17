@@ -3,4 +3,4 @@ workspace/
 vendor/
 composer.lock
 configure/pdo.php
-
+*.csv
