@@ -2,20 +2,25 @@
 <head>
     <title>DivvyChallenge</title>
     <style>
+        /* core style */
         body { font-family: 'Maven Pro', sans-serif; }
-        #wrap { width: 90%; margin: 30px auto 20px auto; }
         a, a:hover { text-decoration: none; color: #333; }
         p { font-size: 1.2em; }
+        #wrap { width: 90%; margin: 30px auto 20px auto; }
         #header { height: 60px; background-color: #3DB7E4; margin-bottom: 20px; }
         #header h1 { padding: 10px; color: white; }
         #map { height: 600px; }
+        /* style for marker popups */
+        .markerBox { width: 300px; margin-bottom: 20px; }
+        .markerHeadline { padding-top: 10px; line-height: .25; clear: both;}
+        .markerAvailabile { line-height: .25; text-align: right; clear: both;}
+        .markerTimeline { height: 150px; width: 300px; margin-top: -20px; padding: 0; margin-bottom: 0; clear: both; }
+        .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
+        .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
+        /* content formatting (below map) */
         #content { width: 100%; margin: 0px auto; padding: 20px 0 20px 0; }
         #content-column-1 { width: 48%; margin: 0; padding: 0 10px; float: left; }
         #content-column-2 { width: 48%; margin: 0; padding: 0 10px; float: left; }
-        .markerHeadline { margin-bottom: -12px; width: 300px; clear: both;}
-        .markerAvailabile { margin-bottom: -12px; width: 300px; text-align: right; clear: both;}
-        .markerChart { height: 100px; width: 300px; margin-bottom: 5px; clear: both; background-color: blue; }
-        .markerGraph { height: 150px; width: 300px; margin-bottom: 10px; clear: both; background-color: red; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
@@ -31,10 +36,14 @@
     </div>
     <div id="content">
         <div id="content-column-1">
-        <p>We should put a good description of the whole challenge and project component of this map thing here.  Something that lets people know what it is, why i did it, who i am, and all that jazz.</p>
+            <p>We should put a good description of the whole challenge and project
+            component of this map thing here.  Something that lets people know what
+            it is, why i did it, who i am, and all that jazz.</p>
         </div>
         <div id="content-column-2">
-        <p>The second paragraph or section should be dedicated to explaining how to use the data viewer.   How do the date frames work, and what do the charts show.</p>
+            <p>The second paragraph or section should be dedicated to explaining how
+            to use the data viewer.   How do the date frames work, and what do the
+            charts show.</p>
         </div>
     </div>
 </div>
@@ -60,20 +69,44 @@
   // load markers from json-api stations
   $.getJSON('/station', function(data) {
     $.each(data, function(key, s) {
-      L.marker([ s['latitude'], s['longitude'] ])
+      // create marker
+      L.marker([ s['lat'], s['lng'] ])
       .addTo(map)
       .on('click', function(e) {
+        // handle click event
         this.bindPopup(
+          '<div class="markerBox">' +
           '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
           '<h4 class="markerInfo">' + s['bikes'] + ' bikes available / ' + s['docks'] + ' docks</h4>' +
-          '<div id="markerChart-' + s['station_id'] + '" class="markerChart"></div>' +
-          '<div id="markerGraph-' + s['station_id'] + '" class="markerGraph"></div>'
+          '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
+          '<div class="graphNote">recent available bike count</div>' +
+          '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
+          '<div class="graphNote">weekday averages from historical data</div></div>'
         ).openPopup();
-
-        //$.getJSON('/station/' + s['station_id'], function(report) {
-        //  alert(report['timeline']);
-        //});
-
+        $.getJSON('/station/' + s['id'], function(report) {
+          // timeline chart
+          new Morris.Line({
+            element: 'markerTimeline-' + s['id'],
+            data: report['timeline'],
+            xkey: 'timestamp',
+            ykeys: ['bikes'],
+            lineColors: ['#3DB7E4'],
+            labels: ['Available Bikes'],
+            gridTextSize: 8,
+            hideHover: true
+          });
+          // day of week bar graph
+          new Morris.Bar({
+            element: 'markerGraph-' + s['id'],
+            data: report['graph'],
+            xkey: 'day',
+            ykeys: ['rents', 'returns'],
+            barColors: ['red', 'green'],    // XXX replace with proper color
+            labels: ['rents', 'returns'],
+            gridTextSize: 8,
+            hideHover: true
+          });
+        });
       });
     });
   });

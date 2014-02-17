@@ -5,12 +5,6 @@ use \Slim;
 use \SlimProject;
 use \PDO;
 
-// ad-hoc function to fix sql whitespace
-function prepSql($string)
-{
-    return preg_replace('/\s+/', ' ', $string);
-}
-
 // instantiate the app and view
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,
@@ -39,36 +33,52 @@ $app->get('/', function() use ($app) {
 
 $app->get('/station(/:id)', function($id = null) use ($app) {
     $output = array();
-    if (empty($id)) {                           // get all stations here
+    if (empty($id)) {   // get all stations here
         if (($output = $app->cache->load('stations')) === false) {
-            $sql = prepSql("
-                select s.station_id, s.name, s.latitude, s.longitude,
-                  ( select available_bikes from availabilitys
-                    where station_id = s.station_id
-                    order by timestamp desc limit 1 ) as 'bikes',
-                  ( select total_docks from availabilitys
-                    where station_id = s.station_id
-                    order by timestamp desc limit 1 ) as 'docks'
-                from stations s
-            ");
+            $sql = "select * from station_view";
             $output = $app->db->query($sql)->fetchAll(PDO::FETCH_OBJ);
             //var_dump($output); exit; // xxx testing output from query
             $app->cache->save('stations', $output, 3600);
         }
-    } else {                                    // get station data by id
+    } else {            // get station data by id
         if (($stationIds = $app->cache->load('stationIds')) === false) {
-            $sql = prepSql("select distinct station_id from stations");
+            $sql = "select station_id from stations";
             $stationIds = $app->db->query($sql)->fetchAll(PDO::FETCH_COLUMN);
             $app->cache->save('stationIds', $stationIds, 3600);
         }
         // proceed if the provided id is a valid station id
         if (in_array($id, $stationIds)) {
             $report = new \stdClass;
-            $report->timeline = array('test', 'data', 'here');
-            $report->average = array();
 
-            // get from divvy api current info
+            $timeline = array();
+            if (($timeline = $app->cache->load('station'.$id)) === false) {
+                $sql = "select * from timeline_view where id = ?";
+                $stmt = $app->db->prepare($sql);
+                $stmt->execute([$id]);
+                $timeline = array();
+                foreach ($stmt->fetchAll(PDO::FETCH_OBJ) as $key => $point) {
+                    if ($key % 3 == 0)
+                        $timeline[] = $point;
+                }
+                $app->cache->save('station'.$id, $timeline, 3600);
+            }
+            $report->timeline = $timeline;
 
+            $graph = array();
+            // XXX replace this with mechanics for getting graph data
+            // XXX temp data for testing
+            $graph = [
+                ['day' => 'Sunday', 'rents' => 76, 'returns' => 84],
+                ['day' => 'Monday', 'rents' => 45, 'returns' => 31],
+                ['day' => 'Tueday', 'rents' => 63, 'returns' => 61],
+                ['day' => 'Wednesday', 'rents' => 55, 'returns' => 37],
+                ['day' => 'Thursday', 'rents' => 61, 'returns' => 93],
+                ['day' => 'Friday', 'rents' => 38, 'returns' => 12],
+                ['day' => 'Saturday', 'rents' => 71, 'returns' => 44]
+            ];
+            $report->graph = $graph;
+
+            // output
             $output = $report;
         }
     }
