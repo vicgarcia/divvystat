@@ -1,8 +1,7 @@
 <?php
 
-$config = new \stdClass;
-$config->dest = '';
-$config->user = '';
-$config->pass = '';
-
-return $config;
+return array(
+    'dest' => '',
+    'user' => '',
+    'pass' => ''
+);
