@@ -2,5 +2,7 @@ log/
 workspace/
 vendor/
 composer.lock
+configure/mysql.php
+configure/redis.php
 configure/pdo.php
 *.csv
