@@ -12,8 +12,8 @@
         #map { height: 600px; }
         /* style for marker popups */
         .markerBox { width: 300px; margin-bottom: 20px; }
-        .markerHeadline { padding-top: 10px; line-height: .25; clear: both;}
-        .markerAvailabile { line-height: .25; text-align: right; clear: both;}
+        .markerHeadline { margin-bottom: -6px; line-height: 1; clear: both;}
+        .markerAvailabile { line-height: 1; clear: both;}
         .markerTimeline { height: 150px; width: 300px; margin-top: -20px; padding: 0; margin-bottom: 0; clear: both; }
         .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
         .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
@@ -79,7 +79,7 @@
           '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
           '<h4 class="markerInfo">' + s['bikes'] + ' bikes available / ' + s['docks'] + ' docks</h4>' +
           '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
-          '<div class="graphNote">recent available bike count</div>' +
+          '<div class="graphNote">available bikes over previous 24 hours</div>' +
           '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
           '<div class="graphNote">weekday averages from historical data</div></div>'
         ).openPopup();
