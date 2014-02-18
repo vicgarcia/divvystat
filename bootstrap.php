@@ -15,15 +15,12 @@ if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
 // configure cookie options
 //\SlimProject\SampleUser::$config = require 'config/cookies.php';
 
-/*
 // redis config (examples using either Redis or Predis client)
 \SlimProject\Kv\Redis::$config = require 'configure/redis.php';
+/*
 \SlimProject\Kv\Predis::$prefix = 'slimproject:';
 */
 
-/*
-/// database config using POMM or Doctrine
-\SlimProject\Pomm::$config = require 'configure/pomm.php';
-\SlimProject\Doctrine::$config = require 'configure/doctrine.php';
-*/
+// pdo database config
+$GLOBALS['mysql'] = require 'configure/mysql.php';
 
