@@ -4,6 +4,7 @@ require_once '../bootstrap.php';
 use \Slim;
 use \SlimProject;
 use \PDO;
+use \MeekroDB;
 
 // instantiate the app and view
 $app = new Slim\Slim([
@@ -14,71 +15,96 @@ $app = new Slim\Slim([
 
 // setup cache service
 $app->container->singleton('cache', function() {
-    //if ($GLOBALS['environment'] == 'production')
-    //    return new SlimProject\Cache(new SlimProject\Kv);
+    //if ($GLOBALS['environment'] == 'production') {
+    if (true) {
+        return new SlimProject\Cache(new SlimProject\Kv\Redis);
+    }
     return new SlimProject\NoCache;
 });
 
 // setup db service
 $app->container->singleton('db', function() {
-    $config = require 'configure/pdo.php';
-    return new PDO($config['dest'], $config['user'], $config['pass']);
+    //$config = $GLOBALS['pdo'];
+    //return new PDO($config['dest'], $config['user'], $config['pass']);
+
+    $cfg = $GLOBALS['mysql'];
+    return new MeekroDB($cfg['host'], $cfg['user'], $cfg['pass'], $cfg['base']);
 });
 
-// a basic route
+// distribute page template
 $app->get('/', function() use ($app) {
     // add decision about desktop vs mobile here
     $app->render('desktop.html');
 });
 
+// station api
 $app->get('/station(/:id)', function($id = null) use ($app) {
     $output = array();
-    if (empty($id)) {   // get all stations here
+    if (empty($id)) {                                   // get all stations here
+        /*
         if (($output = $app->cache->load('stations')) === false) {
             $sql = "select * from station_view";
             $output = $app->db->query($sql)->fetchAll(PDO::FETCH_OBJ);
-            //var_dump($output); exit; // xxx testing output from query
             $app->cache->save('stations', $output, 3600);
         }
-    } else {            // get station data by id
+        */
+        $sql = "select * from station_view";
+        $output = $app->db->query($sql);
+        //var_dump($r); exit;
+    } else {                                            // get station data by id
         if (($stationIds = $app->cache->load('stationIds')) === false) {
             $sql = "select station_id from stations";
             $stationIds = $app->db->query($sql)->fetchAll(PDO::FETCH_COLUMN);
             $app->cache->save('stationIds', $stationIds, 3600);
         }
-        // proceed if the provided id is a valid station id
-        if (in_array($id, $stationIds)) {
+        if (in_array($id, $stationIds)) {               // proceed if valid station_id
             $report = new \stdClass;
 
             $timeline = array();
-            if (($timeline = $app->cache->load('station'.$id)) === false) {
+            if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
                 $sql = "select * from timeline_view where id = ?";
                 $stmt = $app->db->prepare($sql);
                 $stmt->execute([$id]);
-                $timeline = array();
                 foreach ($stmt->fetchAll(PDO::FETCH_OBJ) as $key => $point) {
                     if ($key % 3 == 0)
                         $timeline[] = $point;
                 }
-                $app->cache->save('station'.$id, $timeline, 3600);
+                $app->cache->save('timeline_'.$id, $timeline, 3600);
             }
             $report->timeline = $timeline;
 
             $graph = array();
-            // XXX replace this with mechanics for getting graph data
-            // XXX temp data for testing
-            $graph = [
-                ['day' => 'Sunday', 'rents' => 76, 'returns' => 84],
-                ['day' => 'Monday', 'rents' => 45, 'returns' => 31],
-                ['day' => 'Tueday', 'rents' => 63, 'returns' => 61],
-                ['day' => 'Wednesday', 'rents' => 55, 'returns' => 37],
-                ['day' => 'Thursday', 'rents' => 61, 'returns' => 93],
-                ['day' => 'Friday', 'rents' => 38, 'returns' => 12],
-                ['day' => 'Saturday', 'rents' => 71, 'returns' => 44]
-            ];
+            if (($graph = $app->cache->load('graph_'.$id)) === false) {
+                $days = array(
+                    0 => 'Sunday',
+                    1 => 'Monday',
+                    2 => 'Tuesday',
+                    3 => 'Wednesday',
+                    4 => 'Thursday',
+                    5 => 'Friday',
+                    6 => 'Saturday'
+                );
+                foreach (range(0, 6) as $day) {
+                    $graph[$day]['day'] = $days[$day];
+                }
+
+                $rentSql = "select * from trips_rents_view where station_id = ?";
+                $rentStmt = $app->db->prepare($rentSql);
+                $rentStmt->execute([$id]);
+                foreach ($rentStmt->fetchAll(PDO::FETCH_OBJ) as $row) {
+                    $graph[$row->day]['rents'] = $row->rents;
+                }
+
+                $returnSql = "select * from trips_returns_view where station_id = ?";
+                $returnStmt = $app->db->prepare($returnSql);
+                $returnStmt->execute([$id]);
+                foreach ($returnStmt->fetchAll(PDO::FETCH_OBJ) as $row) {
+                    $graph[$row->day]['returns'] = $row->returns;
+                }
+                $app->cache->save('graph_'.$id, $graph, 3600);
+            }
             $report->graph = $graph;
 
-            // output
             $output = $report;
         }
     }
