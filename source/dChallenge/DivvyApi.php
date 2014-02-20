@@ -9,8 +9,7 @@ class DivvyApi
 
     public function getStationData()
     {
-        $response = Requests::get(self::URL);
-        $apiData = json_decode($response->body);
+        $apiData = json_decode(Requests::get(self::URL)->body);
 
         $timestamp = $apiData->executionTime;
 
@@ -22,5 +21,4 @@ class DivvyApi
 
         return $results;
     }
-
 }
