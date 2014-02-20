@@ -3,7 +3,6 @@ require_once '../bootstrap.php';
 
 use \Slim;
 use \SlimProject;
-use \PDO;
 use \MeekroDB;
 
 // instantiate the app and view
@@ -15,8 +14,7 @@ $app = new Slim\Slim([
 
 // setup cache service
 $app->container->singleton('cache', function() {
-    //if ($GLOBALS['environment'] == 'production') {
-    if (true) {
+    if (true) { //$GLOBALS['environment'] == 'production') {
         return new SlimProject\Cache(new SlimProject\Kv\Redis);
     }
     return new SlimProject\NoCache;
@@ -24,9 +22,6 @@ $app->container->singleton('cache', function() {
 
 // setup db service
 $app->container->singleton('db', function() {
-    //$config = $GLOBALS['pdo'];
-    //return new PDO($config['dest'], $config['user'], $config['pass']);
-
     $cfg = $GLOBALS['mysql'];
     return new MeekroDB($cfg['host'], $cfg['user'], $cfg['pass'], $cfg['base']);
 });
@@ -41,20 +36,15 @@ $app->get('/', function() use ($app) {
 $app->get('/station(/:id)', function($id = null) use ($app) {
     $output = array();
     if (empty($id)) {                                   // get all stations here
-        /*
         if (($output = $app->cache->load('stations')) === false) {
             $sql = "select * from station_view";
-            $output = $app->db->query($sql)->fetchAll(PDO::FETCH_OBJ);
+            $output = $app->db->query($sql);
             $app->cache->save('stations', $output, 3600);
         }
-        */
-        $sql = "select * from station_view";
-        $output = $app->db->query($sql);
-        //var_dump($r); exit;
     } else {                                            // get station data by id
         if (($stationIds = $app->cache->load('stationIds')) === false) {
             $sql = "select station_id from stations";
-            $stationIds = $app->db->query($sql)->fetchAll(PDO::FETCH_COLUMN);
+            $stationIds = $app->db->queryOneColumn('station_id', $sql);
             $app->cache->save('stationIds', $stationIds, 3600);
         }
         if (in_array($id, $stationIds)) {               // proceed if valid station_id
@@ -62,12 +52,13 @@ $app->get('/station(/:id)', function($id = null) use ($app) {
 
             $timeline = array();
             if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
-                $sql = "select * from timeline_view where id = ?";
-                $stmt = $app->db->prepare($sql);
-                $stmt->execute([$id]);
-                foreach ($stmt->fetchAll(PDO::FETCH_OBJ) as $key => $point) {
-                    if ($key % 3 == 0)
-                        $timeline[] = $point;
+                $sql = "select * from timeline_view where id = %i";
+                $prev = null;
+                foreach ($app->db->query($sql, $id) as $row) {
+                    if ($row['bikes'] != $prev) {
+                        $timeline[] = $row;
+                        $prev = $row['bikes'];
+                    }
                 }
                 $app->cache->save('timeline_'.$id, $timeline, 3600);
             }
@@ -88,18 +79,14 @@ $app->get('/station(/:id)', function($id = null) use ($app) {
                     $graph[$day]['day'] = $days[$day];
                 }
 
-                $rentSql = "select * from trips_rents_view where station_id = ?";
-                $rentStmt = $app->db->prepare($rentSql);
-                $rentStmt->execute([$id]);
-                foreach ($rentStmt->fetchAll(PDO::FETCH_OBJ) as $row) {
-                    $graph[$row->day]['rents'] = $row->rents;
+                $rentSql = "select * from trips_rents_view where station_id = %i";
+                foreach ($app->db->query($rentSql, $id) as $row) {
+                    $graph[$row['day']]['rents'] = $row['rents'];
                 }
 
-                $returnSql = "select * from trips_returns_view where station_id = ?";
-                $returnStmt = $app->db->prepare($returnSql);
-                $returnStmt->execute([$id]);
-                foreach ($returnStmt->fetchAll(PDO::FETCH_OBJ) as $row) {
-                    $graph[$row->day]['returns'] = $row->returns;
+                $returnSql = "select * from trips_returns_view where station_id = %i";
+                foreach ($app->db->query($returnSql, $id) as $row) {
+                    $graph[$row['day']]['returns'] = $row['returns'];
                 }
                 $app->cache->save('graph_'.$id, $graph, 3600);
             }
@@ -118,5 +105,4 @@ $app->notFound(function () use ($app) { $app->redirect('/'); });
 // return empty json array on error
 $app->error(function (\Exception $e) use ($app) { echo json_encode([]); });
 
-// run the app!
 $app->run();
