@@ -36,6 +36,4 @@ foreach ($api->getStationData() as $station) {
 
     if (!$stmt->execute())
         var_dump($stmt->errorInfo());
-
-    //var_dump($station); exit; // xxx reorder wrt execute()
 }
