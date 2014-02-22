@@ -15,15 +15,16 @@ $app = new Slim\Slim([
 // setup cache service
 $app->container->singleton('cache', function() {
     if (true) { //$GLOBALS['environment'] == 'production') {
-        return new SlimProject\Cache(new SlimProject\Kv\Redis);
+        $config = require 'configure/redis.php';
+        return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
     return new SlimProject\NoCache;
 });
 
 // setup db service
 $app->container->singleton('db', function() {
-    $cfg = $GLOBALS['mysql'];
-    return new MeekroDB($cfg['host'], $cfg['user'], $cfg['pass'], $cfg['base']);
+    extract(require 'configure/mysql.php');
+    return new MeekroDB($host, $user, $pass, $base);
 });
 
 // distribute page template
@@ -95,7 +96,6 @@ $app->get('/station(/:id)', function($id = null) use ($app) {
             $output = $report;
         }
     }
-
     echo json_encode($output);
 });
 
