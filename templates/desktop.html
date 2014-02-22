@@ -6,9 +6,9 @@
         body { font-family: 'Maven Pro', sans-serif; }
         a, a:hover { text-decoration: none; color: #333; }
         p { font-size: 1.2em; }
-        #wrap { width: 90%; margin: 30px auto 20px auto; }
-        #header { height: 60px; background-color: #3DB7E4; margin-bottom: 20px; }
-        #header h1 { padding: 10px; color: white; }
+        #wrap { width: 90%; margin: 25px auto 25px auto; }
+        #header { height: 50px; background-color: #3DB7E4; }
+        #header h1 { padding: 5px; color: white; }
         #map { height: 600px; }
         /* style for marker popups */
         .markerBox { width: 300px; margin-bottom: 20px; }
@@ -18,9 +18,9 @@
         .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
         .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
         /* content formatting (below map) */
-        #content { width: 100%; margin: 0px auto; padding: 20px 0 20px 0; }
-        #content-column-1 { width: 48%; margin: 0; padding: 0 10px; float: left; }
-        #content-column-2 { width: 48%; margin: 0; padding: 0 10px; float: left; }
+        #content { width: 100%; margin: 0px auto; padding: 10px 0 10px 0; }
+        #content-column-1 { width: 49%; margin: 0; padding: 0 1% 0 0; float: left; }
+        #content-column-2 { width: 49%; margin: 0; padding: 0 1% 0 0; float: left; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
@@ -29,10 +29,10 @@
 
 <body>
 <div id="wrap">
+    <div id="map">
+    </div>
     <div id="header">
         <h1>dvChallenge Usage and Availabilty Map</h1>
-    </div>
-    <div id="map">
     </div>
     <div id="content">
         <div id="content-column-1">
