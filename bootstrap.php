@@ -11,16 +11,3 @@ $GLOBALS['environment'] = 'development';
 if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
     $GLOBALS['environment'] = 'production';
 }
-
-// configure cookie options
-//\SlimProject\SampleUser::$config = require 'config/cookies.php';
-
-// redis config (examples using either Redis or Predis client)
-\SlimProject\Kv\Redis::$config = require 'configure/redis.php';
-/*
-\SlimProject\Kv\Predis::$prefix = 'slimproject:';
-*/
-
-// pdo database config
-$GLOBALS['mysql'] = require 'configure/mysql.php';
-
