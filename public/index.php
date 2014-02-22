@@ -4,6 +4,7 @@ require_once '../bootstrap.php';
 use \Slim;
 use \SlimProject;
 use \MeekroDB;
+use \dChallenge;
 
 // instantiate the app and view
 $app = new Slim\Slim([
@@ -19,84 +20,59 @@ $app->container->singleton('cache', function() {
         return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
     return new SlimProject\NoCache;
-});
+    });
 
-// setup db service
-$app->container->singleton('db', function() {
-    extract(require 'configure/mysql.php');
-    return new MeekroDB($host, $user, $pass, $base);
-});
+    // setup db service
+    $app->container->singleton('db', function() {
+        extract(require 'configure/mysql.php');
+        return new MeekroDB($host, $user, $pass, $base);
+    });
 
-// distribute page template
-$app->get('/', function() use ($app) {
-    // add decision about desktop vs mobile here
-    $app->render('desktop.html');
-});
+    // distribute page template
+    $app->get('/', function() use ($app) {
+        // add decision about desktop vs mobile here
+        $app->render('desktop.html');
+    });
 
-// station api
-$app->get('/station(/:id)', function($id = null) use ($app) {
-    $output = array();
-    if (empty($id)) {                                   // get all stations here
-        if (($output = $app->cache->load('stations')) === false) {
-            $sql = "select * from station_view";
-            $output = $app->db->query($sql);
-            $app->cache->save('stations', $output, 3600);
-        }
-    } else {                                            // get station data by id
-        if (($stationIds = $app->cache->load('stationIds')) === false) {
-            $sql = "select station_id from stations";
-            $stationIds = $app->db->queryOneColumn('station_id', $sql);
-            $app->cache->save('stationIds', $stationIds, 3600);
-        }
-        if (in_array($id, $stationIds)) {               // proceed if valid station_id
-            $report = new \stdClass;
-
-            $timeline = array();
-            if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
-                $sql = "select * from timeline_view where id = %i";
-                $prev = null;
-                foreach ($app->db->query($sql, $id) as $row) {
-                    if ($row['bikes'] != $prev) {
-                        $timeline[] = $row;
-                        $prev = $row['bikes'];
-                    }
-                }
-                $app->cache->save('timeline_'.$id, $timeline, 3600);
-            }
-            $report->timeline = $timeline;
-
-            $graph = array();
-            if (($graph = $app->cache->load('graph_'.$id)) === false) {
-                $days = array(
-                    0 => 'Sunday',
-                    1 => 'Monday',
-                    2 => 'Tuesday',
-                    3 => 'Wednesday',
-                    4 => 'Thursday',
-                    5 => 'Friday',
-                    6 => 'Saturday'
-                );
-                foreach (range(0, 6) as $day) {
-                    $graph[$day]['day'] = $days[$day];
-                }
-
-                $rentSql = "select * from trips_rents_view where station_id = %i";
-                foreach ($app->db->query($rentSql, $id) as $row) {
-                    $graph[$row['day']]['rents'] = $row['rents'];
-                }
-
-                $returnSql = "select * from trips_returns_view where station_id = %i";
-                foreach ($app->db->query($returnSql, $id) as $row) {
-                    $graph[$row['day']]['returns'] = $row['returns'];
-                }
-                $app->cache->save('graph_'.$id, $graph, 3600);
-            }
-            $report->graph = $graph;
-
-            $output = $report;
-        }
+// get stations data from json api (for map)
+$app->get('/station', function() use ($app) {
+    $stations = array();
+    if (($stations = $app->cache->load('stations')) === false) {
+        $sql = "select * from station_view";
+        $stations = $app->db->query($sql);
+        $app->cache->save('stations', $stations, 3600);
     }
-    echo json_encode($output);
+    echo json_encode($stations);
+});
+
+// get station report data from json api (for popup)
+$app->get('/station/:id', function($id) use ($app) {
+    if (($stationIds = $app->cache->load('stationIds')) === false) {
+        $stationIds = (new dChallenge\DivvyDB($app->db))->getStationIds();
+        $app->cache->save('stationIds', $stationIds, 14400);
+    }
+    if (in_array($id, $stationIds)) {   // check if the station id is valid
+        $db = new dChallenge\DivvyDB($app->db);
+
+        $report = new \stdClass;
+
+        $timeline = array();
+        if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
+            $timeline = $db->get72HourTimeline($id);
+            $app->cache->save('timeline_'.$id, $timeline, 1200);
+        }
+        $report->timeline = $timeline;
+
+        $graph = array();
+        if (($graph = $app->cache->load('graph_'.$id)) === false) {
+            $graph = $db->getDayAveragesGraph($id);
+            $app->cache->save('graph_'.$id, $graph, 14400);
+        }
+        $report->graph = $graph;
+
+        echo json_encode($report);
+    }
+    // redirect to 404
 });
 
 // redirect not found to the landing page
