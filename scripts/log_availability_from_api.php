@@ -5,7 +5,7 @@ use \dChallenge\DivvyApi;
 use \PDO;
 
 $config = require 'configure/pdo.php';
-$db = new PDO($config['dest'], $config['user'], $config['pass']);
+$db = new PDO($config->conn, $config->user, $config->pass);
 
 $insertSql = preg_replace('/\s+/', ' ', "
     insert into availabilitys
