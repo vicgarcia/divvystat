@@ -1,3 +1,4 @@
+
 create view trips_rents_view as
     select
         origin as 'station_id',

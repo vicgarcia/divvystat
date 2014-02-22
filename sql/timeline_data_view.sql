@@ -5,5 +5,5 @@ create view timeline_view as
         timestamp as 'timestamp',
         available_bikes as 'bikes'
     from availabilitys
-    where timestamp > timestampadd(hour, -24, now())
+    where timestamp > timestampadd(hour, -72, now())
     order by timestamp desc;
