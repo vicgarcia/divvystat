@@ -32,7 +32,7 @@ $stmt->bindParam(':user', $user);
 $stmt->bindParam(':gender', $gender);
 $stmt->bindParam(':birthyear', $birthyear);
 
-$csvFilename = 'trips_data.csv';
+$csvFilename = __DIR__.'trips_data.csv';
 if (($file = fopen($csvFilename, "r")) !== false) {
     while (($data = fgetcsv($file, 0, ',', '"')) !== false) {
         // parse csv data

@@ -7,7 +7,7 @@ class DivvyApi
 {
     const URL = 'http://divvybikes.com/stations/json';
 
-    public function getStationData()
+    public function getLiveStationData()
     {
         $apiData = json_decode(Requests::get(self::URL)->body);
 

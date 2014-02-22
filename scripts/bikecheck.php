@@ -1,7 +1,7 @@
 <?php
 require_once '../bootstrap.php';
 
-use \dChallenge\DivvyApi;
+use \dChallenge;
 use \PDO;
 
 $config = require 'configure/pdo.php';
@@ -24,8 +24,8 @@ $stmt->bindParam(':totalDocks', $totalDocks);
 $stmt->bindParam(':availableBikes', $availableBikes);
 $stmt->bindParam(':timestamp', $timestamp);
 
-$api = new DivvyApi;
-foreach ($api->getStationData() as $station) {
+$api = new dChallenge\DivvyApi;
+foreach ($api->getLiveStationData() as $station) {
     $stationId = $station->landMark;
     $statusKey = $station->statusKey;
     $totalDocks = $station->totalDocks;
