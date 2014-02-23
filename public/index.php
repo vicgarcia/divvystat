@@ -20,19 +20,19 @@ $app->container->singleton('cache', function() {
         return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
     return new SlimProject\NoCache;
-    });
+});
 
-    // setup db service
-    $app->container->singleton('db', function() {
-        extract(require 'configure/mysql.php');
-        return new MeekroDB($host, $user, $pass, $base);
-    });
+// setup db service
+$app->container->singleton('db', function() {
+    extract(require 'configure/mysql.php');
+    return new MeekroDB($host, $user, $pass, $base);
+});
 
-    // distribute page template
-    $app->get('/', function() use ($app) {
-        // add decision about desktop vs mobile here
-        $app->render('desktop.html');
-    });
+// distribute page template
+$app->get('/', function() use ($app) {
+    // add decision about desktop vs mobile here
+    $app->render('desktop.html');
+});
 
 // get stations data from json api (for map)
 $app->get('/station', function() use ($app) {
