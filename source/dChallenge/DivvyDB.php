@@ -1,8 +1,6 @@
 <?php
 namespace dChallenge;
 
-use \Requests;
-
 class DivvyDB
 {
     protected $db;
@@ -48,17 +46,8 @@ class DivvyDB
     {
         $graph = array();
 
-        $days = array(
-            0 => 'Sunday',
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday',
-            6 => 'Saturday'
-        );
         foreach (range(0, 6) as $day) {
-            $graph[$day]['day'] = $days[$day];
+            $graph[$day]['day'] = $this->dayOfWeekMap()[$day];
         }
 
         $rentSql = "select * from trips_rents_view where station_id = %i";
@@ -72,6 +61,19 @@ class DivvyDB
         }
 
         return $graph;
+    }
+
+    protected function dayOfWeekMap()
+    {
+        return array(
+            0 => 'Sunday',
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday'
+        );
     }
 
 }

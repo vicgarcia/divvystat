@@ -10,12 +10,11 @@ use \dChallenge;
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,
     'templates.path'  => '../templates',
-    'cookies.encrypt' => true,
 ]);
 
 // setup cache service
 $app->container->singleton('cache', function() {
-    if (true) { //$GLOBALS['environment'] == 'production') {
+    if ($GLOBALS['environment'] == 'production') {
         $config = require 'configure/redis.php';
         return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
