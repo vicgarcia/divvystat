@@ -69,8 +69,9 @@ $app->get('/station/:id', function($id) use ($app) {
         $report->graph = $graph;
 
         echo json_encode($report);
+    } else {
+        $app->notFound();
     }
-    $app->notFound();
 });
 
 // redirect not found to the landing page
