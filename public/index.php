@@ -38,8 +38,7 @@ $app->get('/', function() use ($app) {
 $app->get('/station', function() use ($app) {
     $stations = array();
     if (($stations = $app->cache->load('stations')) === false) {
-        $sql = "select * from station_view";
-        $stations = $app->db->query($sql);
+        $stations = (new dChallenge\DivvyDB($app->db))->getStationsData();
         $app->cache->save('stations', $stations, 3600);
     }
     echo json_encode($stations);
@@ -53,7 +52,6 @@ $app->get('/station/:id', function($id) use ($app) {
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $db = new dChallenge\DivvyDB($app->db);
-
         $report = new \stdClass;
 
         $timeline = array();
@@ -72,13 +70,20 @@ $app->get('/station/:id', function($id) use ($app) {
 
         echo json_encode($report);
     }
-    // redirect to 404
+    $app->notFound();
 });
 
 // redirect not found to the landing page
-$app->notFound(function () use ($app) { $app->redirect('/'); });
+$app->notFound(function () use ($app) {
+    $app->response->setStatus(404);
+    echo json_encode([]);
+});
 
 // return empty json array on error
-$app->error(function (\Exception $e) use ($app) { echo json_encode([]); });
+$app->error(function (\Exception $e) use ($app) {
+    $app->response->setStatus(500);
+    echo json_encode([]);
+});
 
+// run the app
 $app->run();
