@@ -1,9 +1,0 @@
-<?php
-
-return array(
-    'host' => '',
-    'base' => '',
-    'user' => '',
-    'pass' => ''
-);
-
