@@ -1,15 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>dvChallenge</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+    <title>dvMap</title>
     <style>
         /* core style */
-        body { font-family: 'Maven Pro', sans-serif; }
-        a, a:hover { text-decoration: none; color: #333; }
+        body { font-family: 'Maven Pro', sans-serif; background-color: gray; }
+        a, a:hover { /* text-decoration: none; */ color: #333; }
         p { font-size: 1.2em; }
-        #wrap { width: 90%; margin: 10px auto 40px auto; padding: }
+        #wrap { width: 90%; margin: 10px auto 40px auto; padding: 20px 20px 40px 20px; background-color: white; }
         #map { height: 600px; }
-        #header { margin: 0; height: 50px; background-color: #3DB7E4; }
-        #header h1 { padding: 5px; color: white; }
+        #header { margin: 0; background-color: #3DB7E4; }
+        #header h1 { padding: 5px 10px 5px 10px; color: white; }
         /* style for marker popups */
         .markerBox { width: 300px; margin-bottom: 20px; }
         .markerHeadline { margin-bottom: -6px; line-height: 1; clear: both;}
@@ -18,9 +23,13 @@
         .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
         .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
         /* content formatting (below map) */
-        #content { width: 100%; margin: 0 auto; }
-        #content-column-1 { width: 48%; margin: 0 1% 0 1%; float: left; }
-        #content-column-2 { width: 48%; margin: 0 1% 0 1%; float: left; }
+        #content { width: 100%; margin: 0 auto 0 auto; padding: 0; }
+        #footer { margin: 0; background-color: #3DB7E4; }
+        #footer h1 { padding: 5px; color: white; }
+        #content-column-1 { width: 46%; margin: 0 2% 0 2%; float: left; }
+        #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; }
+        .clear { clear: both; }
+        .myinfo { padding-top: 20px; clear: both;}
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
@@ -32,21 +41,37 @@
     <div id="map">
     </div>
     <div id="header">
-        <h1>dvChallenge Usage and Availabilty Map</h1>
+        <h1>dvMap : Divvy Usage and Availabilty Map</h1>
     </div>
     <div id="content">
         <div id="content-column-1">
-            <p>We should put a good description of the whole challenge and project
-            component of this map thing here.  Something that lets people know what
-            it is, why i did it, who i am, and all that jazz.</p>
+            <p>The line chart at the top of each station popup shows the number of bikes
+            available at a station over the previous 72 hours.  Data points are omitted
+            when the count doesn't change, creating an effect that draws attention to
+            periods of higher use.</p>
+
+            <p>The bar graph at the bottom of each popup shows the average number of
+            bikes rented from and returned to the station by day of the week.  These
+            averages are calculated using the Divvy data challenge dataset, covering
+            various periods in 2013.</p>
         </div>
         <div id="content-column-2">
-            <p>The second paragraph or section should be dedicated to explaining how
-            to use the data viewer.   How do the date frames work, and what do the
-            charts show.</p>
+            <p>
+            This interactive map uses a combination of the data provided by Divvy
+            for the <a href="http://divvybikes.com/datachallenge">Data Challenge</a>
+            and by collecting data from the api provided by
+            <a href="http://divvybikes.com/stations">DivvyBikes.com</a>.
+            It allows you to view information at the station level, showing
+            real time and historic data side by side.
+            </p>
+
+            <p class="myinfo">
+            This project is by <a href="http://vicg4rcia.com">Vic Garcia</a>.<br/>
+            The code is on <a href="http://github.com/vicg4rcia/dvmap">GitHub</a>.
+            </p>
         </div>
     </div>
-    <br/>
+    <br class="clear" />
 </div>
 </body>
 
