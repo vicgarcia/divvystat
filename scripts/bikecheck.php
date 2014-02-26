@@ -5,7 +5,7 @@ use \dChallenge;
 use \PDO;
 
 // setup db
-$config = require 'configure/pdo.php';
+$config = require 'config/pdo.php';
 $db = new PDO($config->conn, $config->user, $config->pass);
 
 $insertSql = preg_replace('/\s+/', ' ', "

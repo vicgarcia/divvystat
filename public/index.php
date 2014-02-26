@@ -15,7 +15,7 @@ $app = new Slim\Slim([
 // setup cache service
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] == 'production') {
-        $config = require 'configure/redis.php';
+        $config = require 'config/redis.php';
         return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
     return new SlimProject\NoCache;
@@ -23,7 +23,7 @@ $app->container->singleton('cache', function() {
 
 // setup db service
 $app->container->singleton('db', function() {
-    extract(require 'configure/mysql.php');
+    extract(require 'config/mysql.php');
     return new MeekroDB($host, $user, $pass, $base);
 });
 

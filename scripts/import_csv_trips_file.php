@@ -4,7 +4,7 @@ require_once '../bootstrap.php';
 use \PDO;
 
 // setup db
-$config = require 'configure/pdo.php';
+$config = require 'config/pdo.php';
 $db = new PDO($config['dest'], $config['user'], $config['pass']);
 
 $insertSql = preg_replace('/\s+/', ' ', "
