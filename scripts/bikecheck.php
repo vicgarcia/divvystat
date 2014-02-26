@@ -4,6 +4,7 @@ require_once '../bootstrap.php';
 use \dChallenge;
 use \PDO;
 
+// setup db
 $config = require 'configure/pdo.php';
 $db = new PDO($config->conn, $config->user, $config->pass);
 
@@ -16,7 +17,6 @@ $insertSql = preg_replace('/\s+/', ' ', "
         available_bikes = :availableBikes,
         timestamp = :timestamp
 ");
-
 $stmt = $db->prepare($insertSql);
 $stmt->bindParam(':stationId', $stationId);
 $stmt->bindParam(':statusKey', $statusKey);
@@ -24,6 +24,7 @@ $stmt->bindParam(':totalDocks', $totalDocks);
 $stmt->bindParam(':availableBikes', $availableBikes);
 $stmt->bindParam(':timestamp', $timestamp);
 
+// get latest data from api
 $api = new dChallenge\DivvyApi;
 foreach ($api->getLiveStationData() as $station) {
     $stationId = $station->landMark;

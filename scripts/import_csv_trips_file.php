@@ -3,6 +3,7 @@ require_once '../bootstrap.php';
 
 use \PDO;
 
+// setup db
 $config = require 'configure/pdo.php';
 $db = new PDO($config['dest'], $config['user'], $config['pass']);
 
@@ -32,6 +33,7 @@ $stmt->bindParam(':user', $user);
 $stmt->bindParam(':gender', $gender);
 $stmt->bindParam(':birthyear', $birthyear);
 
+// insert trip data from csv
 $csvFilename = __DIR__.'trips_data.csv';
 if (($file = fopen($csvFilename, "r")) !== false) {
     while (($data = fgetcsv($file, 0, ',', '"')) !== false) {
