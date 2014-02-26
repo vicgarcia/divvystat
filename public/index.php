@@ -29,8 +29,7 @@ $app->container->singleton('db', function() {
 
 // distribute page template
 $app->get('/', function() use ($app) {
-    // add decision about desktop vs mobile here
-    $app->render('desktop.html');
+    $app->render('main.html');
 });
 
 // get stations data from json api (for map)
