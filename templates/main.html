@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <meta name='viewport' content='width=device-width, initial-scale=0.72, maximum-scale=0.72, user-scalable=no' />
 
     <title>dvMap</title>
     <style>
         /* core style */
-        body { font-family: 'Maven Pro', sans-serif; background-color: gray; }
+        body { font-family: 'Maven Pro', sans-serif; background-color: #DDE2E3; }
         a, a:hover { /* text-decoration: none; */ color: #333; }
-        p { font-size: 1.2em; }
+        p { line-height: 1.4em; font-size: 1.2em; }
         #wrap { width: 86%; margin: 10px auto 40px auto; padding: 20px 20px 40px 20px; background-color: white; }
         #map { height: 600px; }
         #header { margin: 0; background-color: #3DB7E4; }
-        #header h1 { padding: 10px 10px 10px 10px; color: white; }
+        #header h1 { padding: 10px 10px 10px 10px; color: white; font-size: 1.75em; }
         /* style for marker popups */
         .markerBox { width: 300px; margin-bottom: 20px; }
         .markerHeadline { margin-bottom: -6px; line-height: 1; clear: both;}
@@ -61,7 +61,7 @@
             for the <a href="http://divvybikes.com/datachallenge">Data Challenge</a>
             and by collecting data from the api provided by
             <a href="http://divvybikes.com/stations">DivvyBikes.com</a>.
-            It allows you to view information at the station level, showing
+            It allows you to view information by station, showing
             real time and historic data side by side.
             </p>
 
@@ -85,6 +85,8 @@
 
 <!-- my js -->
 <script type="text/javascript">
+
+// some functions
 
 generatePopupHtml = function(s) {
     return ' ' +
@@ -119,7 +121,7 @@ drawDaysGraph = function(id, data) {
         data: data,
         xkey: 'day',
         ykeys: ['rents', 'returns'],
-        barColors: ['red', 'green'],    // XXX replace with proper color
+        barColors: ['#3DB7E4', '#788A91'],    // XXX replace with proper color
         labels: ['rents', 'returns'],
         gridTextSize: 8,
         hideHover: true
