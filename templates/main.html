@@ -8,7 +8,7 @@
     <title>dvMap</title>
     <style>
         /* core style */
-        body { font-family: 'Maven Pro', sans-serif; background-color: #DDE2E3; }
+        body { font-family: 'Maven Pro', sans-serif; color: #333; background-color: #DDE2E3; }
         a, a:hover { /* text-decoration: none; */ color: #333; }
         p { line-height: 1.4em; font-size: 1.2em; }
         #wrap { width: 86%; margin: 10px auto 40px auto; padding: 20px 20px 40px 20px; background-color: white; }
@@ -22,6 +22,8 @@
         .markerTimeline { height: 150px; width: 300px; margin-top: -20px; padding: 0; margin-bottom: 0; clear: both; }
         .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
         .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
+        .rentals { background-color: #3DB7E4; color: white; }
+        .returns { background-color: #788A91; color: white; }
         /* content formatting (below map) */
         #content { width: 100%; margin: auto; padding: 0; }
         #footer { margin: 0; background-color: #3DB7E4; }
@@ -51,7 +53,8 @@
             periods of higher use.</p>
 
             <p>The bar graph at the bottom of each popup shows the average number of
-            bikes rented from and returned to the station by day of the week.  These
+            bikes <span class="rentals">rented from</span> and <span class="returns">
+            returned to</span> the station by day of the week.  These
             averages are calculated using the Divvy data challenge dataset, covering
             various periods in 2013.</p>
         </div>
