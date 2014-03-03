@@ -11,3 +11,7 @@ $GLOBALS['environment'] = 'development';
 if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
     $GLOBALS['environment'] = 'production';
 }
+
+// configure Kv for Redis
+\SlimProject\Kv\Redis::$prefix =  require 'config/redis.php';
+\SlimProject\Kv\Redis::$prefix = 'dvMap:';

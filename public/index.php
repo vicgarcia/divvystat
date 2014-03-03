@@ -15,7 +15,6 @@ $app = new Slim\Slim([
 // setup cache service
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] == 'production') {
-        $config = require 'config/redis.php';
         return new SlimProject\Cache(new SlimProject\Kv\Redis($config));
     }
     return new SlimProject\NoCache;
