@@ -80,6 +80,7 @@
 
 <!-- include jquery -->
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js"></script>
 <!-- include leaflet.js -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <!-- include morris.js -->
@@ -93,7 +94,7 @@
 
 generatePopupHtml = function(s) {
     return ' ' +
-      '<div class="markerBox">' +
+      '<div id="markerBox-' + s['id'] + '" class="markerBox">' +
         '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
         '<h4 class="markerInfo">' +
             s['bikes'] + ' bikes available / ' + s['docks'] + ' docks' +
@@ -146,11 +147,17 @@ $.getJSON('/station', function(data) {
     .addTo(map)
     .bindPopup(generatePopupHtml(station), { closeOnClick: false })
     .on('click', function(e) {
+        this.openPopup();
+        $('#markerBox-' + station['id']).block({
+            message: '<h2>loading...</h2>',
+            css: { backgroundColor: 'white', border: 'none' },
+            overlayCSS: { backgroundColor: 'white', opacity: 1 }
+        });
         $.getJSON('/station/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
             drawDaysGraph(station['id'], report['graph']);
+            $('#markerBox-' + station['id']).unblock();
         });
-        this.openPopup();
     });
   });
 });
