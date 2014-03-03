@@ -147,12 +147,12 @@ $.getJSON('/station', function(data) {
     .addTo(map)
     .bindPopup(generatePopupHtml(station), { closeOnClick: false })
     .on('click', function(e) {
+        this.openPopup();
         $('#markerBox-' + station['id']).block({
             message: '<h2>loading...</h2>',
             css: { backgroundColor: 'white', border: 'none' },
             overlayCSS: { backgroundColor: 'white', opacity: 1 }
         });
-        this.openPopup();
         $.getJSON('/station/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
             drawDaysGraph(station['id'], report['graph']);
