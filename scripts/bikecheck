@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/vicg4rcia/code/dchallenge/scripts
-php bikecheck.php
+cd /home/www-data/dvMap
+php scripts/bikecheck.php
