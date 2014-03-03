@@ -151,7 +151,9 @@ $.getJSON('/station', function(data) {
         $('#markerBox-' + station['id']).block({
             message: '<h2>loading...</h2>',
             css: { backgroundColor: 'white', border: 'none' },
-            overlayCSS: { backgroundColor: 'white', opacity: 1 }
+            overlayCSS: { backgroundColor: 'white', opacity: 1 },
+            fadeIn: 0,
+            fadeOut: 500
         });
         $.getJSON('/station/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
