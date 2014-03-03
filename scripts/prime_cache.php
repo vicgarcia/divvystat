@@ -1,9 +1,9 @@
 <?php
-require_once '../bootstrap.php';
+require_once 'bootstrap.php';
 
 use \Requests;
 
-$url = 'http://dvmap.chester250.com:8000/station';
+$url = 'http://dvmap.chester250.com/station';
 
 $stations = json_decode(Requests::get($url)->body);
 foreach ($stations as $station) {
