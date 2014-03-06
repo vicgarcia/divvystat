@@ -15,15 +15,14 @@ $app = new Slim\Slim([
 // setup cache service
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] == 'production') {
-        return new SlimProject\Cache(new SlimProject\Kv\Redis());
+        return new SlimProject\Cache(new SlimProject\Kv\Redis);
     }
     return new SlimProject\NoCache;
 });
 
 // setup db service
 $app->container->singleton('db', function() {
-    extract(require 'config/mysql.php');
-    return new MeekroDB($host, $user, $pass, $base);
+    return new MeekroDB;
 });
 
 // distribute page template
@@ -51,14 +50,12 @@ $app->get('/station/:id', function($id) use ($app) {
         $db = new dChallenge\DivvyDB($app->db);
         $report = new \stdClass;
 
-        $timeline = array();
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
             $timeline = $db->get72HourTimeline($id);
             $app->cache->save('timeline_'.$id, $timeline, 1200);
         }
         $report->timeline = $timeline;
 
-        $graph = array();
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = $db->getDayAveragesGraph($id);
             $app->cache->save('graph_'.$id, $graph, 14400);

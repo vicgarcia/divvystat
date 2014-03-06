@@ -15,3 +15,10 @@ if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
 // configure Kv for Redis
 \SlimProject\Kv\Redis::$config =  require 'config/redis.php';
 \SlimProject\Kv\Redis::$prefix = 'dvMap:';
+
+// configure DB for MeekroDB
+$meekroConfig = require 'config/mysql.php';
+\DB::$host = $meekroConfig['host'];
+\DB::$user = $meekroConfig['user'];
+\DB::$password = $meekroConfig['pass'];
+\DB::$dbName = $meekroConfig['base'];
