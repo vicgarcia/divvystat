@@ -6,13 +6,13 @@ use \SlimProject;
 use \MeekroDB;
 use \dChallenge;
 
-// instantiate the app and view
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,
     'templates.path'  => '../templates',
 ]);
 
-// setup cache service
+// service locators
+
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] == 'production') {
         return new SlimProject\Cache(new SlimProject\Kv\Redis);
@@ -20,7 +20,6 @@ $app->container->singleton('cache', function() {
     return new SlimProject\NoCache;
 });
 
-// setup db service
 $app->container->singleton('db', function() {
     return new MeekroDB;
 });
@@ -68,7 +67,7 @@ $app->get('/station/:id', function($id) use ($app) {
     }
 });
 
-// redirect not found to the landing page
+// return empty json array with 404
 $app->notFound(function () use ($app) {
     $app->response->setStatus(404);
     echo json_encode([]);

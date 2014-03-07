@@ -75,5 +75,4 @@ class DivvyDB
             6 => 'Saturday'
         );
     }
-
 }
