@@ -31,7 +31,6 @@ $app->get('/', function() use ($app) {
 
 // get stations data from json api (for map)
 $app->get('/station', function() use ($app) {
-    $stations = array();
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = (new DivvyDB($app->db))->getStationsData();
         $app->cache->save('stations', $stations, 3600);
@@ -47,13 +46,11 @@ $app->get('/station/:id', function($id) use ($app) {
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
-
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
             $timeline = (new DivvyDB($app->db))->get72HourTimeline($id);
             $app->cache->save('timeline_'.$id, $timeline, 1200);
         }
         $report->timeline = $timeline;
-
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = (new DivvyDB($app->db))->getDayAveragesGraph($id);
             $app->cache->save('graph_'.$id, $graph, 14400);
