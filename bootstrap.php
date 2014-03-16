@@ -13,8 +13,8 @@ if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
 }
 
 // configure Kv for Redis
-\SlimProject\Kv\Redis::$config =  require 'config/redis.php';
-\SlimProject\Kv\Redis::$prefix = ($GLOBALS['environment'] == 'production')
+\SlimProject\Kv\Redis::$cfg =  require 'config/redis.php';
+\SlimProject\Kv\Redis::$pre = ($GLOBALS['environment'] == 'production')
     ? 'dvMap:' : 'dvMap-dev:';
 
 // configure DB for MeekroDB
