@@ -1,8 +1,8 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "vicgarcia/slimproject": "dev-master",
-        "sergeytsalkov/meekrodb": "dev-master"
+        "vicgarcia/slimproject": "0.3.0",
+        "sergeytsalkov/meekrodb": "2.2.1"
     },
     "autoload": {
         "psr-0": {
