@@ -56,6 +56,11 @@ $app->get('/station/:id', function($id) use ($app) {
             $app->cache->save('graph_'.$id, $graph, 14400);
         }
         $report->graph = $graph;
+        if (($averages = $app->cache->load('averages_'.$id)) === false) {
+            $averages = (new DivvyDB($app->db))->getWeeklyAverages($id);
+            $app->cache->save('averages_'.$id, $averages, 14400);
+        }
+        $report->averages = $averages;
 
         echo json_encode($report);
     } else {

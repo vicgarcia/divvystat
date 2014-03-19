@@ -63,6 +63,21 @@ class DivvyDB
         return $graph;
     }
 
+    public function getWeeklyAverages($stationId)
+    {
+        $averagesSql =
+           "select
+                station_id,
+                avg_rents_per_week as rents_per_week,
+                avg_returns_per_week as returns_per_week,
+                avg_rents_per_week / avg_returns_per_week as rents_returns_ratio
+            from weekly_averages_view
+            where station_id = %i";
+        $row = $this->db->query($averagesSql, $stationId)[0];
+
+        return $row;
+    }
+
     protected function dayOfWeekMap()
     {
         return array(

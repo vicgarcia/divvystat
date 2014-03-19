@@ -24,6 +24,7 @@
         .markerTimeline { height: 150px; width: 300px; margin-top: -20px; padding: 0; margin-bottom: 0; clear: both; }
         .markerGraph { height: 150px; width: 300px; margin-bottom: 0; clear: both; }
         .graphNote { margin-top: 0px; margin-right: 20px; text-size: .75em; text-align: right; }
+        .markerAverages { margin-top: 5px; margin-right: 20px; text-size: .9em; text-align: right; }
         .rentals { background-color: #3DB7E4; color: white; }
         .returns { background-color: #788A91; color: white; }
         /* content formatting (below map) */
@@ -107,7 +108,8 @@ generatePopupHtml = function(s) {
         '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
         '<div class="graphNote">available bikes over previous 72 hours</div>' +
         '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
-        '<div class="graphNote">weekday averages from 2013 dataset</div>' +
+        '<div class="graphNote">weekly averages from 2013 dataset</div>' +
+        '<div id="markerAverages-' + s['id'] + '" class="markerAverages"></div>' +
       '</div>';
 };
 
@@ -137,6 +139,12 @@ drawDaysGraph = function(id, data) {
     });
 };
 
+setMarkerAverages = function(id, data) {
+    $('#markerAverages-' + id).html(' ' +
+            data['rents_per_week'] + ' rentals per week' + ' / ' +
+            data['returns_per_week'] + ' returns per week' + '<br />' +
+            'rents to returns ratio : ' + data['rents_returns_ratio']);
+};
 // setup map
 var map = L.map('map').setView([41.90, -87.64], 14);
 L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
@@ -163,6 +171,7 @@ $.getJSON('/station', function(data) {
         $.getJSON('/station/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
             drawDaysGraph(station['id'], report['graph']);
+            setMarkerAverages(station['id'], report['averages']);
             $('#markerBox-' + station['id']).unblock();
         });
     });
