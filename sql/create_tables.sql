@@ -30,5 +30,9 @@ CREATE TABLE `trips` (
       `user` text,
       `gender` text,
       `birthyear` text,
-      PRIMARY KEY (`trip_id`)
+      PRIMARY KEY (`trip_id`),
+      KEY `trips__origin__index` (`origin`),
+      KEY `trips__destination__index` (`destination`),
+      KEY `trips__depart__index` (`depart`),
+      KEY `trips__arrive__index` (`arrive`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
