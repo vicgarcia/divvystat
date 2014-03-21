@@ -1,4 +1,4 @@
-create index availabilitys__station_id__index on availabilitiys (station_id);
+create index availabilitys__station_id__index on availabilitys (station_id);
 create view station_view as
     select
         s.station_id as 'id',
