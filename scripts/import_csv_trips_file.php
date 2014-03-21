@@ -5,7 +5,7 @@ use \PDO;
 
 // setup db
 $config = require 'config/pdo.php';
-$db = new PDO($config['dest'], $config['user'], $config['pass']);
+$db = new PDO($config->conn, $config->user, $config->pass);
 
 $insertSql = preg_replace('/\s+/', ' ', "
     insert ignore into trips
@@ -34,7 +34,7 @@ $stmt->bindParam(':gender', $gender);
 $stmt->bindParam(':birthyear', $birthyear);
 
 // insert trip data from csv
-$csvFilename = __DIR__.'trips_data.csv';
+$csvFilename = __DIR__.'/divvy_trips_data.csv';
 if (($file = fopen($csvFilename, "r")) !== false) {
     while (($data = fgetcsv($file, 0, ',', '"')) !== false) {
         // parse csv data

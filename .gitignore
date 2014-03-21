@@ -6,4 +6,4 @@ composer.phar
 config/mysql.php
 config/redis.php
 config/pdo.php
-*.csv
+.csv

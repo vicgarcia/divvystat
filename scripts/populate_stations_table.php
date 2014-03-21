@@ -6,7 +6,7 @@ use \PDO;
 
 // setup db
 $config = require 'config/pdo.php';
-$db = new PDO($config->dest, $config->user, $config->pass);
+$db = new PDO($config->conn, $config->user, $config->pass);
 
 $insertSql = preg_replace('/\s+/', ' ', "
     insert ignore into stations
@@ -24,7 +24,7 @@ $stmt->bindParam(':stationLongitude', $stationLongitude);
 
 // insert station data from api
 $api = new DivvyApi;
-foreach ($api->getStationData() as $stationData) {
+foreach ($api->getLiveStationData() as $stationData) {
     $stationId = $stationData->landMark;
     $stationName = $stationData->stationName;
     $stationLatitude = $stationData->latitude;
