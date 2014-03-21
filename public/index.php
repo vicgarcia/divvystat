@@ -48,20 +48,19 @@ $app->get('/station/:id', function($id) use ($app) {
         $report = new \stdClass;
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
             $timeline = (new DivvyDB($app->db))->get72HourTimeline($id);
-            $app->cache->save('timeline_'.$id, $timeline, 290);
+            $app->cache->save('timeline_'.$id, $timeline, 595);
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = (new DivvyDB($app->db))->getDayAveragesGraph($id);
-            $app->cache->save('graph_'.$id, $graph, 14400);
+            $app->cache->save('graph_'.$id, $graph, 864000);
         }
         $report->graph = $graph;
         if (($averages = $app->cache->load('averages_'.$id)) === false) {
             $averages = (new DivvyDB($app->db))->getWeeklyAverages($id);
-            $app->cache->save('averages_'.$id, $averages, 14400);
+            $app->cache->save('averages_'.$id, $averages, 864000);
         }
         $report->averages = $averages;
-
         echo json_encode($report);
     } else {
         $app->notFound();
