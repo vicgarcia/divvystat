@@ -48,7 +48,7 @@ $app->get('/station/:id', function($id) use ($app) {
         $report = new \stdClass;
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
             $timeline = (new DivvyDB($app->db))->get72HourTimeline($id);
-            $app->cache->save('timeline_'.$id, $timeline, 585);
+            $app->cache->save('timeline_'.$id, $timeline, 290);
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
