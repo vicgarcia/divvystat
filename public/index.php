@@ -33,7 +33,7 @@ $app->get('/', function() use ($app) {
 $app->get('/station', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = (new DivvyDB($app->db))->getStationsData();
-        $app->cache->save('stations', $stations, 3600);
+        $app->cache->save('stations', $stations, 300);
     }
     echo json_encode($stations);
 });
@@ -42,7 +42,7 @@ $app->get('/station', function() use ($app) {
 $app->get('/station/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = (new DivvyDB($app->db))->getStationIds();
-        $app->cache->save('stationIds', $stationIds, 14400);
+        $app->cache->save('stationIds', $stationIds, 864000);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
