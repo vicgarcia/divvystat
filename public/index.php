@@ -33,7 +33,7 @@ $app->get('/', function() use ($app) {
 $app->get('/station', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = (new DivvyDB($app->db))->getStationsData();
-        $app->cache->save('stations', $stations, 300);
+        $app->cache->save('stations', $stations, 600);
     }
     echo json_encode($stations);
 });
@@ -48,7 +48,7 @@ $app->get('/station/:id', function($id) use ($app) {
         $report = new \stdClass;
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
             $timeline = (new DivvyDB($app->db))->get72HourTimeline($id);
-            $app->cache->save('timeline_'.$id, $timeline, 300);
+            $app->cache->save('timeline_'.$id, $timeline, 600);
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
