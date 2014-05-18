@@ -28,11 +28,12 @@ class DivvyDB
 
     public function get72HourTimeline($stationId)
     {
-        $prev = null;
         $timeline = array();
+        $prev = null;
 
         $sql = "select * from timeline_view where id = %i";
         foreach ($this->db->query($sql, $stationId) as $row) {
+            // if the # of bikes has changed since previous datapoint in return set
             if ($row['bikes'] != $prev) {
                 $timeline[] = $row;
                 $prev = $row['bikes'];
