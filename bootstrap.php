@@ -12,6 +12,11 @@ if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
     $GLOBALS['environment'] = 'production';
 }
 
+// set run environment for cli
+if (getcwd() == '/opt/dvMap') {
+    $GLOBALS['environment'] = 'production';
+}
+
 // configure Kv for Redis
 \SlimProject\Kv\Redis::$cfg =  require 'config/redis.php';
 \SlimProject\Kv\Redis::$pre = ($GLOBALS['environment'] == 'production')
