@@ -15,7 +15,7 @@
         p { line-height: 1.4em; font-size: 1.2em; }
         #wrap { width: 86%; margin: 10px auto 40px auto; padding: 20px 20px 40px 20px; background-color: white; }
         #map { height: 600px; }
-        #header { margin: 0; background-color: #3DB7E4; }
+        #header { margin: 0; background-color: #00A7E2; }
         #header h1 { padding: 10px 10px 10px 10px; color: white; font-size: 1.75em; }
         /* style for marker popups */
         .markerBox { width: 300px; margin-bottom: 20px; }
@@ -34,9 +34,10 @@
         #content-column-1 { width: 46%; margin: 0 2% 0 2%; float: left; }
         #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; }
         .clear { clear: both; }
-        .myinfo { padding-top: 20px; clear: both; font-size: .9em; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
     <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="/dvmap-icon.ico"/>
@@ -58,26 +59,19 @@
             when the count doesn't change, creating an effect that draws attention to
             periods of higher use.</p>
 
-            <p>The bar graph at the bottom of each popup shows the average number of
-            bikes <span class="rentals">rented from</span> and <span class="returns">
-            returned to</span> the station by day of the week.  These
-            averages are calculated using the Divvy data challenge dataset, covering
-            various periods in 2013.</p>
+            <p>The bar graph at the bottom of each popup shows the average usage per day
+            of the week in the last 30 days.  Usage is measured as the number of bikes
+            removed from a station throughout the day.  This metric is an approximate
+            derrived from data collected thru Divvy's website.</p>
         </div>
         <div id="content-column-2">
+            <br/>
             <p>
-            This interactive map uses a combination of the data provided by Divvy
-            for the <a href="http://divvybikes.com/datachallenge">Data Challenge</a>
-            and by collecting data from the api provided by
-            <a href="http://divvybikes.com/stations">DivvyBikes.com</a>.
-            It allows you to view information by station, showing
-            real time and historic data side by side.
+            This interactive application was originally created for Divvy's
+            <a href="http://divvybikes.com/datachallenge">Data Challenge</a>.
             </p>
-
-            <p class="myinfo">
-            This project is by <a href="http://vicg4rcia.com">Vic Garcia</a>.<br/>
-            The code is on <a href="http://github.com/vicgarcia/dvMap">GitHub</a>.<br/>
-            </p>
+            <p>This project is by <a href="http://vicg4rcia.com">Vic Garcia</a>.</p>
+            <p>The code is on <a href="http://github.com/vicgarcia/dvMap">GitHub</a>.</p>
         </div>
     </div>
     <br class="clear" />
@@ -87,8 +81,9 @@
 <!-- include jquery -->
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js"></script>
-<!-- include leaflet.js -->
+<!-- include leaflet.js w/ awesome markers -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.min.js"></script>
 <!-- include morris.js -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
@@ -118,7 +113,7 @@ drawTimeLine = function(id, data) {
         data: data,
         xkey: 'timestamp',
         ykeys: ['bikes'],
-        lineColors: ['#3DB7E4'],
+        lineColors: ['#00A7E2'],
         labels: ['Available Bikes'],
         gridTextSize: 8,
         hideHover: true
@@ -131,7 +126,7 @@ drawDaysGraph = function(id, data) {
         data: data,
         xkey: 'day',
         ykeys: ['usage'],
-        barColors: ['#3DB7E4'],
+        barColors: ['#00A7E2'],
         labels: ['usage'],
         gridTextSize: 8,
         hideHover: true
@@ -149,7 +144,13 @@ L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
 // load markers from json-api stations
 $.getJSON('/station', function(data) {
   $.each(data, function(key, station) {
-    L.marker([ station['lat'], station['lng'] ])
+    icon = L.AwesomeMarkers.icon({
+        prefix: 'fa',
+        icon: 'none',
+        iconColor: 'white',
+        markerColor: 'blue'
+    });
+    L.marker([ station['lat'], station['lng'] ], { icon: icon })
     .addTo(map)
     .bindPopup(generatePopupHtml(station), { closeOnClick: false })
     .on('click', function(e) {
