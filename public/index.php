@@ -42,7 +42,7 @@ $app->get('/station', function() use ($app) {
 $app->get('/station/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = (new DivvyDB($app->db))->getStationIds();
-        $app->cache->save('stationIds', $stationIds, 86400);
+        $app->cache->save('stationIds', $stationIds, 86401);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
@@ -52,15 +52,10 @@ $app->get('/station/:id', function($id) use ($app) {
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
-            $graph = (new DivvyDB($app->db))->getDayAveragesGraph($id);
-            $app->cache->save('graph_'.$id, $graph, 86400);
+            $graph = (new DivvyDB($app->db))->getRecentUsageGraph($id);
+            $app->cache->save('graph_'.$id, $graph, 86401);
         }
         $report->graph = $graph;
-        if (($averages = $app->cache->load('averages_'.$id)) === false) {
-            $averages = (new DivvyDB($app->db))->getWeeklyAverages($id);
-            $app->cache->save('averages_'.$id, $averages, 86400);
-        }
-        $report->averages = $averages;
         echo json_encode($report);
     } else {
         $app->notFound();

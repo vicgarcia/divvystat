@@ -107,11 +107,8 @@ generatePopupHtml = function(s) {
         '</h4>' +
         '<div class="graphNote">available bikes over previous 72 hours</div>' +
         '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
-        '<div class="graphNote">weekly averages from 2013 dataset</div>' +
+        '<div class="graphNote">day of week average usage for last 30 days</div>' +
         '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
-        '<div id="markerAverages-' + s['id'] + '" class="markerAverages">' +
-            '_ rentals per week  /  _ returns per week <br /> rents to returns ratio : _' +
-        '</div>' +
       '</div>';
 };
 
@@ -133,20 +130,14 @@ drawDaysGraph = function(id, data) {
         element: 'markerGraph-' + id,
         data: data,
         xkey: 'day',
-        ykeys: ['rents', 'returns'],
-        barColors: ['#3DB7E4', '#788A91'],    // XXX replace with proper color
-        labels: ['rents', 'returns'],
+        ykeys: ['usage'],
+        barColors: ['#3DB7E4'],
+        labels: ['usage'],
         gridTextSize: 8,
         hideHover: true
     });
 };
 
-setMarkerAverages = function(id, data) {
-    $('#markerAverages-' + id).html(' ' +
-            data['rents_per_week'] + ' rentals per week' + ' / ' +
-            data['returns_per_week'] + ' returns per week' + '<br />' +
-            'rents to returns ratio : ' + data['rents_returns_ratio']);
-};
 // setup map
 var map = L.map('map').setView([41.90, -87.64], 14);
 L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
@@ -173,7 +164,6 @@ $.getJSON('/station', function(data) {
         $.getJSON('/station/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
             drawDaysGraph(station['id'], report['graph']);
-            setMarkerAverages(station['id'], report['averages']);
             $('#markerBox-' + station['id']).unblock();
         });
     });

@@ -43,40 +43,46 @@ class DivvyDB
         return $timeline;
     }
 
-    public function getDayAveragesGraph($stationId)
+    public function getRecentUsageGraph($stationId)
     {
-        $graph = array();
+        $rawDataSql = "
+            select
+                date_format(a.timestamp, '%j') as 'day',
+                date_format(a.timestamp,'%w') as 'day_of_week',
+                a.timestamp,
+                a.available_bikes
+            from availabilitys a
+            where a.station_id = %i
+              and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
+                  and DATE(DATE_SUB(NOW(), INTERVAL 1 day))
+            order by a.timestamp asc
+            ";
+        $rows = $this->db->query($rawDataSql, $stationId);
 
-        foreach (range(0, 6) as $day) {
-            $graph[$day]['day'] = $this->dayOfWeekMap()[$day];
+        $days = array(
+            '0' => [], '1' => [], '2' => [], '3' => [], '4' => [], '5' => [], '6' => []
+        );
+        $counts = array(
+            '0' => 0, '1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0, '6' => 0
+        );
+
+        $previous = $rows[0]['available_bikes'];
+        foreach ($rows as $row) {
+            if ($row['available_bikes'] < $previous) {
+                $days[$row['day_of_week']][] = $row['day'];
+                $counts[$row['day_of_week']] += ($previous - $row['available_bikes']);
+            }
+            $previous = $row['available_bikes'];
         }
 
-        $rentSql = "select * from trips_rents_view where station_id = %i";
-        foreach ($this->db->query($rentSql, $stationId) as $row) {
-            $graph[$row['day']]['rents'] = $row['rents'];
+        $usageByWeekday = [];
+        foreach ($days as $ofWeek => $inResults) {
+            $usageByWeekday[$ofWeek]['day'] = $this->dayOfWeekMap()[$ofWeek];
+            $usageByWeekday[$ofWeek]['usage'] = $counts[$ofWeek] / count(array_unique($inResults));
+            $usageByWeekday[$ofWeek]['usage'] = (string) $usageByWeekday[$ofWeek]['usage'];
         }
 
-        $returnSql = "select * from trips_returns_view where station_id = %i";
-        foreach ($this->db->query($returnSql, $stationId) as $row) {
-            $graph[$row['day']]['returns'] = $row['returns'];
-        }
-
-        return $graph;
-    }
-
-    public function getWeeklyAverages($stationId)
-    {
-        $averagesSql =
-           "select
-                station_id,
-                avg_rents_per_week as rents_per_week,
-                avg_returns_per_week as returns_per_week,
-                avg_rents_per_week / avg_returns_per_week as rents_returns_ratio
-            from weekly_averages_view
-            where station_id = %i";
-        $row = $this->db->query($averagesSql, $stationId)[0];
-
-        return $row;
+        return $usageByWeekday;
     }
 
     protected function dayOfWeekMap()
