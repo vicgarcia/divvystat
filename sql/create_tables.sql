@@ -17,22 +17,3 @@ CREATE TABLE `availabilitys` (
       `timestamp` timestamp NOT NULL,
       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-drop table trips;
-CREATE TABLE `trips` (
-      `trip_id` int(11) NOT NULL,
-      `depart` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      `arrive` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      `bike_id` int(10) unsigned NOT NULL,
-      `duration` int(20) unsigned NOT NULL,
-      `origin` int(4) unsigned NOT NULL,
-      `destination` int(4) unsigned NOT NULL,
-      `user` text,
-      `gender` text,
-      `birthyear` text,
-      PRIMARY KEY (`trip_id`),
-      KEY `trips__origin__index` (`origin`),
-      KEY `trips__destination__index` (`destination`),
-      KEY `trips__depart__index` (`depart`),
-      KEY `trips__arrive__index` (`arrive`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
