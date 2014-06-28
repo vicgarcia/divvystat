@@ -20,8 +20,8 @@ $app->container->singleton('cache', function() {
     return new SlimProject\NoCache;
 });
 
-$app->container->singleton('db', function() {
-    return new MeekroDB;
+$app->container->singleton('divvy', function() {
+    return new DivvyDB(new MeekroDB); // config via environment in bootstrap.php
 });
 
 // distribute page template
@@ -32,7 +32,7 @@ $app->get('/', function() use ($app) {
 // get stations data from json api (for map)
 $app->get('/station', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
-        $stations = (new DivvyDB($app->db))->getStationsData();
+        $stations = $app->divvy->getStationsData();
         $app->cache->save('stations', $stations, 600);
     }
     echo json_encode($stations);
@@ -41,18 +41,18 @@ $app->get('/station', function() use ($app) {
 // get station report data from json api (for popup)
 $app->get('/station/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
-        $stationIds = (new DivvyDB($app->db))->getStationIds();
+        $stationIds = $app->divvy->getStationIds();
         $app->cache->save('stationIds', $stationIds, 86401);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
-            $timeline = (new DivvyDB($app->db))->get72HourTimeline($id);
+            $timeline = $app->divvy->get72HourTimeline($id);
             $app->cache->save('timeline_'.$id, $timeline, 600);
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
-            $graph = (new DivvyDB($app->db))->getRecentUsageGraph($id);
+            $graph = $app->divvy->getRecentUsageGraph($id);
             $app->cache->save('graph_'.$id, $graph, 86401);
         }
         $report->graph = $graph;
