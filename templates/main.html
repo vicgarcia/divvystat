@@ -36,6 +36,7 @@
         .clear { clear: both; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <link rel='stylesheet' href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' />
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
@@ -82,8 +83,9 @@
 <!-- include jquery -->
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js"></script>
-<!-- include leaflet.js w/ awesome markers -->
+<!-- include leaflet.js w/ fullscreen + awesome markers -->
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.min.js"></script>
 <!-- include morris.js -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -135,7 +137,7 @@ drawDaysGraph = function(id, data) {
 };
 
 // setup map
-var map = L.map('map').setView([41.90, -87.64], 14);
+var map = L.map('map', { fullscreenControl: true }).setView([41.90, -87.64], 14);
 L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
     attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
     minZoom: 13,
