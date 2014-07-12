@@ -18,9 +18,7 @@ if (getcwd() == '/opt/dvMap') {
 }
 
 // configure Kv for Redis
-\SlimProject\Kv\Redis::$cfg =  require 'config/redis.php';
-\SlimProject\Kv\Redis::$pre = ($GLOBALS['environment'] == 'production')
-    ? 'dvMap:' : 'dvMap-dev:';
+\SlimProject\Redis::$config =  require 'config/redis.php';
 
 // configure DB for MeekroDB
 $meekroConfig = require 'config/mysql.php';
