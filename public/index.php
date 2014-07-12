@@ -15,13 +15,13 @@ $app = new Slim\Slim([
 
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] == 'production') {
-        return new SlimProject\Cache(new SlimProject\Kv\Redis);
+        return new SlimProject\Cache(SlimProject\Redis::kv());
     }
     return new SlimProject\NoCache;
 });
 
 $app->container->singleton('divvy', function() {
-    return new DivvyDB(new MeekroDB); // config via environment in bootstrap.php
+    return new DivvyDB(new MeekroDB);   // config in bootstrap.php
 });
 
 // distribute page template
