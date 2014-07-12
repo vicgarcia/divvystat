@@ -33,7 +33,7 @@ class DivvyDB
 
         $sql = "select * from timeline_view where id = %i";
         foreach ($this->db->query($sql, $stationId) as $row) {
-            // if the # of bikes has changed since previous datapoint in return set
+            // if the # of bikes has changed since previous datapoint
             if ($row['bikes'] != $prev) {
                 $timeline[] = $row;
                 $prev = $row['bikes'];
@@ -54,7 +54,7 @@ class DivvyDB
             from availabilitys a
             where a.station_id = %i
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
-                  and DATE(DATE_SUB(NOW(), INTERVAL 1 day))
+                                        and DATE(DATE_SUB(NOW(), INTERVAL 1 day))
             order by a.timestamp asc
             ";
         $rows = $this->db->query($rawDataSql, $stationId);
@@ -77,9 +77,11 @@ class DivvyDB
 
         $usageByWeekday = [];
         foreach ($days as $ofWeek => $inResults) {
-            $usageByWeekday[$ofWeek]['day'] = $this->dayOfWeekMap()[$ofWeek];
-            $usageByWeekday[$ofWeek]['usage'] = $counts[$ofWeek] / count(array_unique($inResults));
-            $usageByWeekday[$ofWeek]['usage'] = (string) $usageByWeekday[$ofWeek]['usage'];
+            $day = $this->dayOfWeekMap()[$ofWeek];
+            $usageByWeekday[$ofWeek]['day'] = $day;
+
+            $usage = $counts[$ofWeek] / count(array_unique($inResults));
+            $usageByWeekday[$ofWeek]['usage'] = (string) $usage;
         }
 
         return $usageByWeekday;
