@@ -137,7 +137,10 @@ drawDaysGraph = function(id, data) {
 };
 
 // setup map
-var map = L.map('map', { fullscreenControl: true }).setView([41.90, -87.64], 14);
+var map = L.map('map', {
+    fullscreenControl: true,
+    attributionControl: false
+}).setView([41.90, -87.64], 14);
 L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
     attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
     minZoom: 13,
