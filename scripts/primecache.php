@@ -5,7 +5,7 @@ use \Requests;
 use \SlimProject;
 
 $url = 'http://dvmap.chester250.com/station';
-$cache = new SlimProject\Cache(new SlimProject\Kv\Redis);
+$cache = new SlimProject\Cache(SlimProject\Redis::kv());
 
 // delete stations cache, make request to reprime and get ids to loop thru
 $cache->delete('stations');
