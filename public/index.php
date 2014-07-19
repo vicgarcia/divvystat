@@ -14,10 +14,9 @@ $app = new Slim\Slim([
 // service locators
 
 $app->container->singleton('cache', function() {
-    if ($GLOBALS['environment'] == 'production') {
-        return new SlimProject\Cache(SlimProject\Redis::kv());
-    }
-    return new SlimProject\NoCache;
+    if ($GLOBALS['environment'] != 'production')
+        return new SlimProject\NoCache;
+    return new SlimProject\Cache(SlimProject\Redis::kv());
 });
 
 $app->container->singleton('divvy', function() {
