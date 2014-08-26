@@ -26,13 +26,22 @@ class DivvyDB
         return $stations;
     }
 
-    public function get72HourTimeline($stationId)
+    public function get72HourTimeline($stationId, \DateTime $timestamp)
     {
         $timeline = array();
-        $prev = null;
 
-        $sql = "select * from timeline_view where id = %i";
-        foreach ($this->db->query($sql, $stationId) as $row) {
+        $sql = "
+            select
+              timestamp, available_bikes
+            from avaliabilitys
+            where id = %i
+              and timestamp > %t
+            order by timestamp desc
+            ";
+        $rows = $this->db->query($sql, $stationId, $timestamp);
+
+        $prev = null;
+        foreach ($rows as $row) {
             // if the # of bikes has changed since previous datapoint
             if ($row['bikes'] != $prev) {
                 $timeline[] = $row;
@@ -47,10 +56,10 @@ class DivvyDB
     {
         $rawDataSql = "
             select
-                date_format(a.timestamp, '%j') as 'day',
-                date_format(a.timestamp,'%w') as 'day_of_week',
-                a.timestamp,
-                a.available_bikes
+              date_format(a.timestamp, '%j') as 'day',
+              date_format(a.timestamp,'%w') as 'day_of_week',
+              a.timestamp,
+              a.available_bikes
             from availabilitys a
             where a.station_id = %i
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
