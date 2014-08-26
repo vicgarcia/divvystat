@@ -29,6 +29,7 @@ class DivvyDB
     public function get72HourTimeline($stationId, \DateTime $timestamp)
     {
         $timeline = array();
+        $endtime = $timestamp;
 
         $sql = "
             select
@@ -38,7 +39,7 @@ class DivvyDB
               and timestamp > %t
             order by timestamp desc
             ";
-        $rows = $this->db->query($sql, $stationId, $timestamp);
+        $rows = $this->db->query($sql, $stationId, $endtime);
 
         $prev = null;
         foreach ($rows as $row) {
