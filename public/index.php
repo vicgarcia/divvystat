@@ -39,7 +39,7 @@ $app->get('/station', function() use ($app) {
 $app->get('/station/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = $app->divvy->getStationIds();
-        $app->cache->save('stationIds', $stationIds, 86400);
+        $app->cache->save('stationIds', $stationIds, 90000);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
@@ -50,7 +50,7 @@ $app->get('/station/:id', function($id) use ($app) {
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = $app->divvy->getRecentUsageGraph($id);
-            $app->cache->save('graph_'.$id, $graph, 86400);
+            $app->cache->save('graph_'.$id, $graph, 90000);
         }
         $report->graph = $graph;
         echo json_encode($report);
