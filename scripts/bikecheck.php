@@ -30,15 +30,20 @@ $insertDefunctSql = preg_replace('/\s+/', ' ', "
     insert into defuncts
     set
         defunct_station_count =  :defunctCount,
-        defunct_station_list = :defunctList,
+        defunct_station_detail = :defunctDetail,
         timestamp = :timestamp
 ");
-$defunctStations = [];
 $insertDefunct = $db->prepare($insertDefunctSql);
 $insertDefunct->bindParam(':defunctCount', $defunctCount);
 $insertDefunct->bindParam(':defunctList', $defunctList);
 $insertDefunct->bindParam(':timestamp', $defunctTimestamp);
 
+
+$defunctStations = [
+    'broken' => [],
+    'empty'  => [],
+    'full'   => []
+    ];
 
 $api = new dChallenge\DivvyApi;
 foreach ($api->getLiveStationData() as $station) {
@@ -54,32 +59,26 @@ foreach ($api->getLiveStationData() as $station) {
         var_dump($insertAvailabilitys->errorInfo());
 
     if ($availableBikes == 0) {
-        $defunctStations[] = [
-            'station' => $stationId,
-            'condition' => 'empty'
-            ];
+        $defunctStations['empty'][] = $stationId;
     }
 
     if ($availableBikes == $totalDocks) {
-        $defunctStations[] = [
-            'station' => $stationId,
-            'condition' => 'full'
-            ];
+        $defunctStations['full'][] = $stationId;
     }
 
     /*
     // XXX also count the # of stations that are out of order
     if ($availableBikes == $totalDocks) {
-        $defunctStations[] = [
-            'station' => $stationId,
-            'condition' => 'broken'
-            ];
+        $defunctStations['broken'][] = $stationId;
     }
     */
 }
 
 $defunctTimestamp = $availabilityTimestamp;
-$defunctCount = count($defunctStations);
+$defunctCount =
+    count($defunctStations['empty']) +
+    count($defunctStations['full']) +
+    count($defunctStations['broken']);
 $defunctList = json_encode($defunctStations);
 
 if (!$insertDefunct->execute())
