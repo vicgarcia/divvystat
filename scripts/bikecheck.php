@@ -8,7 +8,8 @@ use \PDO;
 $config = require 'config/pdo.php';
 $db = new PDO($config->conn, $config->user, $config->pass);
 
-$insertSql = preg_replace('/\s+/', ' ', "
+// statement to insert availability row
+$insertAvailabilitysSql = preg_replace('/\s+/', ' ', "
     insert into availabilitys
     set
         station_id = :stationId,
@@ -17,14 +18,28 @@ $insertSql = preg_replace('/\s+/', ' ', "
         available_bikes = :availableBikes,
         timestamp = :timestamp
 ");
-$stmt = $db->prepare($insertSql);
-$stmt->bindParam(':stationId', $stationId);
-$stmt->bindParam(':statusKey', $statusKey);
-$stmt->bindParam(':totalDocks', $totalDocks);
-$stmt->bindParam(':availableBikes', $availableBikes);
-$stmt->bindParam(':timestamp', $timestamp);
+$insertAvailabilitys = $db->prepare($insertAvailabilitysSql);
+$insertAvailabilitys->bindParam(':stationId', $stationId);
+$insertAvailabilitys->bindParam(':statusKey', $statusKey);
+$insertAvailabilitys->bindParam(':totalDocks', $totalDocks);
+$insertAvailabilitys->bindParam(':availableBikes', $availableBikes);
+$insertAvailabilitys->bindParam(':timestamp', $availabilityTimestamp);
 
-// get latest data from api
+// statement to insert defunct row
+$insertDefunctSql = preg_replace('/\s+/', ' ', "
+    insert into defuncts
+    set
+        defunct_station_count =  :defunctCount,
+        defunct_station_list = :defunctList,
+        timestamp = :timestamp
+");
+$defunctStations = [];
+$insertDefunct = $db->prepare($insertDefunctSql);
+$insertDefunct->bindParam(':defunctCount', $defunctCount);
+$insertDefunct->bindParam(':defunctList', $defunctList);
+$insertDefunct->bindParam(':timestamp', $defunctTimestamp);
+
+
 $api = new dChallenge\DivvyApi;
 foreach ($api->getLiveStationData() as $station) {
     $stationId = $station->landMark;
@@ -33,9 +48,40 @@ foreach ($api->getLiveStationData() as $station) {
     $availableBikes = $station->availableBikes;
 
     $datetime = DateTime::createFromFormat('Y-m-d h:i:s a', $station->timestamp);
-    $timestamp = $datetime->format('Y-m-d H:i:s');
+    $availabilityTimestamp = $datetime->format('Y-m-d H:i:s');
 
-    if (!$stmt->execute())
-        var_dump($stmt->errorInfo());
+    if (!$insertAvailabilitys->execute())
+        var_dump($insertAvailabilitys->errorInfo());
+
+    if ($availableBikes == 0) {
+        $defunctStations[] = [
+            'station' => $stationId,
+            'condition' => 'empty'
+            ];
+    }
+
+    if ($availableBikes == $totalDocks) {
+        $defunctStations[] = [
+            'station' => $stationId,
+            'condition' => 'full'
+            ];
+    }
+
+    /*
+    // XXX also count the # of stations that are out of order
+    if ($availableBikes == $totalDocks) {
+        $defunctStations[] = [
+            'station' => $stationId,
+            'condition' => 'broken'
+            ];
+    }
+    */
 }
+
+$defunctTimestamp = $availabilityTimestamp;
+$defunctCount = count($defunctStations);
+$defunctList = json_encode($defunctStations);
+
+if (!$insertDefunct->execute())
+    var_dump($insertDefunct->errorInfo());
 
