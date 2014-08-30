@@ -8,7 +8,6 @@ $url = 'http://dvmap.chester250.com/station';
 $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 
 $stations = json_decode(Requests::get($url)->body);
-
 foreach ($stations as $station) {
     $key = 'graph_' . $station->id;
     $cache->delete($key);
