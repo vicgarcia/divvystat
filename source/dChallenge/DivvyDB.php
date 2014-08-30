@@ -28,18 +28,18 @@ class DivvyDB
 
     public function get72HourTimeline($stationId, \DateTime $timestamp)
     {
-        $timeline = array();
+        // XXX use timestamp as 72 hr start point, calc endtime by
+        //     subtracting 72 hours, default timestamp to now
         $endtime = $timestamp;
 
         $sql = "
-            select
-              timestamp, available_bikes
+            select timestamp, available_bikes
             from avaliabilitys
-            where id = %i
-              and timestamp > %t
+            where station_id = %i and timestamp > %t
             order by timestamp desc
             ";
         $rows = $this->db->query($sql, $stationId, $endtime);
+        $timeline = array();
 
         $prev = null;
         foreach ($rows as $row) {
@@ -69,13 +69,15 @@ class DivvyDB
             ";
         $rows = $this->db->query($rawDataSql, $stationId);
 
-        $days = array(
-            '0' => [], '1' => [], '2' => [], '3' => [], '4' => [], '5' => [], '6' => []
-        );
-        $counts = array(
-            '0' => 0, '1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0, '6' => 0
-        );
+        // populate initial day of week containers
+        $days = [];
+        $counts = [];
+        foreach (range(0, 6) as $dayOfWeek) {
+            $days[$dayOfWeek] = [];
+            $counts[$dayOfWeek] = 0;
+        }
 
+        // parse usage (changes in count) to day of week and track dates (for avg)
         $previous = $rows[0]['available_bikes'];
         foreach ($rows as $row) {
             if ($row['available_bikes'] < $previous) {
@@ -85,6 +87,7 @@ class DivvyDB
             $previous = $row['available_bikes'];
         }
 
+        // collate by day of week and calculate averages as counts / dates
         $usageByWeekday = [];
         foreach ($days as $ofWeek => $inResults) {
             $day = $this->dayOfWeekMap()[$ofWeek];
