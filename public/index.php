@@ -11,8 +11,6 @@ $app = new Slim\Slim([
     'templates.path'  => '../templates',
 ]);
 
-// service locators
-
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] != 'production')
         return new SlimProject\NoCache;
