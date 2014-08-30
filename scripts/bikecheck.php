@@ -9,7 +9,7 @@ $config = require 'config/pdo.php';
 $db = new PDO($config->conn, $config->user, $config->pass);
 
 // statement to insert availability row
-$insertAvailabilitysSql = preg_replace('/\s+/', ' ', "
+$insertAvailabilitysSql = "
     insert into availabilitys
     set
         station_id = :stationId,
@@ -17,7 +17,7 @@ $insertAvailabilitysSql = preg_replace('/\s+/', ' ', "
         total_docks = :totalDocks,
         available_bikes = :availableBikes,
         timestamp = :timestamp
-");
+    ";
 $insertAvailabilitys = $db->prepare($insertAvailabilitysSql);
 $insertAvailabilitys->bindParam(':stationId', $stationId);
 $insertAvailabilitys->bindParam(':statusKey', $statusKey);
@@ -26,13 +26,13 @@ $insertAvailabilitys->bindParam(':availableBikes', $availableBikes);
 $insertAvailabilitys->bindParam(':timestamp', $availabilityTimestamp);
 
 // statement to insert defunct row
-$insertDefunctSql = preg_replace('/\s+/', ' ', "
+$insertDefunctSql = "
     insert into defuncts
     set
         station_count =  :defunctCount,
         detail = :defunctDetail,
         timestamp = :timestamp
-");
+    ";
 $insertDefunct = $db->prepare($insertDefunctSql);
 $insertDefunct->bindParam(':defunctCount', $defunctCount);
 $insertDefunct->bindParam(':defunctDetail', $defunctDetail);
