@@ -29,8 +29,8 @@ $insertAvailabilitys->bindParam(':timestamp', $availabilityTimestamp);
 $insertDefunctSql = preg_replace('/\s+/', ' ', "
     insert into defuncts
     set
-        defunct_station_count =  :defunctCount,
-        defunct_station_detail = :defunctDetail,
+        station_count =  :defunctCount,
+        detail = :defunctDetail,
         timestamp = :timestamp
 ");
 $insertDefunct = $db->prepare($insertDefunctSql);
@@ -58,20 +58,14 @@ foreach ($api->getLiveStationData() as $station) {
     if (!$insertAvailabilitys->execute())
         var_dump($insertAvailabilitys->errorInfo());
 
-    if ($availableBikes == 0) {
+    if ($availableBikes == 0)
         $defunctStations['empty'][] = $stationId;
-    }
 
-    if ($availableBikes == $totalDocks) {
+    if ($availableBikes == $totalDocks)
         $defunctStations['full'][] = $stationId;
-    }
 
-    /*
-    // XXX also count the # of stations that are out of order
-    if ($availableBikes == $totalDocks) {
+    if ($station->statusValue != 'In Service')
         $defunctStations['broken'][] = $stationId;
-    }
-    */
 }
 
 $defunctTimestamp = $availabilityTimestamp;
