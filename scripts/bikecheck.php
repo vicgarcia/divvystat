@@ -35,7 +35,7 @@ $insertDefunctSql = preg_replace('/\s+/', ' ', "
 ");
 $insertDefunct = $db->prepare($insertDefunctSql);
 $insertDefunct->bindParam(':defunctCount', $defunctCount);
-$insertDefunct->bindParam(':defunctList', $defunctList);
+$insertDefunct->bindParam(':defunctDetail', $defunctDetail);
 $insertDefunct->bindParam(':timestamp', $defunctTimestamp);
 
 
@@ -73,7 +73,7 @@ $defunctCount =
     count($defunctStations['empty']) +
     count($defunctStations['full']) +
     count($defunctStations['broken']);
-$defunctList = json_encode($defunctStations);
+$defunctDetail = json_encode($defunctStations);
 
 if (!$insertDefunct->execute())
     var_dump($insertDefunct->errorInfo());
