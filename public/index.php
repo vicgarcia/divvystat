@@ -27,7 +27,7 @@ $app->get('/', function() use ($app) {
 });
 
 // get stations data from json api (for map)
-$app->get('/station', function() use ($app) {
+$app->get('/stations', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = $app->divvy->getStationsData();
         $app->cache->save('stations', $stations, 600);
@@ -36,7 +36,7 @@ $app->get('/station', function() use ($app) {
 });
 
 // get station report data from json api (for popup)
-$app->get('/station/:id', function($id) use ($app) {
+$app->get('/stations/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = $app->divvy->getStationIds();
         $app->cache->save('stationIds', $stationIds, 90000);
