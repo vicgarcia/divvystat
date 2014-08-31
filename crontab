@@ -1,0 +1,7 @@
+# # dvMap tasks
+# log availabilitys and outages from divvy api every 2 minutes
+*/2 * * * * /opt/dvMap/scripts/bikecheck
+# reprime station map and status cache every 5 minutes
+*/5 * * * * /opt/dvMap/scripts/primecache
+# reprime day of week average chart cache daily @ 1am
+0 1 * * * /opt/dvMap/scripts/dailyprime
