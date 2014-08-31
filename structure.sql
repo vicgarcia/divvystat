@@ -20,12 +20,12 @@ create table `availabilitys` (
       KEY `availabilitys__timestamp__index` (`timestamp`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23429329 default CHARSET=utf8;
 
-drop table defuncts;
-create table `defuncts` (
+drop table outages;
+create table `outages` (
       `timestamp` timestamp not null default CURRENT_TIMESTAMP,
       `station_count` int(11) not null,
       `detail` text not null,
-      KEY `defuncts__timestamp__index` (`timestamp`)
+      KEY `outages__timestamp__index` (`timestamp`)
 ) ENGINE=InnoDB default CHARSET=utf8;
 
 create index availabilitys__station_id__index on availabilitys (station_id);

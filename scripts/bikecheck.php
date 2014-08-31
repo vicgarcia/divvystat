@@ -25,21 +25,21 @@ $insertAvailabilitys->bindParam(':totalDocks', $totalDocks);
 $insertAvailabilitys->bindParam(':availableBikes', $availableBikes);
 $insertAvailabilitys->bindParam(':timestamp', $availabilityTimestamp);
 
-// statement to insert defunct row
-$insertDefunctSql = "
-    insert into defuncts
+// statement to insert outage row
+$insertOutageSql = "
+    insert into outages
     set
-        station_count =  :defunctCount,
-        detail = :defunctDetail,
+        station_count =  :outageCount,
+        detail = :outageDetail,
         timestamp = :timestamp
     ";
-$insertDefunct = $db->prepare($insertDefunctSql);
-$insertDefunct->bindParam(':defunctCount', $defunctCount);
-$insertDefunct->bindParam(':defunctDetail', $defunctDetail);
-$insertDefunct->bindParam(':timestamp', $defunctTimestamp);
+$insertOutage = $db->prepare($insertOutageSql);
+$insertOutage->bindParam(':outageCount', $outageCount);
+$insertOutage->bindParam(':outageDetail', $outageDetail);
+$insertOutage->bindParam(':timestamp', $outageTimestamp);
 
 
-$defunctStations = [
+$outageStations = [
     'broken' => [],
     'empty'  => [],
     'full'   => []
@@ -59,22 +59,22 @@ foreach ($api->getLiveStationData() as $station) {
         var_dump($insertAvailabilitys->errorInfo());
 
     if ($availableBikes == 0)
-        $defunctStations['empty'][] = $stationId;
+        $outageStations['empty'][] = $stationId;
 
     if ($availableBikes == $totalDocks)
-        $defunctStations['full'][] = $stationId;
+        $outageStations['full'][] = $stationId;
 
     if ($station->statusValue != 'In Service')
-        $defunctStations['broken'][] = $stationId;
+        $outageStations['broken'][] = $stationId;
 }
 
-$defunctTimestamp = $availabilityTimestamp;
-$defunctCount =
-    count($defunctStations['empty']) +
-    count($defunctStations['full']) +
-    count($defunctStations['broken']);
-$defunctDetail = json_encode($defunctStations);
+$outageTimestamp = $availabilityTimestamp;
+$outageCount =
+    count($outageStations['empty']) +
+    count($outageStations['full']) +
+    count($outageStations['broken']);
+$outageDetail = json_encode($outageStations);
 
-if (!$insertDefunct->execute())
-    var_dump($insertDefunct->errorInfo());
+if (!$insertOutage->execute())
+    var_dump($insertOutage->errorInfo());
 
