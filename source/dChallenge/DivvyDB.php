@@ -20,19 +20,34 @@ class DivvyDB
 
     public function getStationsData()
     {
-        $sql = "select * from station_view";
+        $sql = "select * from overview";
         $stations = $this->db->query($sql);
 
         return $stations;
     }
 
-    public function get72HourTimeline($stationId)
+    public function get72HourTimeline($stationId, \DateTime $end = null)
     {
-        $timeline = array();
-        $prev = null;
+        // default endtime to now if not explicitly provided
+        if ($end == null)
+            $end = new \DateTime("now");
 
-        $sql = "select * from timeline_view where id = %i";
-        foreach ($this->db->query($sql, $stationId) as $row) {
+        // subtract 72 hours to get the start time
+        $start = clone $end;
+        $start->sub(new \DateInterval("PT72H"));
+
+        $sql = "
+            select timestamp, available_bikes as 'bikes'
+            from availabilitys
+            where station_id = %i
+              and timestamp between %t and %t
+            order by timestamp desc
+            ";
+        $rows = $this->db->query($sql, $stationId, $start, $end);
+        $timeline = array();
+
+        $prev = null;
+        foreach ($rows as $row) {
             // if the # of bikes has changed since previous datapoint
             if ($row['bikes'] != $prev) {
                 $timeline[] = $row;
@@ -47,10 +62,10 @@ class DivvyDB
     {
         $rawDataSql = "
             select
-                date_format(a.timestamp, '%j') as 'day',
-                date_format(a.timestamp,'%w') as 'day_of_week',
-                a.timestamp,
-                a.available_bikes
+              date_format(a.timestamp, '%j') as 'day',
+              date_format(a.timestamp,'%w') as 'day_of_week',
+              a.timestamp,
+              a.available_bikes
             from availabilitys a
             where a.station_id = %i
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
@@ -59,13 +74,15 @@ class DivvyDB
             ";
         $rows = $this->db->query($rawDataSql, $stationId);
 
-        $days = array(
-            '0' => [], '1' => [], '2' => [], '3' => [], '4' => [], '5' => [], '6' => []
-        );
-        $counts = array(
-            '0' => 0, '1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0, '6' => 0
-        );
+        // populate initial day of week containers
+        $days = [];
+        $counts = [];
+        foreach (range(0, 6) as $dayOfWeek) {
+            $days[$dayOfWeek] = [];
+            $counts[$dayOfWeek] = 0;
+        }
 
+        // parse usage (changes in count) to day of week and track dates (for avg)
         $previous = $rows[0]['available_bikes'];
         foreach ($rows as $row) {
             if ($row['available_bikes'] < $previous) {
@@ -75,6 +92,7 @@ class DivvyDB
             $previous = $row['available_bikes'];
         }
 
+        // collate by day of week and calculate averages as counts / dates
         $usageByWeekday = [];
         foreach ($days as $ofWeek => $inResults) {
             $day = $this->dayOfWeekMap()[$ofWeek];

@@ -11,8 +11,6 @@ $app = new Slim\Slim([
     'templates.path'  => '../templates',
 ]);
 
-// service locators
-
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] != 'production')
         return new SlimProject\NoCache;
@@ -29,7 +27,7 @@ $app->get('/', function() use ($app) {
 });
 
 // get stations data from json api (for map)
-$app->get('/station', function() use ($app) {
+$app->get('/stations', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = $app->divvy->getStationsData();
         $app->cache->save('stations', $stations, 600);
@@ -38,10 +36,10 @@ $app->get('/station', function() use ($app) {
 });
 
 // get station report data from json api (for popup)
-$app->get('/station/:id', function($id) use ($app) {
+$app->get('/stations/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = $app->divvy->getStationIds();
-        $app->cache->save('stationIds', $stationIds, 86401);
+        $app->cache->save('stationIds', $stationIds, 90000);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
@@ -52,7 +50,7 @@ $app->get('/station/:id', function($id) use ($app) {
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = $app->divvy->getRecentUsageGraph($id);
-            $app->cache->save('graph_'.$id, $graph, 86401);
+            $app->cache->save('graph_'.$id, $graph, 90000);
         }
         $report->graph = $graph;
         echo json_encode($report);

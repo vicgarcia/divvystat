@@ -8,7 +8,8 @@ use \PDO;
 $config = require 'config/pdo.php';
 $db = new PDO($config->conn, $config->user, $config->pass);
 
-$insertSql = preg_replace('/\s+/', ' ', "
+// statement to insert availability row
+$insertAvailabilitysSql = "
     insert into availabilitys
     set
         station_id = :stationId,
@@ -16,15 +17,34 @@ $insertSql = preg_replace('/\s+/', ' ', "
         total_docks = :totalDocks,
         available_bikes = :availableBikes,
         timestamp = :timestamp
-");
-$stmt = $db->prepare($insertSql);
-$stmt->bindParam(':stationId', $stationId);
-$stmt->bindParam(':statusKey', $statusKey);
-$stmt->bindParam(':totalDocks', $totalDocks);
-$stmt->bindParam(':availableBikes', $availableBikes);
-$stmt->bindParam(':timestamp', $timestamp);
+    ";
+$insertAvailabilitys = $db->prepare($insertAvailabilitysSql);
+$insertAvailabilitys->bindParam(':stationId', $stationId);
+$insertAvailabilitys->bindParam(':statusKey', $statusKey);
+$insertAvailabilitys->bindParam(':totalDocks', $totalDocks);
+$insertAvailabilitys->bindParam(':availableBikes', $availableBikes);
+$insertAvailabilitys->bindParam(':timestamp', $availabilityTimestamp);
 
-// get latest data from api
+// statement to insert outage row
+$insertOutageSql = "
+    insert into outages
+    set
+        station_count =  :outageCount,
+        detail = :outageDetail,
+        timestamp = :timestamp
+    ";
+$insertOutage = $db->prepare($insertOutageSql);
+$insertOutage->bindParam(':outageCount', $outageCount);
+$insertOutage->bindParam(':outageDetail', $outageDetail);
+$insertOutage->bindParam(':timestamp', $outageTimestamp);
+
+
+$outageStations = [
+    'broken' => [],
+    'empty'  => [],
+    'full'   => []
+    ];
+
 $api = new dChallenge\DivvyApi;
 foreach ($api->getLiveStationData() as $station) {
     $stationId = $station->landMark;
@@ -33,9 +53,28 @@ foreach ($api->getLiveStationData() as $station) {
     $availableBikes = $station->availableBikes;
 
     $datetime = DateTime::createFromFormat('Y-m-d h:i:s a', $station->timestamp);
-    $timestamp = $datetime->format('Y-m-d H:i:s');
+    $availabilityTimestamp = $datetime->format('Y-m-d H:i:s');
 
-    if (!$stmt->execute())
-        var_dump($stmt->errorInfo());
+    if (!$insertAvailabilitys->execute())
+        var_dump($insertAvailabilitys->errorInfo());
+
+    if ($availableBikes == 0)
+        $outageStations['empty'][] = $stationId;
+
+    if ($availableBikes == $totalDocks)
+        $outageStations['full'][] = $stationId;
+
+    if ($station->statusValue != 'In Service')
+        $outageStations['broken'][] = $stationId;
 }
+
+$outageTimestamp = $availabilityTimestamp;
+$outageCount =
+    count($outageStations['empty']) +
+    count($outageStations['full']) +
+    count($outageStations['broken']);
+$outageDetail = json_encode($outageStations);
+
+if (!$insertOutage->execute())
+    var_dump($insertOutage->errorInfo());
 

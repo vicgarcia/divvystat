@@ -148,7 +148,7 @@ L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // load markers from json-api stations
-$.getJSON('/station', function(data) {
+$.getJSON('/stations', function(data) {
   $.each(data, function(key, station) {
     icon = L.AwesomeMarkers.icon({
         prefix: 'fa',
@@ -168,7 +168,7 @@ $.getJSON('/station', function(data) {
             fadeIn: 0,
             fadeOut: 500
         });
-        $.getJSON('/station/' + station['id'], function(report) {
+        $.getJSON('/stations/' + station['id'], function(report) {
             drawTimeLine(station['id'], report['timeline']);
             drawDaysGraph(station['id'], report['graph']);
             $('#markerBox-' + station['id']).unblock();

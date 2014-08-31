@@ -1,4 +1,4 @@
 #!/bin/bash
 pushd /opt/dvMap >> /dev/null
-php scripts/primecache.php
+php scripts/dailyprime.php
 popd >> /dev/null
