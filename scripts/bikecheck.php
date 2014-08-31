@@ -64,7 +64,7 @@ foreach ($api->getLiveStationData() as $station) {
     if ($availableBikes == $totalDocks)
         $outageStations['full'][] = $stationId;
 
-    if ($station->statusValue != 'In Service')
+    if ($station->statusKey != 1)
         $outageStations['broken'][] = $stationId;
 }
 
