@@ -20,7 +20,7 @@ class DivvyDB
 
     public function getStationsData()
     {
-        $sql = "select * from station_view";
+        $sql = "select * from overview";
         $stations = $this->db->query($sql);
 
         return $stations;
