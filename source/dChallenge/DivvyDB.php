@@ -26,19 +26,24 @@ class DivvyDB
         return $stations;
     }
 
-    public function get72HourTimeline($stationId, \DateTime $timestamp)
+    public function get72HourTimeline($stationId, \DateTime $end = null)
     {
-        // XXX use timestamp as 72 hr start point, calc endtime by
-        //     subtracting 72 hours, default timestamp to now
-        $endtime = $timestamp;
+        // default endtime to now if not explicitly provided
+        if ($end == null)
+            $end = new \DateTime("now");
+
+        // subtract 72 hours to get the start time
+        $start = clone $end;
+        $start->sub(new \DateInterval("PT72H"));
 
         $sql = "
-            select timestamp, available_bikes
-            from avaliabilitys
-            where station_id = %i and timestamp > %t
+            select timestamp, available_bikes as 'bikes'
+            from availabilitys
+            where station_id = %i
+              and timestamp between %t and %t
             order by timestamp desc
             ";
-        $rows = $this->db->query($sql, $stationId, $endtime);
+        $rows = $this->db->query($sql, $stationId, $start, $end);
         $timeline = array();
 
         $prev = null;
