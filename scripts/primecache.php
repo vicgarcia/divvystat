@@ -4,7 +4,7 @@ require_once 'bootstrap.php';
 use \Requests;
 use \SlimProject;
 
-$url = 'http://dvmap.chester250.com/station';
+$url = 'http://dvmap.chester250.com/stations';
 $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 
 // delete stations cache, make request to reprime and get ids to loop thru
