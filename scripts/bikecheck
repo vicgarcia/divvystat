@@ -1,3 +1,4 @@
 #!/bin/bash
-cd /opt/dvMap
+pushd /opt/dvMap >> /dev/null
 php scripts/bikecheck.php
+popd >> /dev/null
