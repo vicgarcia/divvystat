@@ -10,11 +10,11 @@ create table `stations` (
 drop table availabilitys;
 create table `availabilitys` (
       `id` int(11) unsigned not null AUTO_INCREMENT,
+      `timestamp` timestamp not null default CURRENT_TIMESTAMP,
       `station_id` int(4) unsigned not null,
       `status_key` int(3) unsigned not null,
       `total_docks` int(3) unsigned not null,
       `available_bikes` int(3) unsigned not null,
-      `timestamp` timestamp not null default CURRENT_TIMESTAMP,
       PRIMARY KEY (`id`),
       KEY `availabilitys__station_id__index` (`station_id`),
       KEY `availabilitys__timestamp__index` (`timestamp`)
@@ -22,6 +22,7 @@ create table `availabilitys` (
 
 drop table outages;
 create table `outages` (
+      `id` int(11) unsigned not null AUTO_INCREMENT,
       `timestamp` timestamp not null default CURRENT_TIMESTAMP,
       `station_count` int(11) not null,
       `detail` text not null,
