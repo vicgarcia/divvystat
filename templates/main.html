@@ -179,21 +179,24 @@ $.getJSON('/stations', function(data) {
 
 </script>
 
-<!-- Piwik tracking -->
+<!-- Piwik -->
 <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(["setCookieDomain", "*.chester250.com"]);
-    _paq.push(["setDomains", ["*.chester250.com","*.dvmap.chester250.com"]]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://stats.rockst4r.net/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 3]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
+var _paq = _paq || [];
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function() {
+    var u="//stats.rockst4r.net/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 15]);
+    var d=document,
+        g=d.createElement('script'),
+        s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true;
+    g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+})();
 </script>
-<noscript><p><img src="http://stats.rockst4r.net/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
+<noscript>
+    <p><img src="//stats.rockst4r.net/piwik.php?idsite=15" style="border:0;" alt="" /></p>
+</noscript>
 
 </html>
