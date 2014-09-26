@@ -5,7 +5,7 @@ use \Requests;
 use \SlimProject;
 use \dChallenge\DivvyDB as DivvyDB;
 
-$url = 'http://dvmap.chester250.com/stations';
+$url = 'http://divvystat.us/stations';
 $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 $divvy = new DivvyDB(new MeekroDB);   // config in bootstrap.php
 

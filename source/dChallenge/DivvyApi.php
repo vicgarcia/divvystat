@@ -9,7 +9,7 @@ class DivvyApi
 
     public function getLiveStationData()
     {
-        $options = [ 'useragent' => 'dvMap collector / dvmap.chester250.com' ];
+        $options = [ 'useragent' => 'dvMap collector / divvystat.us' ];
         $apiData = json_decode(Requests::get(self::URL, [], $options)->body);
 
         $timestamp = $apiData->executionTime;
