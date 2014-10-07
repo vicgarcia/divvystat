@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-0": {
-            "dChallenge": "source/"
+            "dvMap": "source/"
         }
     }
 }
