@@ -1,7 +1,7 @@
 <?php
-namespace dChallenge;
+namespace dvMap;
 
-class DivvyDB
+class DB
 {
     protected $db;
 
@@ -103,6 +103,36 @@ class DivvyDB
         }
 
         return $usageByWeekday;
+    }
+
+    public function insertAvailability($id, $status, $docks, $bikes, $timestamp)
+    {
+        return $this->db->insert('availabilitys', [
+            'station_id'      => $id,
+            'status_key'      => $status,
+            'total_docks'     => $docks,
+            'available_bikes' => $bikes,
+            'timestamp'       => $timestamp
+        ]);
+    }
+
+    public function insertOutage($stations, $detail, $timestamp)
+    {
+        return $this->db->insert('outages', [
+            'station_count' => $stations,
+            'detail'        => $detail,
+            'timestamp'     => $timestamp
+        ]);
+    }
+
+    public function insertUpdateStation($id, $name, $lat, $lng)
+    {
+        return $this->db->insertUpdate('stations', [
+            'station_id' => $id,
+            'name'       => $name,
+            'latitude'   => $lat,
+            'longitude'  => $lng
+        ]);
     }
 
     protected function dayOfWeekMap()

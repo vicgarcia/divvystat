@@ -1,9 +1,9 @@
 <?php
-namespace dChallenge;
+namespace dvMap;
 
 use \Requests;
 
-class DivvyApi
+class Api
 {
     const URL = 'http://divvybikes.com/stations/json';
 
