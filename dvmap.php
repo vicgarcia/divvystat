@@ -6,16 +6,33 @@ use \MeekroDB;
 use \dvMap\Tasks;
 use \dvMap\DB as DivvyDB;
 
-$app = new Commando\Command();
 
-// command options : prime_cache, daily_cache, update_stations, record_data
-// XXX you can add a must() w/ closure to validate the option
-$app->option()
+/*
+ *  usage   : php dvmap.php <option>
+ *  options : prime_cache, daily_cache, update_stations, record_data
+ *
+ *  prime_cache     : perform regular prime of cache for line charts
+ *  record_data     : get data from Divvy API and record in app DB
+ *  daily_cache     : perform daily cache of day of week charts
+ *  update_stations : update app DB stations table from API
+ *
+ */
+
+$cli = new Commando\Command();
+
+$cli->option()
     ->require()
-    ->describedAs('task to run : prime_cache, record_data, daily_cache, update_stations');
+    ->must(function ($option) {
+        $options = array(
+            'prime_cache', 'record_data', 'daily_cache', 'update_stations'
+        );
+        return in_array($option, $options);
+    })
+    ->describedAs('a cli task to run');
 
-$db = new DivvyDB(new MeekroDB);
-switch ($app[0]) {
+//$db = new DivvyDB(new MeekroDB);
+
+switch ($cli[0]) {
     case 'prime_cache':
         Tasks::primeCache();
         break;
