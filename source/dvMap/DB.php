@@ -26,7 +26,7 @@ class DB
         return $stations;
     }
 
-    public function get72HourTimeline($stationId, \DateTime $end = null)
+    public function get72HourStationLine($stationId, \DateTime $end = null)
     {
         // default endtime to now if not explicitly provided
         if ($end == null)

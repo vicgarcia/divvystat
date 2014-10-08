@@ -44,7 +44,7 @@ $app->get('/stations/:id', function($id) use ($app) {
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
         if (($timeline = $app->cache->load('timeline_'.$id)) === false) {
-            $timeline = $app->divvy->get72HourTimeline($id);
+            $timeline = $app->divvy->get72HourStationLine($id);
             $app->cache->save('timeline_'.$id, $timeline, 600);
         }
         $report->timeline = $timeline;
