@@ -58,6 +58,38 @@ class DB
         return $timeline;
     }
 
+    public function get72HourOutageLine(\DateTime $end = null)
+    {
+        // default endtime to now if not explicitly provided
+        if ($end == null)
+            $end = new \DateTime("now");
+
+        // subtract 72 hours to get the start time
+        $start = clone $end;
+        $start->sub(new \DateInterval("PT72H"));
+
+        $sql = "
+            select timestamp, station_count as 'outages'
+            from outages
+            where station_id = %i
+              and timestamp between %t and %t
+            order by timestamp desc
+            ";
+        $rows = $this->db->query($sql, $start, $end);
+        $timeline = array();
+
+        $prev = null;
+        foreach ($rows as $row) {
+            // if the # of station outages changed since previous datapoint
+            if ($row['outages'] != $prev) {
+                $timeline[] = $row;
+                $prev = $row['outages'];
+            }
+        }
+
+        return $timeline;
+    }
+
     public function getRecentUsageGraph($stationId)
     {
         $rawDataSql = "
@@ -103,6 +135,12 @@ class DB
         }
 
         return $usageByWeekday;
+    }
+
+    public function getRecentOutageGraph($stationId)
+    {
+
+
     }
 
     public function insertAvailability($id, $status, $docks, $bikes, $timestamp)
