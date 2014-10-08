@@ -69,7 +69,7 @@ class Tasks
         $stations = json_decode(Requests::get($url)->body);
     }
 
-    public static function dailyCache(DB $divvy)
+    public static function dailyCache(DB $db)
     {
         $url = 'http://divvystat.us/stations';
         $cache = new SlimProject\Cache(SlimProject\Redis::kv());
@@ -78,7 +78,7 @@ class Tasks
         foreach ($stations as $station) {
             $key = 'graph_' . $station->id;
             $cache->delete($key);
-            $graph = $divvy->getRecentUsageGraph($station->id);
+            $graph = $db->getRecentUsageGraph($station->id);
             $cache->save($key, $graph, 86400);
         }
     }
