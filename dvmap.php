@@ -1,12 +1,4 @@
 <?php
-require_once 'bootstrap.php';
-
-use \Commando;
-use \MeekroDB;
-use \dvMap\Tasks;
-use \dvMap\DB as DivvyDB;
-
-
 /*
  *  usage   : php dvmap.php <option>
  *  options : prime_cache, daily_cache, update_stations, record_data
@@ -18,6 +10,14 @@ use \dvMap\DB as DivvyDB;
  *
  */
 
+require_once 'bootstrap.php';
+
+use \Commando;
+use \MeekroDB;
+use \dvMap\Tasks;
+use \dvMap\DB as DivvyDB;
+
+
 $cli = new Commando\Command();
 
 $cli->option()
@@ -28,9 +28,11 @@ $cli->option()
         );
         return in_array($option, $options);
     })
-    ->describedAs('a cli task to run');
+    ->describedAs(
+        'cli task : prime_cache, record_data, daily_cache, update_stations'
+    );
 
-//$db = new DivvyDB(new MeekroDB);
+$db = new DivvyDB(new MeekroDB);
 
 switch ($cli[0]) {
     case 'prime_cache':
