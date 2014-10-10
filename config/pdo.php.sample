@@ -1,8 +1,0 @@
-<?php
-
-$config = new \stdClass;
-$config->conn = 'mysql:host=localhost;dbname=dchallenge';
-$config->user = '';
-$config->pass = '';
-
-return $config;
