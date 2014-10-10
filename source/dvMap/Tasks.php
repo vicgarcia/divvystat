@@ -23,11 +23,19 @@ class Tasks
     {
         $api = new Api;
 
-        $timestamp =
-            DateTime::createFromFormat('Y-m-d h:i:s a', $station->timestamp)
-                    ->format('Y-m-d H:i:s');
+        $outageStations = [
+            'empty'  => [],
+            'full'   => [],
+            'broken' => []
+        ];
 
         foreach ($api->getLiveStationData() as $station) {
+            if (!isset($timestamp)) {
+                $timestamp =
+                    \DateTime::createFromFormat('Y-m-d h:i:s a', $station->timestamp)
+                        ->format('Y-m-d H:i:s');
+            }
+
             $stationId = $station->landMark;
             $totalDocks = $station->totalDocks;
             $availableBikes = $station->availableBikes;
