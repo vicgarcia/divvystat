@@ -35,27 +35,37 @@
         #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; }
         .clear { clear: both; }
     </style>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-    <link rel='stylesheet' href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' />
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+
+    <!-- google web font -->
     <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
+
+    <!-- stylesheets for morris.js and leaflet/plugins -->
+    <link rel="stylesheet" href="/js/libs/morris/morris.css" />
+    <link rel="stylesheet" href="/js/libs/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/js/libs/leaflet.fullscreen/Control.FullScreen.css" />
+    <link rel="stylesheet" href="/js/libs/Leaflet.awesome-markers/leaflet.awesome-markers.css" />
+
+    <!-- favicons -->
     <link rel="shortcut icon" href="/dvmap-icon.ico"/>
     <link rel="icon" href="/dvmap-icon.ico"/>
     <link rel="apple-touch-icon" href="/dvmap-icon.png">
     <link rel="image_src" href="/thumbnail.png"/>
+
+    <!-- require.js bootstrap -->
+    <script data-main="/js/bootstrap.js" src="/js/libs/requirejs/require.js"></script>
 </head>
 
+
 <body>
-<div id="wrap">
-    <div id="map">
-    </div>
-    <div id="header">
-        <h1>divvystat.us : divvy usage and rebalancing analysis</h1>
-    </div>
-    <div id="content">
-        <div id="content-column-1">
+
+    <div id="wrap">
+        <div id="map">
+        </div>
+        <div id="header">
+            <h1>divvystat.us : divvy usage and rebalancing analysis</h1>
+        </div>
+        <div id="content">
+            <div id="content-column-1">
             <p>The line chart at the top of each station popup shows the number of bikes
             available at a station over the previous 72 hours.  Data points are omitted
             when the count doesn't change, creating an effect that draws attention to
@@ -65,8 +75,8 @@
             of the week in the last 30 days.  Usage is measured as the number of bikes
             removed from a station throughout the day.  This metric is an approximate
             derrived from data collected from Divvy's website.</p>
-        </div>
-        <div id="content-column-2">
+            </div>
+            <div id="content-column-2">
             <br/>
             <p>
             This interactive application was originally created for the
@@ -74,129 +84,34 @@
             </p>
             <p>This project is by <a href="http://vicg4rcia.com">Vic Garcia</a>.</p>
             <p>The code is on <a href="http://github.com/vicgarcia/dvMap">GitHub</a>.</p>
+            </div>
         </div>
-    </div>
     <br class="clear" />
-</div>
+    </div>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//stats.rockst4r.net/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 15]);
+            var d=document,
+                g=d.createElement('script'),
+                s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript';
+            g.async=true;
+            g.defer=true;
+            g.src=u+'piwik.js';
+            s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript>
+      <p><img src="//stats.rockst4r.net/piwik.php?idsite=15" style="border:0;" alt="" /></p>
+    </noscript>
+
 </body>
-
-<!-- include jquery -->
-<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js"></script>
-<!-- include leaflet.js w/ fullscreen + awesome markers -->
-<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.min.js"></script>
-<!-- include morris.js -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-
-<!-- dvmap js -->
-<script type="text/javascript">
-
-// some functions
-
-generatePopupHtml = function(s) {
-    return ' ' +
-      '<div id="markerBox-' + s['id'] + '" class="markerBox">' +
-        '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
-        '<h4 class="markerInfo">' +
-            s['bikes'] + ' bikes available / ' + s['docks'] + ' docks' +
-        '</h4>' +
-        '<div class="graphNote">available bikes over previous 72 hours</div>' +
-        '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
-        '<div class="graphNote">day of week average usage for last 30 days</div>' +
-        '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
-      '</div>';
-};
-
-drawTimeLine = function(id, data) {
-    return new Morris.Line({       // timeline chart
-        element: 'markerTimeline-' + id,
-        data: data,
-        xkey: 'timestamp',
-        ykeys: ['bikes'],
-        lineColors: ['#00A7E2'],
-        labels: ['Available Bikes'],
-        gridTextSize: 8,
-        hideHover: true
-    });
-};
-
-drawDaysGraph = function(id, data) {
-    return new Morris.Bar({        // day of week bar graph
-        element: 'markerGraph-' + id,
-        data: data,
-        xkey: 'day',
-        ykeys: ['usage'],
-        barColors: ['#00A7E2'],
-        labels: ['usage'],
-        gridTextSize: 8,
-        hideHover: true
-    });
-};
-
-// setup map
-var map = L.map('map', {
-    fullscreenControl: true,
-    attributionControl: false
-}).setView([41.90, -87.64], 14);
-L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png', {
-    attribution: '<a href="http://www.openstreetmap.org/about">OpenStreetMaps</a>',
-    minZoom: 13,
-    maxZoom: 16,
-}).addTo(map);
-
-// load markers from json-api stations
-$.getJSON('/stations', function(data) {
-  $.each(data, function(key, station) {
-    icon = L.AwesomeMarkers.icon({
-        prefix: 'fa',
-        icon: 'none',
-        iconColor: 'white',
-        markerColor: 'blue'
-    });
-    L.marker([ station['lat'], station['lng'] ], { icon: icon })
-    .addTo(map)
-    .bindPopup(generatePopupHtml(station), { closeOnClick: false })
-    .on('click', function(e) {
-        this.openPopup();
-        $('#markerBox-' + station['id']).block({
-            message: '<h2>loading...</h2>',
-            css: { backgroundColor: 'white', border: 'none' },
-            overlayCSS: { backgroundColor: 'white', opacity: 1 },
-            fadeIn: 0,
-            fadeOut: 500
-        });
-        $.getJSON('/stations/' + station['id'], function(report) {
-            drawTimeLine(station['id'], report['timeline']);
-            drawDaysGraph(station['id'], report['graph']);
-            $('#markerBox-' + station['id']).unblock();
-        });
-    });
-  });
-});
-
-</script>
-
-<!-- Piwik -->
-<script type="text/javascript">
-var _paq = _paq || [];
-_paq.push(['trackPageView']);
-_paq.push(['enableLinkTracking']);
-(function() {
-    var u="//stats.rockst4r.net/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 15]);
-    var d=document,
-        g=d.createElement('script'),
-        s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true;
-    g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-})();
-</script>
-<noscript>
-    <p><img src="//stats.rockst4r.net/piwik.php?idsite=15" style="border:0;" alt="" /></p>
-</noscript>
 
 </html>
