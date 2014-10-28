@@ -13,7 +13,7 @@ $stations = json_decode(Requests::get($url)->body);
 foreach ($stations as $station) {
     $key = 'graph_' . $station->id;
     $cache->delete($key);
-    $graph = $divvy->getRecentUsageGraph($station->id);
+    $graph = $divvy->getRecentUsageBar($station->id);
     $cache->save($key, $graph, 86400);
 }
 

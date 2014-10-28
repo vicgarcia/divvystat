@@ -49,7 +49,7 @@ $app->get('/stations/:id', function($id) use ($app) {
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
-            $graph = $app->divvy->getRecentUsageGraph($id);
+            $graph = $app->divvy->getRecentUsageBar($id);
             $app->cache->save('graph_'.$id, $graph, 90000);
         }
         $report->graph = $graph;
@@ -69,7 +69,7 @@ $app->get('/outages', function() use ($app) {
         }
         $report->line = $line;
         if (($bar = $app->cache->load('outages_bar')) === false) {
-            $bar = $app->divvy->getRecentOutageGraph();
+            $bar = $app->divvy->getRecentOutageBar();
             $app->cache->save('outages_bar', $bar, 600);
         }
         $report->bar = $bar;

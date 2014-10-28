@@ -89,7 +89,7 @@ class DB
         return $timeline;
     }
 
-    public function getRecentUsageGraph($stationId)
+    public function getRecentUsageBar($stationId)
     {
         $rawDataSql = "
             select
@@ -136,7 +136,7 @@ class DB
         return $usageByWeekday;
     }
 
-    public function getRecentOutageGraph()
+    public function getRecentOutageBar()
     {
         // query and post-process data
         $sql = "

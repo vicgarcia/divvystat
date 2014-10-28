@@ -86,7 +86,7 @@ class Tasks
         foreach ($stations as $station) {
             $key = 'graph_' . $station->id;
             $cache->delete($key);
-            $graph = $db->getRecentUsageGraph($station->id);
+            $graph = $db->getRecentUsageBar($station->id);
             $cache->save($key, $graph, 86400);
         }
     }
