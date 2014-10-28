@@ -27,12 +27,15 @@
         .markerAverages { margin-top: 0px; margin-right: 20px; font-size: .9em; text-align: right; }
         .rentals { background-color: #3DB7E4; color: white; }
         .returns { background-color: #788A91; color: white; }
+        /* style for outage charts */
+        #outage-line { height: 220px; width: 90%; background-color: blue; }
+        #outage-chart { height: 220px; width: 90%; background-color: red; }
         /* content formatting (below map) */
         #content { width: 100%; margin: auto; padding: 0; }
         #footer { margin: 0; background-color: #3DB7E4; }
         #footer h1 { padding: 5px; color: white; }
         #content-column-1 { width: 46%; margin: 0 2% 0 2%; float: left; }
-        #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; }
+        #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; padding-top: 28px; }
         .clear { clear: both; }
     </style>
 
@@ -66,24 +69,35 @@
         </div>
         <div id="content">
             <div id="content-column-1">
-            <p>The line chart at the top of each station popup shows the number of bikes
-            available at a station over the previous 72 hours.  Data points are omitted
-            when the count doesn't change, creating an effect that draws attention to
-            periods of higher use.</p>
+                <p>The line chart at the top of each station popup shows the number of bikes
+                available at a station over the previous 72 hours.  Data points are omitted
+                when the count doesn't change, creating an effect that draws attention to
+                periods of higher use.</p>
 
-            <p>The bar graph at the bottom of each popup shows the average usage per day
-            of the week in the last 30 days.  Usage is measured as the number of bikes
-            removed from a station throughout the day.  This metric is an approximate
-            derrived from data collected from Divvy's website.</p>
+                <p>The bar graph at the bottom of each popup shows the average usage per day
+                of the week in the last 30 days.  Usage is measured as the number of bikes
+                removed from a station throughout the day.  This metric is an approximate
+                derrived from data collected from Divvy's website.</p>
+
+                <p>The chart and graph to the right show data on rebalancing efforts and
+                "outages", which occur when a station is either out of service, has no bikes
+                available, or has dock spaces available for returns.  The line chart shows
+                the number of station outages over the last 72 hours.  The bar graph shows
+                the average number of concurrent outages by day of the week over the
+                last 30 days.</p>
+
+                <p>This interactive application was originally created for the
+                <a href="http://divvybikes.com/datachallenge">Divvy Data Challenge</a>
+                by <a href="http://vicg4rcia.com">Vic Garcia</a>. The code is on available
+                for review on <a href="http://github.com/vicgarcia/dvMap">GitHub</a>.</p>
             </div>
+
             <div id="content-column-2">
-            <br/>
-            <p>
-            This interactive application was originally created for the
-            <a href="http://divvybikes.com/datachallenge">Divvy Data Challenge</a>.
-            </p>
-            <p>This project is by <a href="http://vicg4rcia.com">Vic Garcia</a>.</p>
-            <p>The code is on <a href="http://github.com/vicgarcia/dvMap">GitHub</a>.</p>
+                <div id="outage-line">
+                </div>
+                <br/>
+                <div id="outage-chart">
+                </div>
             </div>
         </div>
     <br class="clear" />
