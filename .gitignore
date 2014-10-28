@@ -1,9 +1,18 @@
+# app stuff
+*.csv
 log/
 workspace/
+
+# composer files
 vendor/
 composer.lock
 composer.phar
+
+# config files
 config/mysql.php
 config/redis.php
 config/pdo.php
-*.csv
+
+# bower stuff
+public/js/libs/*
+bower_components
