@@ -71,8 +71,7 @@ class DB
         $sql = "
             select timestamp, station_count as 'outages'
             from outages
-            where station_id = %i
-              and timestamp between %t and %t
+            where timestamp between %t and %t
             order by timestamp desc
             ";
         $rows = $this->db->query($sql, $start, $end);
@@ -101,7 +100,7 @@ class DB
             from availabilitys a
             where a.station_id = %i
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
-                                        and DATE(DATE_SUB(NOW(), INTERVAL 1 day))
+                                        and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by a.timestamp asc
             ";
         $rows = $this->db->query($rawDataSql, $stationId);
@@ -127,7 +126,7 @@ class DB
         // collate by day of week and calculate averages as counts / dates
         $usageByWeekday = [];
         foreach ($days as $ofWeek => $inResults) {
-            $day = $this->dayOfWeekMap()[$ofWeek];
+            $day = $this->dayOfWeekMap($ofWeek);
             $usageByWeekday[$ofWeek]['day'] = $day;
 
             $usage = $counts[$ofWeek] / count(array_unique($inResults));
@@ -137,10 +136,28 @@ class DB
         return $usageByWeekday;
     }
 
-    public function getRecentOutageGraph($stationId)
+    public function getRecentOutageGraph()
     {
+        // query and post-process data
+        $sql = "
+            select
+              date_format(timestamp,'%w') as 'day_of_week',
+              avg(station_count) as 'avg_outages'
+            from outages
+            where DATE(timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
+                                      and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
+            group by date_format(timestamp, '%w')
+            ";
+        $rows = $this->db->query($sql);
 
+        // collate and format results
+        $results = [];
+        foreach ($rows as $row) {
+            $results[$row['day_of_week']]['outages'] = (string) round($row['avg_outages'], 1);
+            $results[$row['day_of_week']]['day'] = $this->dayOfWeekMap($row['day_of_week']);
+        }
 
+        return $results;
     }
 
     public function insertAvailability($id, $status, $docks, $bikes, $timestamp)
@@ -173,9 +190,9 @@ class DB
         ]);
     }
 
-    protected function dayOfWeekMap()
+    protected function dayOfWeekMap($dayOfWeek)
     {
-        return array(
+        $dayOfWeekMap = [
             0 => 'Sunday',
             1 => 'Monday',
             2 => 'Tuesday',
@@ -183,6 +200,7 @@ class DB
             4 => 'Thursday',
             5 => 'Friday',
             6 => 'Saturday'
-        );
+        ];
+        return $dayOfWeekMap[$dayOfWeek];
     }
 }
