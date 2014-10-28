@@ -1,9 +1,6 @@
 require.config({
 
     paths: {
-        underscore: 'libs/underscore/underscore',
-        backbone: 'libs/backbone/backbone',
-        text: 'libs/requirejs-text/text',
         jquery: 'libs/jquery/jquery',
         blockui: 'libs/blockui/jquery.blockUI',
         leaflet: 'libs/leaflet/leaflet',
@@ -14,13 +11,6 @@ require.config({
     },
 
     shim: {
-        'underscore': {
-            exports: '_'
-        },
-        'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
         'jquery': {
             exports: '$'
         },

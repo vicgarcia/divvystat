@@ -1,13 +1,11 @@
 define([
     'jquery',
-    'underscore',
-    'backbone',
     'leaflet',
     'morris',
     'blockui',
     'fullscreen',
     'markers',
-], function($, _, Backbone, L, Morris) {
+], function($, L, Morris) {
     'use strict';
 
     var generatePopupHtml = function(s) {
@@ -25,7 +23,7 @@ define([
     };
 
     var drawTimeLine = function(id, data) {
-        return new Morris.Line({       // timeline chart
+        return new Morris.Line({       /* timeline chart */
             element: 'markerTimeline-' + id,
             data: data,
             xkey: 'timestamp',
@@ -38,7 +36,7 @@ define([
     };
 
     var drawDaysGraph = function(id, data) {
-        return new Morris.Bar({        // day of week bar graph
+        return new Morris.Bar({        /* day of week bar graph */
             element: 'markerGraph-' + id,
             data: data,
             xkey: 'day',
@@ -52,8 +50,7 @@ define([
 
 
     var run = function() {
-
-        // create map and add to ui
+        /* create map and add to ui */
         var map = L.map('map', {
             fullscreenControl: true,
             attributionControl: false,
@@ -65,36 +62,35 @@ define([
         );
         map.setView([41.90, -87.64], 14);
 
-        // load markers from json-api stations
+        /* load markers from json-api stations */
         $.getJSON('/stations', function(data) {
-          $.each(data, function(key, station) {
-            var icon = L.AwesomeMarkers.icon({
-                prefix: 'fa',
-                icon: 'none',
-                iconColor: 'white',
-                markerColor: 'blue'
-            });
-            L.marker([ station['lat'], station['lng'] ], { icon: icon })
-            .addTo(map)
-            .bindPopup(generatePopupHtml(station), { closeOnClick: false })
-            .on('click', function(e) {
-                this.openPopup();
-                $('#markerBox-' + station['id']).block({
-                    message: '<h2>loading...</h2>',
-                    css: { backgroundColor: 'white', border: 'none' },
-                    overlayCSS: { backgroundColor: 'white', opacity: 1 },
-                    fadeIn: 0,
-                    fadeOut: 500
+            $.each(data, function(key, station) {
+                var icon = L.AwesomeMarkers.icon({
+                    prefix: 'fa',
+                    icon: 'none',
+                    iconColor: 'white',
+                    markerColor: 'blue'
                 });
-                $.getJSON('/stations/' + station['id'], function(report) {
-                    drawTimeLine(station['id'], report['timeline']);
-                    drawDaysGraph(station['id'], report['graph']);
-                    $('#markerBox-' + station['id']).unblock();
+                L.marker([ station['lat'], station['lng'] ], { icon: icon })
+                .addTo(map)
+                .bindPopup(generatePopupHtml(station), { closeOnClick: false })
+                .on('click', function(e) {
+                    this.openPopup();
+                    $('#markerBox-' + station['id']).block({
+                        message: '<h2>loading...</h2>',
+                        css: { backgroundColor: 'white', border: 'none' },
+                        overlayCSS: { backgroundColor: 'white', opacity: 1 },
+                        fadeIn: 0,
+                        fadeOut: 500
+                    });
+                    $.getJSON('/stations/' + station['id'], function(report) {
+                        drawTimeLine(station['id'], report['timeline']);
+                        drawDaysGraph(station['id'], report['graph']);
+                        $('#markerBox-' + station['id']).unblock();
+                    });
                 });
             });
-          });
         });
-
     };
 
     return { run: run };
