@@ -62,7 +62,7 @@ define([
         );
         map.setView([41.90, -87.64], 14);
 
-        /* load markers from json-api stations */
+        /* load markers from json-api for stations on map */
         $.getJSON('/stations', function(data) {
             $.each(data, function(key, station) {
                 var icon = L.AwesomeMarkers.icon({
@@ -89,6 +89,31 @@ define([
                         $('#markerBox-' + station['id']).unblock();
                     });
                 });
+            });
+        });
+
+        /* load data from json-api for outage tracking charts */
+        $.getJSON('/outages', function(data) {
+            new Morris.Line({
+                element: 'outage-line',
+                data: data['line'],
+                xkey: 'timestamp',
+                ykeys: ['outages'],
+                lineColors: ['#00A7E2'],
+                labels: ['stations w/ outage'],
+                gridTextSize: 8,
+                hideHover: true
+            });
+
+            new Morris.Bar({
+                element: 'outage-bar',
+                data: data['bar'],
+                xkey: 'day',
+                ykeys: ['outages'],
+                barColors: ['#00A7E2'],
+                labels: ['avg stations w/ outages'],
+                gridTextSize: 8,
+                hideHover: true
             });
         });
     };

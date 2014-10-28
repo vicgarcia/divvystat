@@ -59,6 +59,26 @@ $app->get('/stations/:id', function($id) use ($app) {
     }
 });
 
+// get outage report data from json api (for below-the-fold charts)
+$app->get('/outages', function() use ($app) {
+    if (($outages = $app->cache->load('outages')) === false) {
+        $report = new \stdClass;
+        if (($line = $app->cache->load('outages_line')) === false) {
+            $line = $app->divvy->get72HourOutageLine();
+            $app->cache->save('outages_line', $line, 600);
+        }
+        $report->line = $line;
+        if (($bar = $app->cache->load('outages_bar')) === false) {
+            $bar = $app->divvy->getRecentOutageGraph();
+            $app->cache->save('outages_bar', $bar, 600);
+        }
+        $report->bar = $bar;
+        echo json_encode($report);
+    } else {
+        $app->notFound();
+    }
+});
+
 // return empty json array with 404
 $app->notFound(function () use ($app) {
     $app->response->setStatus(404);
