@@ -14,5 +14,5 @@ config/redis.php
 config/pdo.php
 
 # bower stuff
-public/js/libs/*
+public/js/libs
 bower_components
