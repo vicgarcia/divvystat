@@ -23,9 +23,9 @@ $cli = new Commando\Command();
 $cli->option()
     ->require()
     ->must(function ($option) {
-        $options = array(
+        $options = [
             'prime_cache', 'record_data', 'daily_cache', 'update_stations'
-        );
+        ];
         return in_array($option, $options);
     })
     ->describedAs(
