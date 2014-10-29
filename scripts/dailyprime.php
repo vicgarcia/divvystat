@@ -5,11 +5,11 @@ use \Requests;
 use \SlimProject;
 use \dChallenge\DivvyDB as DivvyDB;
 
-$url = 'http://divvystat.us/stations';
 $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 $divvy = new DivvyDB(new MeekroDB);   // config in bootstrap.php
 
-$stations = json_decode(Requests::get($url)->body);
+// reprime the day of week bar graph for each station
+$stations = json_decode(Requests::get('http://divvystat.us/stations')->body);
 foreach ($stations as $station) {
     $key = 'graph_' . $station->id;
     $cache->delete($key);
@@ -17,3 +17,8 @@ foreach ($stations as $station) {
     $cache->save($key, $graph, 86400);
 }
 
+// reprime the day of week bar graph for outages
+$key = 'outages_bar';
+$cache->delete($key);
+$graph = $divvy->getRecentOutagesBar();
+$cache->save($key, $graph, 86400);

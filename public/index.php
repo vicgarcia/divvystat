@@ -39,7 +39,7 @@ $app->get('/stations', function() use ($app) {
 $app->get('/stations/:id', function($id) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
         $stationIds = $app->divvy->getStationIds();
-        $app->cache->save('stationIds', $stationIds, 90000);
+        $app->cache->save('stationIds', $stationIds, 86400);
     }
     if (in_array($id, $stationIds)) {   // check if the station id is valid
         $report = new \stdClass;
@@ -50,7 +50,7 @@ $app->get('/stations/:id', function($id) use ($app) {
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$id)) === false) {
             $graph = $app->divvy->getRecentUsageBar($id);
-            $app->cache->save('graph_'.$id, $graph, 90000);
+            $app->cache->save('graph_'.$id, $graph, 86400);
         }
         $report->graph = $graph;
         echo json_encode($report);
@@ -61,22 +61,18 @@ $app->get('/stations/:id', function($id) use ($app) {
 
 // get outage report data from json api (for below-the-fold charts)
 $app->get('/outages', function() use ($app) {
-    if (($outages = $app->cache->load('outages')) === false) {
-        $report = new \stdClass;
-        if (($line = $app->cache->load('outages_line')) === false) {
-            $line = $app->divvy->get72HourOutageLine();
-            $app->cache->save('outages_line', $line, 600);
-        }
-        $report->line = $line;
-        if (($bar = $app->cache->load('outages_bar')) === false) {
-            $bar = $app->divvy->getRecentOutageBar();
-            $app->cache->save('outages_bar', $bar, 600);
-        }
-        $report->bar = $bar;
-        echo json_encode($report);
-    } else {
-        $app->notFound();
+    $report = new \stdClass;
+    if (($line = $app->cache->load('outages_line')) === false) {
+        $line = $app->divvy->get72HourOutageLine();
+        $app->cache->save('outages_line', $line, 600);
     }
+    $report->line = $line;
+    if (($bar = $app->cache->load('outages_bar')) === false) {
+        $bar = $app->divvy->getRecentOutageBar();
+        $app->cache->save('outages_bar', $bar, 86400);
+    }
+    $report->bar = $bar;
+    echo json_encode($report);
 });
 
 // return empty json array with 404
