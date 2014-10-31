@@ -75,6 +75,10 @@ class Tasks
         // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $stations = json_decode(Requests::get($url)->body);
+
+        // reprime the /outages endpoint cache for the line graph
+        $cache->delete('outages_line');
+        $outages = json_decode(Requests::get($baseUrl.'/outages')->body);
     }
 
     public static function dailyCache(DB $db)
@@ -89,5 +93,11 @@ class Tasks
             $graph = $db->getRecentUsageBar($station->id);
             $cache->save($key, $graph, 86400);
         }
+
+        // reprime the day of week bar graph for outages
+        $key = 'outages_bar';
+        $cache->delete($key);
+        $graph = $divvy->getRecentOutagesBar();
+        $cache->save($key, $graph, 86400);
     }
 }
