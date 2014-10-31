@@ -69,16 +69,16 @@ class Tasks
 
     public static function primeCache()
     {
-        $url = 'http://divvystat.us/stations';
+        $url = 'http://divvystat.us/';
         $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 
         // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
-        $stations = json_decode(Requests::get($url)->body);
+        $stations = json_decode(Requests::get($baseUrl.'stations')->body);
 
         // reprime the /outages endpoint cache for the line graph
         $cache->delete('outages_line');
-        $outages = json_decode(Requests::get($baseUrl.'/outages')->body);
+        $outages = json_decode(Requests::get($baseUrl.'outages')->body);
     }
 
     public static function dailyCache(DB $db)
@@ -97,7 +97,7 @@ class Tasks
         // reprime the day of week bar graph for outages
         $key = 'outages_bar';
         $cache->delete($key);
-        $graph = $divvy->getRecentOutagesBar();
+        $graph = $divvy->getRecentOutageBar();
         $cache->save($key, $graph, 86400);
     }
 }
