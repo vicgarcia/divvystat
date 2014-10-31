@@ -1,4 +1,0 @@
-#!/bin/bash
-pushd /opt/dvMap >> /dev/null
-php scripts/dailyprime.php
-popd >> /dev/null
