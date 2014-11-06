@@ -16,3 +16,6 @@ config/pdo.php
 # bower stuff
 public/js/libs
 bower_components
+
+# dev scripts (may contain credentials/config)
+update_dev_db
