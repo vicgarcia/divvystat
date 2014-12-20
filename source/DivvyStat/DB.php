@@ -1,5 +1,5 @@
 <?php
-namespace dvMap;
+namespace DivvyStat;
 
 class DB
 {

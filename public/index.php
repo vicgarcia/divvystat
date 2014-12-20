@@ -4,7 +4,7 @@ require_once '../bootstrap.php';
 use \Slim;
 use \SlimProject;
 use \MeekroDB;
-use \dvMap\DB as DivvyDB;
+use \DivvyStat\DB as DivvyDB;
 
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,

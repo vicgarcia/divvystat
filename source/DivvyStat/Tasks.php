@@ -1,5 +1,5 @@
 <?php
-namespace dvMap;
+namespace DivvyStat;
 
 use \Requests;
 use \SlimProject;

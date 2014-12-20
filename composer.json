@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-0": {
-            "dvMap": "source/"
+            "DivvyStat": "source/"
         }
     }
 }

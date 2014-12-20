@@ -13,7 +13,7 @@ if (isset($_SERVER['SERVER_PORT']) and $_SERVER['SERVER_PORT'] == '80') {
 }
 
 // set run environment for cli
-if (getcwd() == '/opt/dvMap') {
+if (getcwd() == '/opt/divvystat') {
     $GLOBALS['environment'] = 'production';
 }
 

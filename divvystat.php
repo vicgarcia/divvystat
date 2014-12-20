@@ -1,6 +1,6 @@
 <?php
 /*
- *  usage   : php dvmap.php <option>
+ *  usage   : php divvystat.php <option>
  *  options : prime_cache, daily_cache, update_stations, record_data
  *
  *  prime_cache     : perform regular prime of cache for line charts
@@ -14,8 +14,8 @@ require_once 'bootstrap.php';
 
 use \Commando;
 use \MeekroDB;
-use \dvMap\Tasks;
-use \dvMap\DB as DivvyDB;
+use \DivvyStat\Tasks;
+use \DivvyStat\DB as DivvyDB;
 
 
 $cli = new Commando\Command();

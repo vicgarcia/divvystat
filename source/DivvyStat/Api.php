@@ -1,5 +1,5 @@
 <?php
-namespace dvMap;
+namespace DivvyStat;
 
 use \Requests;
 
@@ -9,7 +9,7 @@ class Api
 
     public function getLiveStationData()
     {
-        $options = [ 'useragent' => 'dvMap collector / divvystat.us' ];
+        $options = [ 'useragent' => 'DivvyStat collector / divvystat.us' ];
         $apiData = json_decode(Requests::get(self::URL, [], $options)->body);
 
         $timestamp = $apiData->executionTime;
