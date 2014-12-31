@@ -1,9 +1,9 @@
 <?php
 
 return array(
-    'host' => '',
-    'base' => '',
-    'user' => '',
-    'pass' => ''
+    'host' => 'localhost',
+    'base' => 'divvystat',
+    'user' => 'divvystat',
+    'pass' => 'divvystat'
 );
 
