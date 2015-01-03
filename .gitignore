@@ -20,3 +20,15 @@ bower_components
 
 # dev scripts (may contain credentials/config)
 update_dev_db
+
+# we're using npm and node
+node_modules
+
+# don't track sass dependencies
+templates/sass/lib
+
+# don't track compiled css from sass, cache files
+.sass-cache
+public/style.css.map
+public/style.css
+
