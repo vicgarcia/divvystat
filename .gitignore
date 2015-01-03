@@ -25,7 +25,7 @@ update_dev_db
 node_modules
 
 # don't track sass dependencies
-templates/sass/lib
+templates/lib
 
 # don't track compiled css from sass, cache files
 .sass-cache
