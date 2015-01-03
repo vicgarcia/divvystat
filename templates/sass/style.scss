@@ -1,0 +1,135 @@
+/* core style */
+body {
+    font-family: 'Maven Pro', sans-serif;
+    color: #333;
+    background-color: #DDE2E3;
+    min-width: 800px;}
+a, a:hover {
+    /* text-decoration: none;
+    */ color: #333;
+}
+
+p {
+    line-height: 1.4em;
+    font-size: 1.2em;
+}
+
+#wrap {
+    width: 86%;
+    margin: 10px auto 40px auto;
+    padding: 20px 20px 40px 20px;
+    background-color: white;
+}
+
+#map {
+    height: 600px;
+}
+
+#header {
+    margin: 0;
+    background-color: #00A7E2;
+}
+
+#header h1 {
+    padding: 10px 10px 10px 10px;
+    color: white;
+    font-size: 1.75em;
+}
+
+/* style for marker popups */
+.markerBox {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.markerHeadline {
+    margin-bottom: -6px;
+    line-height: 1;
+    clear: both;}
+.markerAvailabile {
+    line-height: 1;
+    clear: both;}
+.markerTimeline {
+    height: 150px;
+    width: 300px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    clear: both;
+}
+
+.markerGraph {
+    height: 150px;
+    width: 300px;
+    margin-top: -10px;
+    margin-bottom: 0;
+    clear: both;
+}
+
+.graphNote {
+    margin-bottom: 0px;
+    margin-right: 20px;
+    font-size: 1em;
+    text-align: right;
+}
+
+.markerAverages {
+    margin-top: 0px;
+    margin-right: 20px;
+    font-size: .9em;
+    text-align: right;
+}
+
+.rentals {
+    background-color: #3DB7E4;
+    color: white;
+}
+
+.returns {
+    background-color: #788A91;
+    color: white;
+}
+
+/* style for outage charts */
+#outage-line {
+    height: 220px;
+    margin-top: -10px;
+}
+
+#outage-bar {
+    height: 220px;
+    margin-top: -10px;
+}
+
+/* content formatting (below map) */
+#content {
+    width: 100%;
+    margin: auto;
+    padding: 0;
+}
+
+#footer {
+    margin: 0;
+    background-color: #3DB7E4;
+}
+
+#footer h1 {
+    padding: 5px;
+    color: white;
+}
+
+#content-column-1 {
+    width: 46%;
+    margin: 0 2% 0 2%;
+    float: left;
+}
+
+#content-column-2 {
+    width: 46%;
+    margin: 0 2% 0 2%;
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+

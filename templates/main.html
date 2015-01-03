@@ -8,39 +8,12 @@
     <meta name='description' content='an interactive map-based application for presentation and metrics of usage and rebalancing performance of the divvy bike sharing system in Chicago, IL' />
 
     <title>divvystat.us</title>
-    <style>
-        /* core style */
-        body { font-family: 'Maven Pro', sans-serif; color: #333; background-color: #DDE2E3; min-width: 800px;}
-        a, a:hover { /* text-decoration: none; */ color: #333; }
-        p { line-height: 1.4em; font-size: 1.2em; }
-        #wrap { width: 86%; margin: 10px auto 40px auto; padding: 20px 20px 40px 20px; background-color: white; }
-        #map { height: 600px; }
-        #header { margin: 0; background-color: #00A7E2; }
-        #header h1 { padding: 10px 10px 10px 10px; color: white; font-size: 1.75em; }
-        /* style for marker popups */
-        .markerBox { width: 300px; margin-bottom: 20px; }
-        .markerHeadline { margin-bottom: -6px; line-height: 1; clear: both;}
-        .markerAvailabile { line-height: 1; clear: both;}
-        .markerTimeline { height: 150px; width: 300px; margin-top: -10px; margin-bottom: 5px; clear: both; }
-        .markerGraph { height: 150px; width: 300px; margin-top: -10px; margin-bottom: 0; clear: both; }
-        .graphNote { margin-bottom: 0px; margin-right: 20px; font-size: 1em; text-align: right; }
-        .markerAverages { margin-top: 0px; margin-right: 20px; font-size: .9em; text-align: right; }
-        .rentals { background-color: #3DB7E4; color: white; }
-        .returns { background-color: #788A91; color: white; }
-        /* style for outage charts */
-        #outage-line { height: 220px; margin-top: -10px; }
-        #outage-bar { height: 220px; margin-top: -10px; }
-        /* content formatting (below map) */
-        #content { width: 100%; margin: auto; padding: 0; }
-        #footer { margin: 0; background-color: #3DB7E4; }
-        #footer h1 { padding: 5px; color: white; }
-        #content-column-1 { width: 46%; margin: 0 2% 0 2%; float: left; }
-        #content-column-2 { width: 46%; margin: 0 2% 0 2%; float: left; }
-        .clear { clear: both; }
-    </style>
+
+    <!-- main stylesheet -->
+    <link href='/style.css' rel='stylesheet' type='text/css'>
 
     <!-- google web font -->
-    <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
 
     <!-- stylesheets for morris.js and leaflet/plugins -->
     <link rel="stylesheet" href="/js/libs/morris/morris.css" />
@@ -79,7 +52,7 @@
                 removed from a station throughout the day.  This metric is an approximate
                 derrived from data collected from Divvy's website.</p>
 
-                <p>The chart and graph to the right show data on rebalancing efforts and
+                <p>The chart and graph off the map show data on rebalancing efforts and
                 "outages", which occur when a station is either out of service, has no bikes
                 available, or has no dock spaces available for returns.  The line chart shows
                 the number of station outages over the last 72 hours.  The bar graph shows
