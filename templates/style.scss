@@ -1,11 +1,25 @@
+@import "lib/bourbon/bourbon";
+@import "lib/neat/neat";
+
+
 $font-stack: 'Maven Pro', sans-serif;
+
+$widescreen: new-breakpoint(min-width 1000px);
+$widescreen-background-color: #DDE2E3;
+$default-background-color: #ffffff;
 
 
 body {
+    min-width: 800px;
+
     font-family: $font-stack;
     font-color: #333;
-    background-color: #DDE2E3;
-    min-width: 800px;}
+
+    background-color: $default-background-color;
+    @include media($widescreen) {
+        background-color: $widescreen-background-color;
+    }
+}
 
 a, a:hover { color: #333; }
 
@@ -15,10 +29,14 @@ p {
 }
 
 #wrap {
-    width: 86%;
     margin: 10px auto 40px auto;
-    padding: 20px 20px 40px 20px;
-    background-color: white;
+    background-color: $default-background-color;
+    width: 98%;
+
+    @include media($widescreen) {
+        width: 85%;
+        padding: 20px 20px 40px 20px;
+    }
 }
 
 #map {
