@@ -5,8 +5,10 @@
 $font-stack: 'Maven Pro', sans-serif;
 
 $widescreen: new-breakpoint(min-width 1000px);
-$widescreen-background-color: #DDE2E3;
+$mobile: new-breakpoint(max-width 600px);
+
 $default-background-color: #ffffff;
+$widescreen-background-color: #DDE2E3;
 $header-color: #00A7E2;
 
 
@@ -41,7 +43,13 @@ p {
     }
 
     .map {
-        height: 600px;
+        height: 500px;
+        @include media($widescreen) {
+            height: 600px;
+        }
+        @include media($mobile) {
+            height: 400px;
+        }
     }
 
     .header {
@@ -53,6 +61,11 @@ p {
             color: white;
             font-size: 1.75em;
         }
+        .tagline {
+            @include media($mobile) {
+                display: none;
+            }
+        }
     }
 }
 
@@ -60,25 +73,34 @@ p {
 /* style for marker popups */
 
 .markerBox {
-    width: 260px;
     margin-bottom: 20px;
+    width: 260px;
+    @include media($widescreen) {
+        width: 300px;
+    }
 
     h2 { margin: 0; padding: 0; }
     h4 { margin: 3px 0 9px 3px; padding: 0; }
 
     .markerTimeline {
+        width: 100%;
         height: 120px;
-        width: 260px;   // XXX of 100%?
-        margin-top: -10px;
-        margin-bottom: 5px;
+        @include media($widescreen) {
+            height: 150px;
+        }
+        // width: 260px;   // XXX of 100%?
+        margin: -10px 0 0 0;
         clear: both;
     }
 
     .markerGraph {
+        width: 100%;
         height: 120px;
-        width: 260px;
-        margin-top: -10px;
-        margin-bottom: 0;
+        @include media($widescreen) {
+            height: 150px;
+        }
+        // width: 260px;
+        margin: 0 0 0 0;
         clear: both;
     }
 
