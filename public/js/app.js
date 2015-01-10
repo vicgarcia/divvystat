@@ -11,8 +11,8 @@ define([
     var generatePopupHtml = function(s) {
         return ' ' +
           '<div id="markerBox-' + s['id'] + '" class="markerBox">' +
-            '<h2 class="markerHeadline">' + s['name'] + '</h2>' +
-            '<h4 class="markerInfo">' +
+            '<h2>' + s['name'] + '</h2>' +
+            '<h4>' +
                 s['bikes'] + ' bikes available / ' + s['docks'] + ' docks' +
             '</h4>' +
             '<div class="graphNote">available bikes over previous 72 hours</div>' +
