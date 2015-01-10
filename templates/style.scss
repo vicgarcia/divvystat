@@ -7,6 +7,7 @@ $font-stack: 'Maven Pro', sans-serif;
 $widescreen: new-breakpoint(min-width 1000px);
 $widescreen-background-color: #DDE2E3;
 $default-background-color: #ffffff;
+$header-color: #00A7E2;
 
 
 body {
@@ -29,7 +30,7 @@ p {
     font-size: 1.2em;
 }
 
-#wrap {
+.wrap {
     margin: 10px auto 40px auto;
     background-color: $default-background-color;
     width: 98%;
@@ -38,21 +39,21 @@ p {
         width: 85%;
         padding: 20px 20px 40px 20px;
     }
-}
 
-#map {
-    height: 600px;
-}
+    .map {
+        height: 600px;
+    }
 
-#header {
-    margin: 0;
-    background-color: #00A7E2;
-}
+    .header {
+        background-color: $header-color;
+        margin: 0;
 
-#header h1 {
-    padding: 10px 10px 10px 10px;
-    color: white;
-    font-size: 1.75em;
+        h1 {
+            padding: 10px 10px 10px 10px;
+            color: white;
+            font-size: 1.75em;
+        }
+    }
 }
 
 
@@ -67,7 +68,7 @@ p {
 
     .markerTimeline {
         height: 120px;
-        width: 260px;
+        width: 260px;   // XXX of 100%?
         margin-top: -10px;
         margin-bottom: 5px;
         clear: both;
@@ -89,6 +90,7 @@ p {
     }
 }
 
+
 /* style for outage charts */
 
 #outage-line {
@@ -101,21 +103,14 @@ p {
     margin-top: -10px;
 }
 
+
+// XXX this stuff get's merged into neat grid (get rid of what's useless)
+
 /* content formatting (below map) */
 #content {
     width: 100%;
     margin: auto;
     padding: 0;
-}
-
-#footer {
-    margin: 0;
-    background-color: #3DB7E4;
-}
-
-#footer h1 {
-    padding: 5px;
-    color: white;
 }
 
 #content-column-1 {
