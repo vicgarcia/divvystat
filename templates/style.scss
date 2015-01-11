@@ -4,7 +4,7 @@
 
 $font-stack: 'Maven Pro', sans-serif;
 
-$widescreen: new-breakpoint(min-width 1000px);
+$widescreen: new-breakpoint(min-width 1080px);
 $mobile: new-breakpoint(max-width 600px);
 
 $default-background-color: #ffffff;
@@ -126,7 +126,7 @@ p {
 
 .markerBox {
     margin-bottom: 20px;
-    width: 260px;
+    width: 240px;
     @include media($widescreen) {
         width: 300px;
     }
@@ -136,7 +136,7 @@ p {
 
     .markerTimeline {
         width: 100%;
-        height: 120px;
+        height: 100px;
         @include media($widescreen) {
             height: 150px;
         }
@@ -147,7 +147,7 @@ p {
 
     .markerGraph {
         width: 100%;
-        height: 120px;
+        height: 100px;
         @include media($widescreen) {
             height: 150px;
         }
