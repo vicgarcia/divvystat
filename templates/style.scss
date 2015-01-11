@@ -81,7 +81,6 @@ p {
 
             @include media($mobile) {
                 @include span-columns(12);
-                @include omega();
             }
         }
 
@@ -89,18 +88,22 @@ p {
             @include span-columns(6);
             @include omega();
 
-            width: 95%;
-
             @include media($mobile) {
                 @include span-columns(12);
-                @include omega();
             }
+
+            .outage-chart { width: 95%; }
         }
     }
 
     .footer {
+        margin-top: 10px;
         @include span-columns(12);
         @include omega();
+
+        @include media($widescreen) {
+            margin-top: 30px;
+        }
     }
 }
 
