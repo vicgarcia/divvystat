@@ -37,7 +37,7 @@ p {
 .wrap {
     @include outer-container();
     margin: 15px auto 30px auto;
-    padding: 5px 5px 5px 5px;
+    padding: 10px 10px 10px 10px;
     background-color: $default-background-color;
 
     @include media($widescreen) {
@@ -109,7 +109,10 @@ p {
                 @include span-columns(12);
             }
 
-            .outage-chart { width: 95%; }
+            .outage-chart {
+                height: 240px;
+                width: 95%;
+            }
         }
     }
 
@@ -139,24 +142,22 @@ p {
 
     .markerTimeline {
         width: 100%;
+        margin: -10px 0 0 0;
+        clear: both;
         height: 100px;
         @include media($widescreen) {
             height: 150px;
         }
-        // width: 260px;   // XXX of 100%?
-        margin: -10px 0 0 0;
-        clear: both;
     }
 
     .markerGraph {
         width: 100%;
+        margin: 0 0 0 0;
+        clear: both;
         height: 100px;
         @include media($widescreen) {
             height: 150px;
         }
-        // width: 260px;
-        margin: 0 0 0 0;
-        clear: both;
     }
 
     .graphNote {
