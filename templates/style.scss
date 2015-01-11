@@ -31,6 +31,9 @@ p {
     font-size: 1.2em;
 }
 
+
+/* structure */
+
 .wrap {
     @include outer-container();
     margin: 15px auto 30px auto;
@@ -165,23 +168,4 @@ p {
 }
 
 
-/* style for outage charts */
-
-#outage-line {
-    height: 220px;
-    margin-top: -10px;
-}
-
-#outage-bar {
-    height: 220px;
-    margin-top: -10px;
-}
-
-
-// XXX this stuff get's merged into neat grid (get rid of what's useless)
-
-
-.clear {
-    clear: both;
-}
 
