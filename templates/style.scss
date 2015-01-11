@@ -82,6 +82,20 @@ p {
             @include media($mobile) {
                 @include span-columns(12);
             }
+
+            .one-column-copy {
+                display: none;
+                @include media($mobile) {
+                    display: inline;
+                }
+            }
+
+            .two-column-copy {
+                display: inline;
+                @include media($mobile) {
+                    display: none;
+                }
+            }
         }
 
         .chart {
