@@ -134,7 +134,7 @@ p {
     margin-bottom: 10px;
     width: 240px;
     @include media($mobile) {
-        font-size: .8em;
+        font-size: .75em;
         width: 180px;
     }
     @include media($widescreen) {
