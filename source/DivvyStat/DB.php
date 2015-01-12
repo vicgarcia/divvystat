@@ -129,8 +129,10 @@ class DB
             $day = $this->dayOfWeekMap($ofWeek);
             $usageByWeekday[$ofWeek]['day'] = $day;
 
-            $usage = $counts[$ofWeek] / count(array_unique($inResults));
-            $usageByWeekday[$ofWeek]['usage'] = (string) $usage;
+            if (count(array_unique($inResults)) != 0) {
+                $usage = $counts[$ofWeek] / count(array_unique($inResults));
+                $usageByWeekday[$ofWeek]['usage'] = (string) $usage;
+            }
         }
 
         return $usageByWeekday;
