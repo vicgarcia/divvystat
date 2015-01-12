@@ -74,14 +74,14 @@ class Tasks
 
         // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
-        $stations = json_decode(Requests::get($baseUrl.'stations')->body);
+        $stations = json_decode(Requests::get($url.'stations')->body);
 
         // reprime the /outages endpoint cache for the line graph
         $cache->delete('outages_line');
-        $outages = json_decode(Requests::get($baseUrl.'outages')->body);
+        $outages = json_decode(Requests::get($url.'outages')->body);
     }
 
-    public static function dailyCache(DB $db)
+    public static function dailyCache(DB $divvy)
     {
         $url = 'http://divvystat.us/stations';
         $cache = new SlimProject\Cache(SlimProject\Redis::kv());
@@ -90,7 +90,7 @@ class Tasks
         foreach ($stations as $station) {
             $key = 'graph_' . $station->id;
             $cache->delete($key);
-            $graph = $db->getRecentUsageBar($station->id);
+            $graph = $divvy->getRecentUsageBar($station->id);
             $cache->save($key, $graph, 86400);
         }
 
