@@ -53,7 +53,7 @@ p {
             height: 600px;
         }
         @include media($mobile) {
-            height: 400px;
+            height: 360px;
         }
     }
 
@@ -131,32 +131,49 @@ p {
 /* style for marker popups */
 
 .markerBox {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 240px;
+    @include media($mobile) {
+        font-size: .8em;
+        width: 180px;
+    }
     @include media($widescreen) {
         width: 300px;
     }
 
     h2 { margin: 0; padding: 0; }
-    h4 { margin: 3px 0 9px 3px; padding: 0; }
+    h4 { margin: 3px 0 7px 3px; padding: 0; }
 
+    .markerTimelineHeader {
+        padding-right: 20px;
+        font-size: .9em;
+        text-align: right;
+    }
     .markerTimeline {
         width: 100%;
         margin: -10px 0 0 0;
         clear: both;
-        height: 100px;
-        @include media($widescreen) {
-            height: 150px;
+        height: 140px;
+        @include media($mobile) {
+            height: 110px;
         }
     }
 
+    .markerGraphHeader {
+        padding-right: 20px;
+        font-size: .9em;
+        text-align: right;
+        @include media($mobile) {
+            display: none;
+        }
+    }
     .markerGraph {
         width: 100%;
         margin: 0 0 0 0;
         clear: both;
-        height: 100px;
-        @include media($widescreen) {
-            height: 150px;
+        height: 140px;
+        @include media($mobile) {
+            display: none;
         }
     }
 

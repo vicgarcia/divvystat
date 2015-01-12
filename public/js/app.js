@@ -15,9 +15,9 @@ define([
             '<h4>' +
                 s['bikes'] + ' bikes available / ' + s['docks'] + ' docks' +
             '</h4>' +
-            '<div class="graphNote">available bikes over previous 72 hours</div>' +
+            '<div class="markerTimelineHeader">available bikes over previous 72 hours</div>' +
             '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
-            '<div class="graphNote">day of week average usage for last 30 days</div>' +
+            '<div class="markerGraphHeader">day of week average usage for last 30 days</div>' +
             '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
           '</div>';
     };
