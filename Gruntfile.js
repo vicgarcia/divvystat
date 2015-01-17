@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
 
     // configure
@@ -26,14 +27,21 @@ module.exports = function(grunt) {
                 }
             }
         },
+        copy: {
+            main: {
+                src: 'bower_components/requirejs/require.js',
+                dest: 'public/require.js'
+            }
+        },
         watch: {
             style: {
                 files: ['templates/sass/*', 'templates/js/*'],
-                tasks: ['sass', 'requirejs']
+                tasks: ['build']
             }
         }
     });
 
     // default task
     grunt.registerTask('default', []);
+    grunt.registerTask('build', ['requirejs', 'sass', 'copy']);
 };

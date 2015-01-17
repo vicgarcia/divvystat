@@ -1,6 +1,6 @@
 {
     "name": "dvmap",
-    "version": "3.0",
+    "version": "4.0",
     "authors": [ "Vic Garcia <vic.garcia@outlook.com>" ],
     "private": true,
 
@@ -16,7 +16,11 @@
     },
 
     "install" : {
-        "path" : "templates/js/lib",
+        "path" : {
+            "png": "public/src",
+            "css": "public/src",
+            "js": "templates/js/lib"
+        },
         "sources": {
             "leaflet.fullscreen": [
                 "bower_components/leaflet.fullscreen/Control.FullScreen.js",
@@ -30,7 +34,8 @@
             "morris": [
                 "bower_components/morris/morris.js",
                 "bower_components/morris/morris.css"
-            ]
+            ],
+            "requirejs-text": []
         }
     },
 

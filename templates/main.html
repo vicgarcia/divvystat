@@ -3,23 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name='viewport' content='width=device-width, initial-scale=1.00, maximum-scale=1.00, user-scalable=no' />
+
+    <title>divvystat.us</title>
     <meta name='title' content='divvystat.us' />
     <meta name='description' content='an interactive map-based application for presentation and metrics of usage and rebalancing performance of the divvy bike sharing system in Chicago, IL' />
 
-    <title>divvystat.us</title>
+    <!-- viewport -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.00, maximum-scale=1.00, user-scalable=no' />
 
-    <!-- main stylesheet -->
-    <link href='/style.css' rel='stylesheet' type='text/css'>
-
-    <!-- google web font -->
+    <!-- font (via google) -->
     <link href='//fonts.googleapis.com/css?family=Maven+Pro:400,500,700' rel='stylesheet' type='text/css'>
 
-    <!-- stylesheets for morris.js and leaflet/plugins -->
-    <link rel="stylesheet" href="/js/libs/morris/morris.css" />
-    <link rel="stylesheet" href="/js/libs/leaflet/leaflet.css" />
-    <link rel="stylesheet" href="/js/libs/leaflet.fullscreen/Control.FullScreen.css" />
-    <link rel="stylesheet" href="/js/libs/Leaflet.awesome-markers/leaflet.awesome-markers.css" />
+    <!-- javascript -->
+    <script data-main="/main.js" src="/require.js"></script>
 
     <!-- favicons -->
     <link rel="shortcut icon" href="/divvystat-icon.ico"/>
@@ -27,8 +23,15 @@
     <link rel="apple-touch-icon" href="/divvystat-icon.png">
     <link rel="image_src" href="/thumbnail.png"/>
 
-    <!-- require.js bootstrap -->
-    <script data-main="/js/bootstrap.js" src="/js/libs/requirejs/require.js"></script>
+    <!-- stylesheets for morris.js and leaflet/plugins -->
+    <link rel="stylesheet" href="/src/morris/morris.css" />
+    <link rel="stylesheet" href="/src/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/src/leaflet.fullscreen/Control.FullScreen.css" />
+    <link rel="stylesheet" href="/src/Leaflet.awesome-markers/leaflet.awesome-markers.css" />
+
+    <!-- stylesheet -->
+    <link href='/style.css' rel='stylesheet' type='text/css'>
+
 </head>
 
 
@@ -105,7 +108,8 @@
         })();
     </script>
     <noscript>
-        <p><img src="//piwik.bsctechnology.net/piwik.php?idsite=1" style="border:0;" alt="" /></p>
+        <p><img src="//piwik.bsctechnology.net/piwik.php?idsite=1"
+                style="border:0;" alt="" /></p>
     </noscript>
 
 </body>

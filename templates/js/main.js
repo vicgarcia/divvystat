@@ -1,13 +1,13 @@
 require.config({
 
     paths: {
-        jquery: 'libs/jquery/jquery',
-        blockui: 'libs/blockui/jquery.blockUI',
-        leaflet: 'libs/leaflet/leaflet',
-        fullscreen: 'libs/leaflet.fullscreen/Control.FullScreen',
-        markers: 'libs/Leaflet.awesome-markers/leaflet.awesome-markers',
-        raphael: 'libs/raphael/raphael',
-        morris: 'libs/morris/morris',
+        'jquery': 'lib/jquery/jquery',
+        'blockui': 'lib/blockui/jquery.blockUI',
+        'leaflet': 'lib/leaflet/leaflet',
+        'fullscreen': 'lib/leaflet.fullscreen/Control.FullScreen',
+        'markers': 'lib/Leaflet.awesome-markers/leaflet.awesome-markers',
+        'raphael': 'lib/raphael/raphael',
+        'morris': 'lib/morris/morris',
     },
 
     shim: {
