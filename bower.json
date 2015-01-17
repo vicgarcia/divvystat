@@ -16,7 +16,7 @@
     },
 
     "install" : {
-        "path" : "public/js/libs",
+        "path" : "templates/js/lib",
         "sources": {
             "leaflet.fullscreen": [
                 "bower_components/leaflet.fullscreen/Control.FullScreen.js",
