@@ -13,11 +13,11 @@ define([
           '<div id="markerBox-' + s['id'] + '" class="markerBox">' +
             '<h2>' + s['name'] + '</h2>' +
             '<h4>' +
-                s['bikes'] + ' bikes available / ' + s['docks'] + ' docks' +
+                s['bikes'] + ' bikes / ' + s['docks'] + ' docks' +
             '</h4>' +
             '<div class="markerTimelineHeader">available bikes over previous 72 hours</div>' +
             '<div id="markerTimeline-' + s['id'] + '" class="markerTimeline"></div>' +
-            '<div class="markerGraphHeader">day of week average usage for last 30 days</div>' +
+            '<div class="markerGraphHeader">average weekday usage for last 30 days</div>' +
             '<div id="markerGraph-' + s['id'] + '" class="markerGraph"></div>' +
           '</div>';
     };
