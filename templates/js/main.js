@@ -7,7 +7,7 @@ require.config({
         'fullscreen': 'lib/leaflet.fullscreen/Control.FullScreen',
         'markers': 'lib/Leaflet.awesome-markers/leaflet.awesome-markers',
         'raphael': 'lib/raphael/raphael',
-        'morris': 'lib/morris/morris',
+        'morris': 'lib/morrisjs/morris',
     },
 
     shim: {
