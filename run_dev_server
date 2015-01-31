@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # use this for vagrant dev machine
-#php -S 192.168.33.240:80 -t public
+# sudo php -S 192.168.33.44:80 -t public
 
 # use this for 'stage' machine
-php -S 127.0.0.1:8010 -t public
+# php -S 127.0.0.1:8010 -t public
