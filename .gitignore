@@ -1,6 +1,7 @@
 # app stuff
 *.zip
 *.csv
+*.sql
 log/
 workspace/
 
