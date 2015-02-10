@@ -94,7 +94,7 @@ define([
 
         /* load data from json-api for outage tracking charts */
         $.getJSON('/outages', function(data) {
-            new Morris.Line({
+            Morris.Line({
                 element: 'outage-line',
                 data: data['line'],
                 xkey: 'timestamp',
@@ -102,10 +102,11 @@ define([
                 lineColors: ['#00A7E2'],
                 labels: ['stations w/ outage'],
                 gridTextSize: 8,
+                resize: true,
                 hideHover: true
             });
 
-            new Morris.Bar({
+            Morris.Bar({
                 element: 'outage-bar',
                 data: data['bar'],
                 xkey: 'day',
@@ -113,8 +114,15 @@ define([
                 barColors: ['#00A7E2'],
                 labels: ['avg stations w/ outages'],
                 gridTextSize: 8,
+                resize: true,
                 hideHover: true
             });
+        });
+
+        /* handle browser window resize */
+        $(window).resize(function() {
+            var close = $(".leaflet-popup-close-button")[0];
+            if (close) close.click();
         });
     };
 
