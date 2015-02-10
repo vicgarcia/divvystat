@@ -134,7 +134,7 @@ p {
     margin-bottom: 10px;
     width: 240px;
     @include media($mobile) {
-        font-size: .75em;
+        font-size: .8em;
         width: 180px;
     }
     @include media($widescreen) {
@@ -166,6 +166,9 @@ p {
         padding-right: 20px;
         font-size: .9em;
         text-align: right;
+        @include media($mobile) {
+            padding-right: 10px;
+        }
     }
     .markerGraph {
         width: 100%;
