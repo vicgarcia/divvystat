@@ -2,10 +2,12 @@
 @import "lib/neat/neat";
 
 
-$font-stack: 'Maven Pro', sans-serif;
-
+/* breakpoints for screen sizes */
 $widescreen: new-breakpoint(min-width 1080px);
 $mobile: new-breakpoint(max-width 640px);
+
+/* fonts and colors */
+$font-stack: 'Maven Pro', sans-serif;
 
 $default-background-color: #ffffff;
 $widescreen-background-color: #DDE2E3;
