@@ -17,8 +17,8 @@
 
     "install" : {
         "path" : {
-            "png": "public/src",
-            "css": "public/src",
+            "png": "templates/sass/lib",
+            "css": "templates/sass/lib",
             "js": "templates/js/lib"
         },
         "sources": {

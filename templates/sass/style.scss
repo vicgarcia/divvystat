@@ -1,11 +1,12 @@
+/* bourbon/neat dependency */
 @import "lib/bourbon/bourbon";
 @import "lib/neat/neat";
 
-/* bower installed dependencies, use url path */
-@import "src/morris/morris.css";
-@import "src/leaflet/leaflet.css";
-@import "src/leaflet.fullscreen/Control.FullScreen.css";
-@import "src/Leaflet.awesome-markers/leaflet.awesome-markers.css";
+/* bower-managed dependencies */
+@import "CSS:lib/morrisjs/morris";
+@import "CSS:lib/leaflet/leaflet";
+@import "CSS:lib/leaflet.fullscreen/Control.FullScreen";
+@import "CSS:lib/Leaflet.awesome-markers/leaflet.awesome-markers";
 
 /* breakpoints for screen sizes */
 $widescreen: new-breakpoint(min-width 1080px);
