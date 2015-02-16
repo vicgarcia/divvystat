@@ -84,7 +84,10 @@ define([
                         fadeOut: 500
                     });
                     $.getJSON('/stations/' + station['id'], function(report) {
-                        drawTimeLine(station['id'], report['timeline']);
+                        var markerTimeline = '#markerTimeline-' + station['id'];
+                        if ($(markerTimeline).length) {
+                            drawTimeLine(station['id'], report['timeline']);
+                        }
                         drawDaysGraph(station['id'], report['graph']);
                         $('#markerBox-' + station['id']).unblock();
                     });

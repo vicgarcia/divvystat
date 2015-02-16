@@ -5,11 +5,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-exec');
 
 
     // configure
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        exec: {
+            bower: 'bower update --allow-root && bower-installer'
+        },
         sass: {
             dist: {
                 files: {
@@ -28,7 +32,7 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            main: {
+            requirejs: {
                 src: 'bower_components/requirejs/require.js',
                 dest: 'public/require.js'
             }
@@ -43,5 +47,5 @@ module.exports = function(grunt) {
 
     // default task
     grunt.registerTask('default', []);
-    grunt.registerTask('build', ['requirejs', 'sass', 'copy']);
+    grunt.registerTask('build', ['exec:bower', 'sass', 'requirejs', 'copy:requirejs']);
 };
