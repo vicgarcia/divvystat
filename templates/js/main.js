@@ -3,7 +3,7 @@ require.config({
     paths: {
         'jquery': 'lib/jquery/jquery',
         'blockui': 'lib/blockui/jquery.blockUI',
-        'leaflet': 'lib/leaflet/leaflet',
+        'mapbox': 'lib/mapbox.js/mapbox',
         'fullscreen': 'lib/leaflet.fullscreen/Control.FullScreen',
         'markers': 'lib/Leaflet.awesome-markers/leaflet.awesome-markers',
         'raphael': 'lib/raphael/raphael',
@@ -18,15 +18,15 @@ require.config({
             deps: ['jquery'],
             exports: '$'
         },
-        'leaflet': {
+        'mapbox': {
             exports: 'L'
         },
         'fullscreen': {
-            deps: ['leaflet'],
+            deps: ['mapbox'],
             exports: 'L.map'
         },
         'markers': {
-            deps: ['leaflet'],
+            deps: ['mapbox'],
             exports: 'L.AwesomeMarkers'
         },
         'morris': {
