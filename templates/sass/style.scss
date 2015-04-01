@@ -9,14 +9,13 @@
 
 /* breakpoints for screen sizes */
 $widescreen: new-breakpoint(min-width 1050px);
-$mobile: new-breakpoint(max-width 640px);
+$mobile: new-breakpoint(max-width 720px);
 
 /* fonts and colors */
 $font-stack: 'Maven Pro', sans-serif;
 
 $default-background-color: #ffffff;
 $widescreen-background-color: #eeeeee;
-$header-color: #d1d1d1;
 
 
 body {
@@ -61,26 +60,6 @@ p {
         }
         @include media($mobile) {
             height: 360px;
-        }
-    }
-
-    .header {
-        @include span-columns(12);
-        @include omega();
-
-        background-color: $header-color;
-        margin: 40px 0 0 0;
-
-        h1 {
-            padding: 0 15px 0 15px;
-            text-align: right;
-            color: white;
-            font-size: 1.6em;
-        }
-        .tagline {
-            @include media($mobile) {
-                display: none;
-            }
         }
     }
 
