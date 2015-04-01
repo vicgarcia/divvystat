@@ -5,13 +5,23 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-exec');
 
 
     // configure
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        exec: {
+            bower: 'bower update --allow-root && bower-installer',
+            bourbon: 'cd templates/sass/lib && bourbon install',
+            neat: 'cd templates/sass/lib && neat install'
+        },
         sass: {
             dist: {
+                options: {
+                    require: ['sass-css-importer'],
+                    sourcemap: 'none'
+                },
                 files: {
                     'public/style.css': 'templates/sass/style.scss'
                 }
@@ -28,9 +38,21 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            main: {
+            requirejs: {
                 src: 'bower_components/requirejs/require.js',
                 dest: 'public/require.js'
+            },
+            fullscreenicons: {
+                expand: true,
+                flatten: true,
+                src: 'templates/sass/lib/leaflet.fullscreen/*.png',
+                dest: 'public/'
+            },
+            markers: {
+                expand: true,
+                flatten: true,
+                src: 'templates/sass/lib/Leaflet.awesome-markers/images/*',
+                dest: 'public/images'
             }
         },
         watch: {
@@ -40,8 +62,24 @@ module.exports = function(grunt) {
             }
         }
     });
+    grunt.registerTask('bourbon', 'ensure bourbon/neat sass libs', function() {
+        if (!grunt.file.exists('templates/sass/lib/bourbon')) {
+            grunt.task.run('exec:bourbon');
+        }
+        if (!grunt.file.exists('templates/sass/lib/neat')) {
+            grunt.task.run('exec:neat');
+        }
+    });
 
-    // default task
     grunt.registerTask('default', []);
-    grunt.registerTask('build', ['requirejs', 'sass', 'copy']);
+
+    grunt.registerTask('build', [
+        'exec:bower',
+        'bourbon',
+        'sass',
+        'requirejs',
+        'copy:requirejs',
+        'copy:fullscreenicons',
+        'copy:markers'
+    ]);
 };

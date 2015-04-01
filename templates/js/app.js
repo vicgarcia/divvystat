@@ -1,12 +1,15 @@
 define([
     'jquery',
-    'leaflet',
+    'mapbox',
     'morris',
     'blockui',
     'fullscreen',
     'markers',
 ], function($, L, Morris) {
     'use strict';
+
+    L.mapbox.accessToken =
+        'pk.eyJ1IjoiYnNjdGVjaG5vbG9neSIsImEiOiJvOTlLTXVnIn0.24fpc2xTfThxnIMZ1n0egQ';
 
     var generatePopupHtml = function(s) {
         return ' ' +
@@ -57,9 +60,11 @@ define([
             minZoom: 13,
             maxZoom: 16,
         });
-        map.addLayer(
-            L.tileLayer('http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png')
+        var tiles = L.tileLayer(
+            'http://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}.png' +
+            '?access_token=' + L.mapbox.accessToken
         );
+        map.addLayer(tiles);
         map.setView([41.90, -87.64], 14);
 
         /* load markers from json-api for stations on map */
@@ -73,7 +78,11 @@ define([
                 });
                 L.marker([ station['lat'], station['lng'] ], { icon: icon })
                 .addTo(map)
-                .bindPopup(generatePopupHtml(station), { closeOnClick: false })
+                .bindPopup(generatePopupHtml(station), {
+                    closeOnClick: false,
+                    maxWidth: 400,
+                    minWidth: 180
+                })
                 .on('click', function(e) {
                     this.openPopup();
                     $('#markerBox-' + station['id']).block({
@@ -84,7 +93,10 @@ define([
                         fadeOut: 500
                     });
                     $.getJSON('/stations/' + station['id'], function(report) {
-                        drawTimeLine(station['id'], report['timeline']);
+                        var markerTimeline = '#markerTimeline-' + station['id'];
+                        if ($(markerTimeline).length) {
+                            drawTimeLine(station['id'], report['timeline']);
+                        }
                         drawDaysGraph(station['id'], report['graph']);
                         $('#markerBox-' + station['id']).unblock();
                     });
