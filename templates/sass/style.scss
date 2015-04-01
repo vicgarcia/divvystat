@@ -4,12 +4,11 @@
 
 /* bower-managed dependencies */
 @import "CSS:lib/morrisjs/morris";
-@import "CSS:lib/leaflet/leaflet";
 @import "CSS:lib/leaflet.fullscreen/Control.FullScreen";
 @import "CSS:lib/Leaflet.awesome-markers/leaflet.awesome-markers";
 
 /* breakpoints for screen sizes */
-$widescreen: new-breakpoint(min-width 1080px);
+$widescreen: new-breakpoint(min-width 1050px);
 $mobile: new-breakpoint(max-width 640px);
 
 /* fonts and colors */
@@ -17,7 +16,8 @@ $font-stack: 'Maven Pro', sans-serif;
 
 $default-background-color: #ffffff;
 $widescreen-background-color: #DDE2E3;
-$header-color: #00A7E2;
+$header-color: #999;
+// $header-color: #00A7E2;
 
 
 body {
@@ -49,16 +49,16 @@ p {
     background-color: $default-background-color;
 
     @include media($widescreen) {
-        padding: 20px 20px 40px 20px;
+        padding: 20px 30px 40px 30px;
     }
 
     .map {
         @include span-columns(12);
         @include omega();
 
-        height: 500px;
+        height: 460px;
         @include media($widescreen) {
-            height: 600px;
+            height: 560px;
         }
         @include media($mobile) {
             height: 360px;
@@ -70,10 +70,11 @@ p {
         @include omega();
 
         background-color: $header-color;
-        margin: 16px 0 0 0;
+        margin: 40px 0 0 0;
 
         h1 {
-            padding: 0 8px 0 8px;
+            padding: 0 15px 0 15px;
+            text-align: right;
             color: white;
             font-size: 1.6em;
         }
@@ -125,12 +126,12 @@ p {
     }
 
     .footer {
-        margin-top: 10px;
+        margin-top: 20px;
         @include span-columns(12);
         @include omega();
 
         @include media($widescreen) {
-            margin-top: 30px;
+            margin-top: 20px;
         }
     }
 }
@@ -138,63 +139,76 @@ p {
 
 /* style for marker popups */
 
-.markerBox {
-    margin-bottom: 10px;
-    width: 240px;
+.leaflet-popup-content {
+    padding: 0 0 0 0;
+    margin: 0 10px 10px 10px;
+    width: 280px;
+
     @include media($mobile) {
-        font-size: .8em;
-        width: 180px;
+        margin: 0 10px 0 10px;
+        width: 200px;
     }
     @include media($widescreen) {
-        width: 300px;
+        margin: 5px 15px 15px 15px;
+        width: 380px;
+    }
+}
+
+.markerBox {
+    @include media($widescreen) {
+        font-size: 1.1em;
+    }
+    @include media($mobile) {
+        font-size: .9em;
     }
 
-    h2 { margin: 0; padding: 0; }
-    h4 { margin: 3px 0 7px 3px; padding: 0; }
+    h2 { margin: 0; padding: 0; font-size: 1.1em; }
+    h4 { margin: 0; padding: 0; font-size: 1em;}
 
     .markerTimelineHeader {
-        padding-right: 20px;
+        padding-right: 10px;
         font-size: .9em;
         text-align: right;
+        margin-top: 10px;
+        margin-bottom: -8px;
         @include media($mobile) {
             display: none;
         }
     }
+
     .markerTimeline {
-        width: 100%;
-        margin: -10px 0 0 0;
+        width: 96%;
+        margin: 0 auto 0 auto;
+        padding: 0;
         clear: both;
-        height: 140px;
+        height: 110px;
+        @include media($widescreen) {
+            height: 130px;
+        }
         @include media($mobile) {
             display: none;
         }
     }
 
     .markerGraphHeader {
-        padding-right: 20px;
+        padding-right: 10px;
         font-size: .9em;
         text-align: right;
+        margin-top: 10px;
+        margin-bottom: -8px;
         @include media($mobile) {
             padding-right: 10px;
         }
     }
+
     .markerGraph {
-        width: 100%;
-        margin: 0 0 0 0;
+        width: 96%;
+        margin: 0 auto 0 auto;
+        padding: 0;
         clear: both;
-        height: 140px;
-        @include media($mobile) {
-            height: 110px;
+        height: 110px;
+        @include media($widescreen) {
+            height: 130px;
         }
     }
-
-    .graphNote {
-        margin-bottom: 0px;
-        margin-right: 20px;
-        font-size: 1em;
-        text-align: right;
-    }
 }
-
-
-
