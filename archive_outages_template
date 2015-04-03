@@ -19,4 +19,4 @@ fi
 # perform query to csv
 echo "select * from outages where timestamp between \"${1}\" and \"${2}\" order by timestamp asc" \
     | mysql -u ${USER} -p${PASS} dvmap \
-    | sed 's/\t/,/g' > divvystat_outages_${1}.csv
+    | sed 's/\t/,/g' > outages_${1}.csv
