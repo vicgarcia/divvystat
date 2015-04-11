@@ -4,6 +4,6 @@ return array(
     'host' => 'localhost',
     'base' => 'divvystat',
     'user' => 'divvystat',
-    'pass' => 'divvystat'
+    'pass' => 'password'
 );
 
