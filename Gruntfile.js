@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         exec: {
+            mklib: 'mkdir templates/sass/lib',
             bower: 'bower update --allow-root && bower-installer',
             bourbon: 'cd templates/sass/lib && bourbon install',
             neat: 'cd templates/sass/lib && neat install'
@@ -63,6 +64,9 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask('bourbon', 'ensure bourbon/neat sass libs', function() {
+        if (!grunt.file.exists('templates/sass/lib')) {
+            grunt.task.run('exec:mklib');
+        }
         if (!grunt.file.exists('templates/sass/lib/bourbon')) {
             grunt.task.run('exec:bourbon');
         }
