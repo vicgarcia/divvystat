@@ -79,6 +79,7 @@ define([
                 L.marker([ station['lat'], station['lng'] ], { icon: icon })
                 .addTo(map)
                 .bindPopup(generatePopupHtml(station), {
+                    autoPanPaddingTopLeft: L.point(60, 40),
                     closeOnClick: false,
                     maxWidth: 400,
                     minWidth: 180
