@@ -30,8 +30,7 @@ body {
 a, a:hover { color: #333; }
 
 p {
-    line-height: 1.4em;
-    font-size: 1.25em;
+    font-size: 1.2em;
 }
 
 
@@ -93,9 +92,12 @@ p {
                 @include span-columns(12);
             }
 
+            p { float: right; clear: both; }
+
             .outage-chart {
                 height: 240px;
-                width: 95%;
+                width: 98%;
+                clear: both;
             }
         }
     }
