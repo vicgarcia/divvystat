@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         watch: {
             style: {
                 files: ['templates/sass/*', 'templates/js/*'],
-                tasks: ['build']
+                tasks: ['compile']
             }
         }
     });
