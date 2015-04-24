@@ -86,4 +86,13 @@ module.exports = function(grunt) {
         'copy:fullscreenicons',
         'copy:markers'
     ]);
+
+    grunt.registerTask('compile', [
+        'sass',
+        'requirejs',
+        'copy:requirejs',
+        'copy:fullscreenicons',
+        'copy:markers'
+    ]);
+
 };
