@@ -11,22 +11,19 @@
 $widescreen: new-breakpoint(min-width 1050px);
 $mobile: new-breakpoint(max-width 720px);
 
-/* fonts and colors */
-$font-stack: 'Maven Pro', sans-serif;
-
+/* colors */
 $default-background-color: #ffffff;
-$widescreen-background-color: #eeeeee;
 
 
 body {
     height: 101%;
 
-    font-family: $font-stack;
+    font-family: 'Open Sans', sans-serif;
     font-color: #333;
 
-    background-color: $default-background-color;
+    background-color: #ffffff;
     @include media($widescreen) {
-        background-color: $widescreen-background-color;
+        background-color: #eeeeee;
     }
 }
 
@@ -34,7 +31,7 @@ a, a:hover { color: #333; }
 
 p {
     line-height: 1.4em;
-    font-size: 1.2em;
+    font-size: 1.25em;
 }
 
 
@@ -44,7 +41,7 @@ p {
     @include outer-container();
     margin: 15px auto 30px auto;
     padding: 10px 10px 10px 10px;
-    background-color: $default-background-color;
+    background-color: #ffffff;
 
     @include media($widescreen) {
         padding: 20px 30px 40px 30px;
@@ -150,7 +147,7 @@ p {
         margin-top: 10px;
         margin-bottom: -8px;
         @include media($mobile) {
-            display: none;
+            padding-right: 10px;
         }
     }
 
@@ -164,7 +161,7 @@ p {
             height: 130px;
         }
         @include media($mobile) {
-            display: none;
+            margin-bottom: 12px;
         }
     }
 
@@ -175,7 +172,7 @@ p {
         margin-top: 10px;
         margin-bottom: -8px;
         @include media($mobile) {
-            padding-right: 10px;
+            display: none;
         }
     }
 
@@ -185,8 +182,8 @@ p {
         padding: 0;
         clear: both;
         height: 110px;
-        @include media($widescreen) {
-            height: 130px;
+        @include media($mobile) {
+            display: none;
         }
     }
 }

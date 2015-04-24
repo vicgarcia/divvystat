@@ -34,7 +34,7 @@ define([
             lineColors: ['#00A7E2'],
             labels: ['Available Bikes'],
             gridTextSize: 8,
-            hideHover: true
+            hideHover: 'always'
         });
     };
 
@@ -47,7 +47,7 @@ define([
             barColors: ['#00A7E2'],
             labels: ['usage'],
             gridTextSize: 8,
-            hideHover: true
+            hideHover: 'always'
         });
     };
 
@@ -80,6 +80,7 @@ define([
                 .addTo(map)
                 .bindPopup(generatePopupHtml(station), {
                     autoPanPaddingTopLeft: L.point(60, 40),
+                    autoPanPaddingBottomRight: L.point(20, 20),
                     closeOnClick: false,
                     maxWidth: 400,
                     minWidth: 180
@@ -116,7 +117,7 @@ define([
                 labels: ['stations w/ outage'],
                 gridTextSize: 8,
                 resize: true,
-                hideHover: true
+                hideHover: 'always'
             });
 
             Morris.Bar({
@@ -128,7 +129,7 @@ define([
                 labels: ['avg stations w/ outages'],
                 gridTextSize: 8,
                 resize: true,
-                hideHover: true
+                hideHover: 'always'
             });
         });
 
