@@ -2,6 +2,7 @@
     "minimum-stability": "dev",
     "require": {
         "vicgarcia/slimproject": "0.7.0",
+        "nesbot/carbon": "~1.14",
         "sergeytsalkov/meekrodb": "2.2.1"
     },
     "autoload": {
