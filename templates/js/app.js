@@ -61,8 +61,7 @@ define([
             maxZoom: 16,
         });
         var tiles = L.tileLayer(
-            'http://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}.png' +
-            '?access_token=' + L.mapbox.accessToken
+            'http://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}.png?access_token=' + L.mapbox.accessToken
         );
         map.addLayer(tiles);
         map.setView([41.90, -87.64], 14);
