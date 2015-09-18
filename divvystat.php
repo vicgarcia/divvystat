@@ -24,12 +24,12 @@ $cli->option()
     ->require()
     ->must(function ($option) {
         $options = [
-            'prime_cache', 'record_data', 'daily_cache', 'update_stations'
+            'prime_cache', 'record_data', 'daily_cache', 'update_stations', 'archive_data'
         ];
         return in_array($option, $options);
     })
     ->describedAs(
-        'cli task : prime_cache, record_data, daily_cache, update_stations'
+        'cli task : prime_cache, record_data, daily_cache, update_stations, archive_data'
     );
 
 $db = new DivvyDB(new MeekroDB);
@@ -46,5 +46,8 @@ switch ($cli[0]) {
         break;
     case 'update_stations':
         Tasks::updateStations($db);
+        break;
+    case 'archive_data':
+        Tasks::archiveData($db);
         break;
 }
