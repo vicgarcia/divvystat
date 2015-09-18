@@ -1,0 +1,4 @@
+#!/bin/bash
+git pull origin master
+composer update
+grunt build
