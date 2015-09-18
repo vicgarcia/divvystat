@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         exec: {
+            help: 'grunt --help',
             mklib: 'mkdir templates/sass/lib',
             bower: 'bower update --allow-root && bower-installer',
             bourbon: 'cd templates/sass/lib && bourbon install',
@@ -75,7 +76,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', [ 'exec:help' ]);
 
     grunt.registerTask('build', [
         'exec:bower',
