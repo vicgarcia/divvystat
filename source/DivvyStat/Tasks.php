@@ -165,31 +165,31 @@ class Tasks
         $user = $credentials['username'];
         $pass = $credentials['password'];
         $database = $credentials['database'];
-        $mysql_command = "mysql -u$user -p$pass $database";
+        $mysqlCommand = "mysql -u$user -p$pass $database";
 
         // iterate over aggregated dates
         foreach ($archiveDates as $archiveDate) {
             // parse start/end dates
             $start = $archiveDate[0];
             $end = $archiveDate[1];
-            $end = '2015-06-10';
 
             // assemble sql command for archive availabilitys csv file data output
-            $sql_command = "echo \"select * from availabilitys where timestamp between '$start' and '$end' order by timestamp asc\"";
+            $sqlCommand = "echo \"select * from availabilitys where timestamp between '$start' and '$end' order by timestamp asc\"";
 
             // sed command with filename for csv output
-            $sed_command = "sed 's/\\t/,/g' > availabilitys_$start.csv";
+            $csvFile = substr($start, 0, -3);
+            $sedCommand = "sed 's/\\t/,/g' > availabilitys_$csvFile.csv";
 
             // execute command for db -> csv
-            $command = "$sql_command | $mysql_command | $sed_command";
+            $command = "$sqlCommand | $mysqlCommand | $sedCommand";
             var_dump($command);
             // exec($command);
 
             // assemble sql command for delete of archived data
-            $sql_command = "echo \"delete from availabilitys where timestamp < '$end'\"";
+            $sqlCommand = "echo \"delete from availabilitys where timestamp < '$end'\"";
 
             // execute command for db delete
-            $command = "$sql_command | $mysql_command";
+            $command = "$sqlCommand | $mysqlCommand";
             var_dump($command);
             // exec($command);
         }
