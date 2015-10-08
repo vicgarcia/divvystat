@@ -2,7 +2,6 @@
 require_once '../bootstrap.php';
 
 use \Slim;
-use \SlimProject;
 use \MeekroDB;
 use \DivvyStat\DB as DivvyDB;
 
@@ -15,8 +14,8 @@ $app = new Slim\Slim([
 
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] != 'production')
-        return new SlimProject\NoCache;
-    return new SlimProject\Cache(SlimProject\Redis::kv());
+        return new \Kaavii\NoCache;
+    return new \Kaavii\Cache(\Kaavii\Redis::connect());
 });
 
 $app->container->singleton('divvy', function() {

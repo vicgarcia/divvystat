@@ -3,7 +3,6 @@ namespace DivvyStat;
 
 use \Carbon\Carbon;
 use \Requests;
-use \SlimProject;
 
 class Tasks
 {
@@ -71,7 +70,7 @@ class Tasks
     public static function primeCache()
     {
         $url = 'http://divvystat.us/';
-        $cache = new SlimProject\Cache(SlimProject\Redis::kv());
+        $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
         // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
@@ -85,7 +84,7 @@ class Tasks
     public static function dailyCache(DB $divvy)
     {
         $url = 'http://divvystat.us/stations';
-        $cache = new SlimProject\Cache(SlimProject\Redis::kv());
+        $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
         $stations = json_decode(Requests::get($url)->body);
         foreach ($stations as $station) {

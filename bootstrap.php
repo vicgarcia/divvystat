@@ -18,7 +18,7 @@ if (getcwd() == '/opt/divvystat') {
 }
 
 // configure Kv for Redis
-\SlimProject\Redis::$config =  require 'config/redis.php';
+\Kaavii\Redis::$config =  require 'config/redis.php';
 
 // configure DB for MeekroDB
 $meekroConfig = require 'config/mysql.php';
@@ -27,3 +27,4 @@ $meekroConfig = require 'config/mysql.php';
 \DB::$password = $meekroConfig['pass'];
 \DB::$dbName = $meekroConfig['base'];
 unset($meekroConfig);
+

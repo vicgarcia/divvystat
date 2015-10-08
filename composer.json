@@ -1,9 +1,14 @@
 {
     "minimum-stability": "dev",
     "require": {
-        "vicgarcia/slimproject": "0.7.0",
-        "nesbot/carbon": "~1.14",
-        "sergeytsalkov/meekrodb": "2.2.1"
+        "php": ">=5.4.0",
+        "slim/slim": "2.3.*",
+        "slim/views": "0.1.*",
+        "twig/twig": "1.*",
+        "vicgarcia/kaavii": "dev-dev",
+        "sergeytsalkov/meekrodb": "2.2.1",
+        "thepixeldeveloper/sitemap": "2.0.*",
+        "nesbot/carbon": "~1.14"
     },
     "autoload": {
         "psr-0": {
