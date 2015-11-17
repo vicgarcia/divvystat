@@ -181,16 +181,14 @@ class Tasks
 
             // execute command for db -> csv
             $command = "$sqlCommand | $mysqlCommand | $sedCommand";
-            var_dump($command);
-            // exec($command);
+            exec($command);
 
             // assemble sql command for delete of archived data
             $sqlCommand = "echo \"delete from availabilitys where timestamp < '$end'\"";
 
             // execute command for db delete
             $command = "$sqlCommand | $mysqlCommand";
-            var_dump($command);
-            // exec($command);
+            exec($command);
         }
     }
 }
