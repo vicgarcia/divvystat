@@ -11,6 +11,7 @@
         "sergeytsalkov/meekrodb": "2.2.*",
         "thepixeldeveloper/sitemap": "2.0.*",
         "nategood/commando": "0.2.*",
+        "rmccue/requests": "1.6.*",
         "nesbot/carbon": "1.21.*"
     },
     "autoload": {
