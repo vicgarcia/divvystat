@@ -122,6 +122,10 @@ class DB
             ";
         $rows = $this->db->query($rawDataSql, $stationId);
 
+        // if no results return empty object
+        if (empty($rows))
+            return [];
+
         // populate initial day of week containers
         $days = [];
         $counts = [];
