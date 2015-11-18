@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6d10f501653e08947cf6b4726f60b227",
-    "content-hash": "ca262f2b42b0f15b1720b485efe513f3",
+    "hash": "08047e8802e5fe194436ae7aec9eef3b",
+    "content-hash": "42cea9298eee832e577065d9c7eed7e3",
     "packages": [
         {
             "name": "kevinlebrun/colors.php",
@@ -55,16 +55,16 @@
         },
         {
             "name": "nategood/commando",
-            "version": "dev-master",
+            "version": "0.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nategood/commando.git",
-                "reference": "700b0f667d76e5257996f02470e5f7a4bc2c0a01"
+                "reference": "873183f0062514ff8c50851f0d8ce98cbbd5ac72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nategood/commando/zipball/700b0f667d76e5257996f02470e5f7a4bc2c0a01",
-                "reference": "700b0f667d76e5257996f02470e5f7a4bc2c0a01",
+                "url": "https://api.github.com/repos/nategood/commando/zipball/873183f0062514ff8c50851f0d8ce98cbbd5ac72",
+                "reference": "873183f0062514ff8c50851f0d8ce98cbbd5ac72",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "command line interface",
                 "scripting"
             ],
-            "time": "2015-04-14 21:59:13"
+            "time": "2015-01-05 15:55:41"
         },
         {
             "name": "nesbot/carbon",
@@ -284,87 +284,30 @@
             "time": "2013-07-10 07:34:17"
         },
         {
-            "name": "symfony/polyfill-mbstring",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/0b6a8940385311a24e060ec1fe35680e17c74497",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill for the Mbstring extension",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "mbstring",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "time": "2015-11-04 20:28:58"
-        },
-        {
             "name": "symfony/translation",
-            "version": "dev-master",
+            "version": "v2.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "6c78cad7c0b39a88931e00737d973175f69680cd"
+                "reference": "6ccd9289ec1c71d01a49d83480de3b5293ce30c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/6c78cad7c0b39a88931e00737d973175f69680cd",
-                "reference": "6c78cad7c0b39a88931e00737d973175f69680cd",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/6ccd9289ec1c71d01a49d83480de3b5293ce30c8",
+                "reference": "6ccd9289ec1c71d01a49d83480de3b5293ce30c8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": ">=5.3.9"
             },
             "conflict": {
-                "symfony/config": "<2.8"
+                "symfony/config": "<2.7"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0",
-                "symfony/intl": "~2.8|~3.0",
-                "symfony/yaml": "~2.8|~3.0"
+                "symfony/config": "~2.7",
+                "symfony/intl": "~2.4",
+                "symfony/yaml": "~2.2"
             },
             "suggest": {
                 "psr/log": "To use logging capability in translator",
@@ -374,16 +317,13 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Translation\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -401,7 +341,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 23:35:59"
+            "time": "2015-10-27 15:38:06"
         },
         {
             "name": "thepixeldeveloper/sitemap",
@@ -450,16 +390,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "1.x-dev",
+            "version": "v1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9d5e74602634cdd1e7899cddcbded01bc584f7a8"
+                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9d5e74602634cdd1e7899cddcbded01bc584f7a8",
-                "reference": "9d5e74602634cdd1e7899cddcbded01bc584f7a8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +447,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-11-12 06:56:39"
+            "time": "2015-11-05 12:49:06"
         },
         {
             "name": "vicgarcia/kaavii",
@@ -543,7 +483,7 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "vicgarcia/kaavii": 20
     },

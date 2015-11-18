@@ -1,15 +1,17 @@
 {
-    "minimum-stability": "dev",
+    "name": "vicgarcia/divvystat",
+    "description": "real time Divvy usage tracking and current status by station",
+    "type": "project",
     "require": {
         "php": ">=5.4.0",
         "slim/slim": "2.3.*",
         "slim/views": "0.1.*",
         "twig/twig": "1.*",
         "vicgarcia/kaavii": "dev-dev",
-        "sergeytsalkov/meekrodb": "2.2.1",
+        "sergeytsalkov/meekrodb": "2.2.*",
         "thepixeldeveloper/sitemap": "2.0.*",
-        "nategood/commando": "*",
-        "nesbot/carbon": "~1.14"
+        "nategood/commando": "0.2.*",
+        "nesbot/carbon": "1.21.*"
     },
     "autoload": {
         "psr-0": {
