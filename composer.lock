@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2f6ff44a17584fff82d8096364a8f569",
-    "content-hash": "6cb8f5820c5882e473a07fdf1228c492",
+    "hash": "c7e3cdcb5c2617e4bdad67cb2fd455b5",
+    "content-hash": "b45ff327476dcece6a5b4384cbe16648",
     "packages": [
         {
             "name": "kevinlebrun/colors.php",
@@ -500,16 +500,16 @@
         },
         {
             "name": "vicgarcia/kaavii",
-            "version": "dev-dev",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vicgarcia/kaavii.git",
-                "reference": "bd9488b1f2fbc9c57ce3041847888dfea5e710af"
+                "reference": "cc2edf7a923f0675962a1c57af130d3fa4d2e24c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vicgarcia/kaavii/zipball/bd9488b1f2fbc9c57ce3041847888dfea5e710af",
-                "reference": "bd9488b1f2fbc9c57ce3041847888dfea5e710af",
+                "url": "https://api.github.com/repos/vicgarcia/kaavii/zipball/cc2edf7a923f0675962a1c57af130d3fa4d2e24c",
+                "reference": "cc2edf7a923f0675962a1c57af130d3fa4d2e24c",
                 "shasum": ""
             },
             "require": {
@@ -527,15 +527,13 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "KaaVii (pronounced kay-vee) is a package to provide components to interact with Redis for cache and key-value data storage",
-            "time": "2015-11-01 05:37:39"
+            "time": "2015-11-19 05:37:18"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "vicgarcia/kaavii": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

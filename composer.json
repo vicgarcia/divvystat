@@ -7,7 +7,7 @@
         "slim/slim": "2.3.*",
         "slim/views": "0.1.*",
         "twig/twig": "1.*",
-        "vicgarcia/kaavii": "dev-dev",
+        "vicgarcia/kaavii": "1.0.*",
         "sergeytsalkov/meekrodb": "2.2.*",
         "thepixeldeveloper/sitemap": "2.0.*",
         "nategood/commando": "0.2.*",
