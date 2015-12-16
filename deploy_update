@@ -1,4 +1,14 @@
 #!/bin/bash
-git pull origin master
+
+# update code from github repo
+# git pull origin master
+
+# update composer, rebuilt javascript
 composer update
 grunt build
+
+# rebuild cache
+redis-cli -n 4 flushdb
+php divvystat.php daily_cache
+php divvystat.php prime_cache
+
