@@ -67,12 +67,6 @@ class Tasks
             $graph = $divvy->getRecentUsageBar($station->id);
             $cache->save($key, $graph, 86400);
         }
-
-        // reprime the day of week bar graph for outages
-        $key = 'outages_bar';
-        $cache->delete($key);
-        $graph = $divvy->getRecentOutageBar();
-        $cache->save($key, $graph, 86400);
     }
 
     public static function archiveData(DB $db)
