@@ -68,36 +68,14 @@ p {
             @include media($mobile) {
                 @include span-columns(12);
             }
-
-            .one-column-copy {
-                display: none;
-                @include media($mobile) {
-                    display: inline;
-                }
-            }
-
-            .two-column-copy {
-                display: inline;
-                @include media($mobile) {
-                    display: none;
-                }
-            }
         }
 
-        .chart {
+        .column {
             @include span-columns(6);
             @include omega();
 
             @include media($mobile) {
-                @include span-columns(12);
-            }
-
-            p { float: right; clear: both; }
-
-            .outage-chart {
-                height: 240px;
-                width: 98%;
-                clear: both;
+                display: none;
             }
         }
     }

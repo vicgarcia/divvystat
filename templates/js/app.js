@@ -105,33 +105,6 @@ define([
             });
         });
 
-        /* load data from json-api for outage tracking charts */
-        $.getJSON('/outages', function(data) {
-            Morris.Line({
-                element: 'outage-line',
-                data: data['line'],
-                xkey: 'timestamp',
-                ykeys: ['outages'],
-                lineColors: ['#00A7E2'],
-                labels: ['stations w/ outage'],
-                gridTextSize: 8,
-                resize: true,
-                hideHover: 'always'
-            });
-
-            Morris.Bar({
-                element: 'outage-bar',
-                data: data['bar'],
-                xkey: 'day',
-                ykeys: ['outages'],
-                barColors: ['#00A7E2'],
-                labels: ['avg stations w/ outages'],
-                gridTextSize: 8,
-                resize: true,
-                hideHover: 'always'
-            });
-        });
-
         /* handle browser window resize */
         $(window).resize(function() {
             var close = $(".leaflet-popup-close-button")[0];
