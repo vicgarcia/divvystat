@@ -1,4 +1,4 @@
-# log availabilitys and outages from divvy api every 2 minutes
+# log availabilitys from divvy api every 2 minutes
 */2 * * * * php /opt/divvystat/divvystat.php record_data
 # reprime station map and status cache every 5 minutes
 */5 * * * * php /opt/divvystat/divvystat.php prime_cache
