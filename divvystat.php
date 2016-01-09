@@ -36,7 +36,7 @@ $db = new DivvyDB(new MeekroDB);
 
 switch ($cli[0]) {
     case 'prime_cache':
-        Tasks::primeCache();
+        Tasks::primeCache($db);
         break;
     case 'record_data':
         Tasks::recordData($db);

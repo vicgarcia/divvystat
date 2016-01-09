@@ -67,18 +67,25 @@ class Tasks
         $db->insertOutage($outageCount, $outageDetail, $timestamp);
     }
 
-    public static function primeCache()
+    public static function primeCache(DB $db)
     {
         $url = 'http://divvystat.us/';
         $cache = new SlimProject\Cache(SlimProject\Redis::kv());
 
-        // delete stations cache, make request to reprime and get ids to loop thru
+        // // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
-        $stations = json_decode(Requests::get($url.'stations')->body);
+        $stations = $db->getStationsData();
+        $cache->save('stations', $stations, 600);
 
-        // reprime the /outages endpoint cache for the line graph
+        // reprime the /outages endpoint cache
+
         $cache->delete('outages_line');
-        $outages = json_decode(Requests::get($url.'outages')->body);
+        $line = $db->get72HourOutageLine();
+        $cache->save('outages_line', $line, 600);
+
+        $cache->delete('outages_bar');
+        $bar = $db->getRecentOutageBar();
+        $cache->save('outages_bar', $bar, 86400);
     }
 
     public static function dailyCache(DB $divvy)
