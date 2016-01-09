@@ -53,16 +53,6 @@ class Tasks
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $stations = $db->getStationsData();
         $cache->save('stations', $stations, 600);
-
-        // reprime the /outages endpoint cache
-
-        $cache->delete('outages_line');
-        $line = $db->get72HourOutageLine();
-        $cache->save('outages_line', $line, 600);
-
-        $cache->delete('outages_bar');
-        $bar = $db->getRecentOutageBar();
-        $cache->save('outages_bar', $bar, 86400);
     }
 
     public static function dailyCache(DB $divvy)
