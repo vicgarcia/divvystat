@@ -75,37 +75,6 @@ class DB
         return $timeline;
     }
 
-    public function get72HourOutageLine(\DateTime $end = null)
-    {
-        // default endtime to now if not explicitly provided
-        if ($end == null)
-            $end = new \DateTime("now");
-
-        // subtract 72 hours to get the start time
-        $start = clone $end;
-        $start->sub(new \DateInterval("PT72H"));
-
-        $sql = "
-            select timestamp, station_count as 'outages'
-            from outages
-            where timestamp between %t and %t
-            order by timestamp desc
-            ";
-        $rows = $this->db->query($sql, $start, $end);
-        $timeline = array();
-
-        $prev = null;
-        foreach ($rows as $row) {
-            // if the # of station outages changed since previous datapoint
-            if ($row['outages'] != $prev) {
-                $timeline[] = $row;
-                $prev = $row['outages'];
-            }
-        }
-
-        return $timeline;
-    }
-
     public function getRecentUsageBar($stationId)
     {
         $rawDataSql = "
@@ -155,30 +124,6 @@ class DB
         return $usageByWeekday;
     }
 
-    public function getRecentOutageBar()
-    {
-        // query and post-process data
-        $sql = "
-            select
-              date_format(timestamp,'%w') as 'day_of_week',
-              avg(station_count) as 'avg_outages'
-            from outages
-            where DATE(timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
-                                      and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
-            group by date_format(timestamp, '%w')
-            ";
-        $rows = $this->db->query($sql);
-
-        // collate and format results
-        $results = [];
-        foreach ($rows as $row) {
-            $results[$row['day_of_week']]['outages'] = (string) round($row['avg_outages'], 1);
-            $results[$row['day_of_week']]['day'] = $this->dayOfWeekMap($row['day_of_week']);
-        }
-
-        return $results;
-    }
-
     public function insertAvailability($id, $status, $docks, $bikes, $timestamp)
     {
         return $this->db->insert('availabilitys', [
@@ -187,15 +132,6 @@ class DB
             'total_docks'     => $docks,
             'available_bikes' => $bikes,
             'timestamp'       => $timestamp
-        ]);
-    }
-
-    public function insertOutage($stations, $detail, $timestamp)
-    {
-        return $this->db->insert('outages', [
-            'station_count' => $stations,
-            'detail'        => $detail,
-            'timestamp'     => $timestamp
         ]);
     }
 

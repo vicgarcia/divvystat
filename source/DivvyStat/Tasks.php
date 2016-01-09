@@ -23,12 +23,6 @@ class Tasks
     {
         $api = new Api;
 
-        $outageStations = [
-            'empty'  => [],
-            'full'   => [],
-            'broken' => []
-        ];
-
         foreach ($api->getLiveStationData() as $station) {
             if (!isset($timestamp)) {
                 $timestamp =
@@ -47,24 +41,7 @@ class Tasks
                 $availableBikes,
                 $timestamp
             );
-
-            if ($availableBikes == 0)
-                $outageStations['empty'][] = $stationId;
-
-            if ($availableBikes == $totalDocks)
-                $outageStations['full'][] = $stationId;
-
-            if ($station->statusKey != 1)
-                $outageStations['broken'][] = $stationId;
         }
-
-        $outageCount =
-            count($outageStations['empty']) +
-            count($outageStations['full']) +
-            count($outageStations['broken']);
-        $outageDetail = json_encode($outageStations);
-
-        $db->insertOutage($outageCount, $outageDetail, $timestamp);
     }
 
     public static function primeCache()
@@ -75,10 +52,6 @@ class Tasks
         // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $stations = json_decode(Requests::get($url.'stations')->body);
-
-        // reprime the /outages endpoint cache for the line graph
-        $cache->delete('outages_line');
-        $outages = json_decode(Requests::get($url.'outages')->body);
     }
 
     public static function dailyCache(DB $divvy)
