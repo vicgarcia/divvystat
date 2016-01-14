@@ -9,6 +9,6 @@ grunt build
 
 # rebuild cache
 redis-cli -n 2 flushdb
-php divvystat.php daily_cache
 php divvystat.php prime_cache
+php divvystat.php daily_cache
 
