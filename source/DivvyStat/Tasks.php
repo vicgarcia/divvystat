@@ -50,8 +50,8 @@ class Tasks
         $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
         // delete stations cache, make request to reprime and get ids to loop thru
-        $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $stations = $db->getStationsData();
+        $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $cache->save('stations', $stations, 600);
     }
 
@@ -63,8 +63,8 @@ class Tasks
         $stations = json_decode(Requests::get($url)->body);
         foreach ($stations as $station) {
             $key = 'graph_' . $station->id;
-            $cache->delete($key);
             $graph = $divvy->getRecentUsageBar($station->id);
+            $cache->delete($key);
             $cache->save($key, $graph, 86400);
         }
     }
