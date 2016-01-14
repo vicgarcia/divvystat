@@ -49,7 +49,7 @@ class Tasks
         $url = 'http://divvystat.us/';
         $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
-        // // delete stations cache, make request to reprime and get ids to loop thru
+        // delete stations cache, make request to reprime and get ids to loop thru
         $cache->delete('stations');     // cached for 10 by app, reprime every 5
         $stations = $db->getStationsData();
         $cache->save('stations', $stations, 600);

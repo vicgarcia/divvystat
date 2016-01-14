@@ -19,14 +19,6 @@ class DB
         ];
     }
 
-    public function getOldestRecordDate()
-    {
-        $sql = "select timestamp from availabilitys order by timestamp asc limit 1";
-        $oldestDate = $this->db->queryFirstField($sql);
-
-        return $oldestDate;
-    }
-
     public function getStationIds()
     {
         $sql = "select station_id from stations";
@@ -145,7 +137,15 @@ class DB
         ]);
     }
 
-    protected function dayOfWeekMap($dayOfWeek)
+    public function getOldestRecordDate()
+    {
+        $sql = "select timestamp from availabilitys order by timestamp asc limit 1";
+        $oldestDate = $this->db->queryFirstField($sql);
+
+        return $oldestDate;
+    }
+
+    public function dayOfWeekMap($dayOfWeek)
     {
         $dayOfWeekMap = [
             0 => 'Sunday',
@@ -158,4 +158,5 @@ class DB
         ];
         return $dayOfWeekMap[$dayOfWeek];
     }
+
 }
