@@ -75,12 +75,12 @@ class Tasks
         $today = Carbon::now();
         // we always keep the data for the prior month for use with last 30 day reporting
         // after the 5th of the month, we archive the month 2 months prior to now
-        if ($today->day > 5) {
-            $endingMonth = $today->month > 2 ? $today->month - 2 : $today->month + 10;
-            $endingYear = $today->month > 2 ? $today->year : $today->year - 1;
+        if ($today->day > 4) {
+            $endingMonth = $today->month >= 2 ? $today->month - 2 : $today->month + 10;
+            $endingYear = $today->month >= 2 ? $today->year : $today->year - 1;
         } else {
-            $endingMonth = $today->month > 3 ? $today->month - 3 : $today->month + 9;
-            $endingYear = $today->month > 3 ? $today->year : $today->year - 1;
+            $endingMonth = $today->month >= 3 ? $today->month - 3 : $today->month + 9;
+            $endingYear = $today->month >= 3 ? $today->year : $today->year - 1;
         }
 
         // use the oldest record in the database to determine the first month to drop
