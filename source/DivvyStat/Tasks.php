@@ -51,8 +51,8 @@ class Tasks
 
         // delete stations cache, make request to reprime and get ids to loop thru
         $stations = $db->getStationsData();
-        $cache->delete('stations');     // cached for 10 by app, reprime every 5
-        $cache->save('stations', $stations, 600);
+        $cache->delete('stations');     // cached for 15 by app, reprime every 10
+        $cache->save('stations', $stations, 900);
     }
 
     public static function dailyCache(DB $divvy)
