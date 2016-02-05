@@ -29,9 +29,9 @@ create view overview as
         s.longitude as 'lng',
         ( select available_bikes from availabilitys
           where station_id = s.station_id
-          order by timestamp desc limit 1 ) as 'bikes',
+          order by id desc limit 1 ) as 'bikes',
         ( select total_docks from availabilitys
           where station_id = s.station_id
-          order by timestamp desc limit 1 ) as 'docks'
+          order by id desc limit 1 ) as 'docks'
     from stations s
     order by station_id desc;
