@@ -33,7 +33,7 @@ $app->get('/', function() use ($app) {
 $app->get('/stations', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
         $stations = $app->divvy->getStationsData();
-        $app->cache->save('stations', $stations, 600);
+        $app->cache->save('stations', $stations, 900);
     }
     echo json_encode($stations);
 });
