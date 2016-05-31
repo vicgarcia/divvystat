@@ -16,6 +16,8 @@ config/pdo.php
 
 # dev scripts (may contain credentials/config)
 update_dev_db
+archive_availabilitys
+archive_outages
 
 # exclude toolchain stuff
 node_modules
