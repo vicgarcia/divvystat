@@ -137,12 +137,13 @@ class DB
         ]);
     }
 
-    public function getOldestRecordDate()
+    public function pruneData()
     {
-        $sql = "select timestamp from availabilitys order by timestamp asc limit 1";
-        $oldestDate = $this->db->queryFirstField($sql);
-
-        return $oldestDate;
+        $deleteAvails = "
+            delete from availabilitys
+            where timestamp < TIMESTAMP(DATE_SUB(NOW(), INTERVAL 40 day));
+            ";
+        $this->db->query($deleteAvails);
     }
 
     public function dayOfWeekMap($dayOfWeek)
@@ -156,6 +157,7 @@ class DB
             5 => 'Friday',
             6 => 'Saturday'
         ];
+
         return $dayOfWeekMap[$dayOfWeek];
     }
 
