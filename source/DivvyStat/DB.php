@@ -141,9 +141,14 @@ class DB
     {
         $deleteAvails = "
             delete from availabilitys
-            where timestamp < TIMESTAMP(DATE_SUB(NOW(), INTERVAL 45 day));
+            where timestamp < TIMESTAMP(DATE_SUB(NOW(), INTERVAL 45 day))
             ";
         $this->db->query($deleteAvails);
+
+        $optimizeAvails = "
+            optimize table availabilitys
+            ";
+        $this->db->query($optimizeAvails);
     }
 
     public function dayOfWeekMap($dayOfWeek)
