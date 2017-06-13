@@ -33,5 +33,4 @@ create view overview as
         ( select total_docks from availabilitys
           where station_id = s.station_id
           order by id desc limit 1 ) as 'docks'
-    from stations s
-    order by station_id desc;
+    from stations s;
