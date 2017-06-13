@@ -50,10 +50,10 @@ class Tasks
         $url = 'http://divvystat.us/';
         $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
-        // delete stations cache, make request to reprime and get ids to loop thru
         $stations = $db->getStationsData();
-        $cache->delete('stations');     // cached for 15 by app, reprime every 10
-        $cache->save('stations', $stations, 900);
+
+        $cache->delete('stations');
+        $cache->save('stations', $stations, 600);
     }
 
     public static function dailyCache(DB $divvy)
@@ -63,8 +63,9 @@ class Tasks
 
         $stations = json_decode(Requests::get($url)->body);
         foreach ($stations as $station) {
-            $key = 'graph_' . $station->id;
             $graph = $divvy->getRecentUsageBar($station->id);
+
+            $key = 'graph_' . $station->id;
             $cache->delete($key);
             $cache->save($key, $graph, 86400);
         }
