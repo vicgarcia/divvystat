@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  usage   : php divvystat.php <option>
  *  options : prime_cache, daily_cache, update_stations, record_data
@@ -11,11 +12,6 @@
  */
 
 require_once 'bootstrap.php';
-
-use \Commando;
-use \MeekroDB;
-use \DivvyStat\Tasks;
-use \DivvyStat\DB as DivvyDB;
 
 
 $cli = new Commando\Command();
@@ -32,22 +28,22 @@ $cli->option()
         'cli task : prime_cache, record_data, daily_cache, update_stations, prune_data'
     );
 
-$db = new DivvyDB(new MeekroDB);
+$db = new DivvyStat\DB(new MeekroDB);
 
 switch ($cli[0]) {
     case 'prime_cache':
-        Tasks::primeCache($db);
+        DivvyStat\Tasks::primeCache($db);
         break;
     case 'record_data':
-        Tasks::recordData($db);
+        DivvyStat\Tasks::recordData($db);
         break;
     case 'daily_cache':
-        Tasks::dailyCache($db);
+        DivvyStat\Tasks::dailyCache($db);
         break;
     case 'update_stations':
-        Tasks::updateStations($db);
+        DivvyStat\Tasks::updateStations($db);
         break;
     case 'prune_data':
-        Tasks::pruneData($db);
+        DivvyStat\Tasks::pruneData($db);
         break;
 }

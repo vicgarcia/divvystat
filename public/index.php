@@ -1,9 +1,6 @@
 <?php
-require_once '../bootstrap.php';
 
-use \Slim;
-use \MeekroDB;
-use \DivvyStat\DB as DivvyDB;
+require_once '../bootstrap.php';
 
 
 // setup application and singleton resources
@@ -19,7 +16,7 @@ $app->container->singleton('cache', function() {
 });
 
 $app->container->singleton('divvy', function() {
-    return new DivvyDB(new MeekroDB);   // config in bootstrap.php
+    return new DivvyStat\DB(new MeekroDB);   // config in bootstrap.php
 });
 
 

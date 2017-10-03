@@ -18,13 +18,13 @@ if (getcwd() == '/opt/divvystat') {
 }
 
 // configure Kv for Redis
-\Kaavii\Redis::$config =  require 'config/redis.php';
+Kaavii\Redis::$config =  require 'config/redis.php';
 
 // configure DB for MeekroDB
 $meekroConfig = require 'config/mysql.php';
-\DB::$host = $meekroConfig['host'];
-\DB::$user = $meekroConfig['user'];
-\DB::$password = $meekroConfig['pass'];
-\DB::$dbName = $meekroConfig['base'];
+DB::$host = $meekroConfig['host'];
+DB::$user = $meekroConfig['user'];
+DB::$password = $meekroConfig['pass'];
+DB::$dbName = $meekroConfig['base'];
 unset($meekroConfig);
 
