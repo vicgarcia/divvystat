@@ -1,7 +1,11 @@
--- run w/ mysql -u <user> -p<pass> <db name> < initial_db.sql
+-- drop the existing database :
+-- mysql -u <user> -p<pass> -e 'drop database divvystat'
 
-drop database if exists divvystat;
-create database divvystat;
+-- create the database :
+-- mysql -u <user> -p<pass> -e 'create database divvystat'
+
+-- run this script to populate db structure :
+-- mysql -u <user> -p<pass> <db name> < initial_db.sql
 
 drop table if exists stations;
 create table stations (
