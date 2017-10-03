@@ -27,16 +27,16 @@ class Tasks
         foreach ($api->getLiveStationData() as $station) {
             if (!isset($timestamp)) {
                 $timestamp =
-                    \DateTime::createFromFormat('Y-m-d h:i:s a', $station->timestamp)
+                    \DateTime::createFromFormat('Y-m-d H:i:s', $station->timestamp)
                         ->format('Y-m-d H:i:s');
             }
 
-            $stationId = $station->landMark;
+            $landmark = $station->landMark;
             $totalDocks = $station->totalDocks;
             $availableBikes = $station->availableBikes;
 
             $db->insertAvailability(
-                $stationId,
+                $landmark,
                 $station->statusKey,
                 $totalDocks,
                 $availableBikes,
@@ -50,10 +50,11 @@ class Tasks
         $url = 'http://divvystat.us/';
         $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
-        $stations = $db->getStationsData();
+        $key = 'stations';
+        $cache->delete($key);
 
-        $cache->delete('stations');
-        $cache->save('stations', $stations, 600);
+        $stations = $db->getStationsData();
+        $cache->save($key, $stations, 600);
     }
 
     public static function dailyCache(DB $divvy)
@@ -63,10 +64,10 @@ class Tasks
 
         $stations = json_decode(Requests::get($url)->body);
         foreach ($stations as $station) {
-            $graph = $divvy->getRecentUsageBar($station->id);
-
-            $key = 'graph_' . $station->id;
+            $key = 'graph_' . $station->landmark;
             $cache->delete($key);
+
+            $graph = $divvy->getRecentUsageBar($station->landmark);
             $cache->save($key, $graph, 86400);
         }
     }
