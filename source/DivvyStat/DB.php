@@ -19,23 +19,36 @@ class DB
         ];
     }
 
-    public function getStationIds()
+    public function getLandmarks()
     {
-        $sql = "select station_id from stations";
-        $stationIds = $this->db->queryOneColumn('station_id', $sql);
+        $sql = "select landmark from stations";
+        $landmarks = $this->db->queryOneColumn('landmark', $sql);
 
-        return $stationIds;
+        return $landmarks;
     }
 
     public function getStationsData()
     {
-        $sql = "select * from overview";
+        $sql = "
+            select
+                s.landmark as 'landmark',
+                s.name as 'name',
+                s.latitude as 'lat',
+                s.longitude as 'lng',
+                ( select available_bikes from availabilitys
+                  where landmark = s.landmark
+                  order by id desc limit 1 ) as 'bikes',
+                ( select total_docks from availabilitys
+                  where landmark = s.landmark
+                  order by id desc limit 1 ) as 'docks'
+            from stations s
+            ";
         $stations = $this->db->query($sql);
 
         return $stations;
     }
 
-    public function get72HourStationLine($stationId, \DateTime $end = null)
+    public function get72HourStationLine($landmark, \DateTime $end = null)
     {
         // default endtime to now if not explicitly provided
         if ($end == null)
@@ -48,11 +61,11 @@ class DB
         $sql = "
             select timestamp, available_bikes as 'bikes'
             from availabilitys
-            where station_id = %i
+            where landmark = %s
               and timestamp between %t and %t
             order by timestamp desc
             ";
-        $rows = $this->db->query($sql, $stationId, $start, $end);
+        $rows = $this->db->query($sql, $landmark, $start, $end);
         $timeline = array();
 
         $prev = null;
@@ -67,7 +80,7 @@ class DB
         return $timeline;
     }
 
-    public function getRecentUsageBar($stationId)
+    public function getRecentUsageBar($landmark)
     {
         $rawDataSql = "
             select
@@ -76,12 +89,12 @@ class DB
               a.timestamp,
               a.available_bikes
             from availabilitys a
-            where a.station_id = %i
+            where a.landmark = %s
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
                                         and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by a.timestamp asc
             ";
-        $rows = $this->db->query($rawDataSql, $stationId);
+        $rows = $this->db->query($rawDataSql, $landmark);
 
         // populate initial day of week containers
         $days = [];
@@ -106,7 +119,6 @@ class DB
         foreach ($days as $ofWeek => $inResults) {
             $day = $this->dayOfWeekMap($ofWeek);
             $usageByWeekday[$ofWeek]['day'] = $day;
-
             if (count(array_unique($inResults)) != 0) {
                 $usage = $counts[$ofWeek] / count(array_unique($inResults));
                 $usageByWeekday[$ofWeek]['usage'] = (string) $usage;
@@ -116,10 +128,10 @@ class DB
         return $usageByWeekday;
     }
 
-    public function insertAvailability($id, $status, $docks, $bikes, $timestamp)
+    public function insertAvailability($landmark, $status, $docks, $bikes, $timestamp)
     {
         return $this->db->insert('availabilitys', [
-            'station_id'      => $id,
+            'landmark'        => $landmark,
             'status_key'      => $status,
             'total_docks'     => $docks,
             'available_bikes' => $bikes,
@@ -127,10 +139,10 @@ class DB
         ]);
     }
 
-    public function insertUpdateStation($id, $name, $lat, $lng)
+    public function insertUpdateStation($landmark, $name, $lat, $lng)
     {
         return $this->db->insertUpdate('stations', [
-            'station_id' => $id,
+            'landmark'   => $landmark,
             'name'       => $name,
             'latitude'   => $lat,
             'longitude'  => $lng
