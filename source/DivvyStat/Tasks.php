@@ -11,12 +11,14 @@ class Tasks
         $api = new Api;
 
         foreach ($api->getLiveStationData() as $stationData) {
-            $db->insertUpdateStation(
-                $stationData->landMark,
-                $stationData->stationName,
-                $stationData->latitude,
-                $stationData->longitude
-            );
+            if ($stationData->testStation === false) {
+                $db->insertUpdateStation(
+                    $stationData->landMark,
+                    $stationData->stationName,
+                    $stationData->latitude,
+                    $stationData->longitude
+                );
+            }
         }
     }
 
