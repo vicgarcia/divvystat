@@ -25,9 +25,9 @@ define([
           '</div>';
     };
 
-    var drawTimeLine = function(id, data) {
+    var drawTimeLine = function(landmark, data) {
         return new Morris.Line({       /* timeline chart */
-            element: 'markerTimeline-' + id,
+            element: 'markerTimeline-' + landmark,
             data: data,
             xkey: 'timestamp',
             ykeys: ['bikes'],
@@ -38,9 +38,9 @@ define([
         });
     };
 
-    var drawDaysGraph = function(id, data) {
+    var drawDaysGraph = function(landmark, data) {
         return new Morris.Bar({        /* day of week bar graph */
-            element: 'markerGraph-' + id,
+            element: 'markerGraph-' + landmark,
             data: data,
             xkey: 'day',
             ykeys: ['usage'],
@@ -88,20 +88,20 @@ define([
                 })
                 .on('click', function(e) {
                     this.openPopup();
-                    $('#markerBox-' + station['id']).block({
+                    $('#markerBox-' + station['landmark']).block({
                         message: '<h2>loading...</h2>',
                         css: { backgroundColor: 'white', border: 'none' },
                         overlayCSS: { backgroundColor: 'white', opacity: 1 },
                         fadeIn: 0,
                         fadeOut: 500
                     });
-                    $.getJSON('/stations/' + station['id'], function(report) {
-                        var markerTimeline = '#markerTimeline-' + station['id'];
+                    $.getJSON('/stations/' + station['landmark'], function(report) {
+                        var markerTimeline = '#markerTimeline-' + station['landmark'];
                         if ($(markerTimeline).length) {
-                            drawTimeLine(station['id'], report['timeline']);
+                            drawTimeLine(station['landmark'], report['timeline']);
                         }
-                        drawDaysGraph(station['id'], report['graph']);
-                        $('#markerBox-' + station['id']).unblock();
+                        drawDaysGraph(station['landmark'], report['graph']);
+                        $('#markerBox-' + station['landmark']).unblock();
                     });
                 });
             });
