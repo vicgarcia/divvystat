@@ -115,13 +115,15 @@ class DB
         }
 
         // parse usage (changes in count) to day of week and track dates (for avg)
-        $previous = $rows[0]['available_bikes'];
-        foreach ($rows as $row) {
-            if ($row['available_bikes'] < $previous) {
-                $days[$row['day_of_week']][] = $row['day'];
-                $counts[$row['day_of_week']] += ($previous - $row['available_bikes']);
+        if (count($rows) > 0) {
+            $previous = $rows[0]['available_bikes'];
+            foreach ($rows as $row) {
+                if ($row['available_bikes'] < $previous) {
+                    $days[$row['day_of_week']][] = $row['day'];
+                    $counts[$row['day_of_week']] += ($previous - $row['available_bikes']);
+                }
+                $previous = $row['available_bikes'];
             }
-            $previous = $row['available_bikes'];
         }
 
         // collate by day of week and calculate averages as counts / dates
