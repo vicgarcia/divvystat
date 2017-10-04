@@ -58,24 +58,34 @@ class DB
         $start = clone $end;
         $start->sub(new \DateInterval("PT72H"));
 
+        // query for points in interval
         $sql = "
             select timestamp, available_bikes as 'bikes'
             from availabilitys
-            where landmark = %s
+            where landmark = %i
               and timestamp between %t and %t
             order by timestamp desc
             ";
         $rows = $this->db->query($sql, $landmark, $start, $end);
-        $timeline = array();
 
+        // collect points for display on the timeline
+        $timeline = [];
+
+        // add the first point to the timeline
+        $timeline[] = $rows[0];
+
+        // add intermediate points to the timeline
         $prev = null;
-        foreach ($rows as $row) {
-            // if the # of bikes has changed since previous datapoint
-            if ($row['bikes'] != $prev) {
-                $timeline[] = $row;
-                $prev = $row['bikes'];
+        for ($i = 1 ; $i < (count($rows) - 1) ; $i++) {
+            // add if the # of bikes has changed since previous datapoint
+            if ($rows[$i]['bikes'] != $prev) {
+                $timeline[] = $rows[$i];
+                $prev = $rows[$i]['bikes'];
             }
         }
+
+        // add the last point to the timeline
+        $timeline[] = $rows[count($rows) - 1];
 
         return $timeline;
     }
@@ -89,7 +99,7 @@ class DB
               a.timestamp,
               a.available_bikes
             from availabilitys a
-            where a.landmark = %s
+            where a.landmark = '%i'
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
                                         and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by a.timestamp asc
