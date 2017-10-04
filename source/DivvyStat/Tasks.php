@@ -1,9 +1,6 @@
 <?php
 namespace DivvyStat;
 
-use \Carbon\Carbon;
-use \Requests;
-
 class Tasks
 {
     public static function updateStations(DB $db)
@@ -64,7 +61,7 @@ class Tasks
         $url = 'http://divvystat.us/stations';
         $cache = new \Kaavii\Cache(\Kaavii\Redis::connect());
 
-        $stations = json_decode(Requests::get($url)->body);
+        $stations = json_decode(\Requests::get($url)->body);
         foreach ($stations as $station) {
             $key = 'graph_' . $station->landmark;
             $cache->delete($key);

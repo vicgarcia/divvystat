@@ -1,8 +1,6 @@
 <?php
 namespace DivvyStat;
 
-use \Requests;
-
 class Api
 {
     const URL = 'http://divvybikes.com/stations/json';
@@ -10,7 +8,7 @@ class Api
     public function getLiveStationData()
     {
         $options = [ 'useragent' => 'DivvyStat collector / divvystat.us' ];
-        $apiData = json_decode(Requests::get(self::URL, [], $options)->body);
+        $apiData = json_decode(\Requests::get(self::URL, [], $options)->body);
 
         $timestamp = $apiData->executionTime;
 
