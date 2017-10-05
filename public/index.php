@@ -11,8 +11,8 @@ $app = new Slim\Slim([
 
 $app->container->singleton('cache', function() {
     if ($GLOBALS['environment'] != 'production')
-        return new \Kaavii\NoCache;
-    return new \Kaavii\Cache(\Kaavii\Redis::connect());
+        return new Kaavii\NoCache;
+    return new Kaavii\Cache(\Kaavii\Redis::connect());
 });
 
 $app->container->singleton('divvy', function() {
