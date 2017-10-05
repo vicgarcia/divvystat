@@ -62,7 +62,7 @@ class DB
         $sql = "
             select timestamp, available_bikes as 'bikes'
             from availabilitys
-            where landmark = %i
+            where landmark = %s
               and timestamp between %t and %t
             order by timestamp desc
             ";
@@ -70,13 +70,13 @@ class DB
 
         // collect points for display on the timeline
         $timeline = [];
-        if (count($rows) > 0) {
+        if (count($rows) > 2) {
 
             // add the first point to the timeline
             $timeline[] = $rows[0];
+            $prev = $rows[0]['bikes'];
 
             // add intermediate points to the timeline
-            $prev = null;
             for ($i = 1 ; $i < (count($rows) - 1) ; $i++) {
                 // add if the # of bikes has changed since previous datapoint
                 if ($rows[$i]['bikes'] != $prev) {
@@ -101,7 +101,7 @@ class DB
               a.timestamp,
               a.available_bikes
             from availabilitys a
-            where a.landmark = '%i'
+            where a.landmark = %s
               and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
                                         and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by a.timestamp asc

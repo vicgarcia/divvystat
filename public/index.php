@@ -10,6 +10,7 @@ $app = new Slim\Slim([
 ]);
 
 $app->container->singleton('cache', function() {
+    return new Kaavii\NoCache;
     if ($GLOBALS['environment'] != 'production')
         return new Kaavii\NoCache;
     return new Kaavii\Cache(\Kaavii\Redis::connect());
