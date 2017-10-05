@@ -7,17 +7,17 @@
 -- run this script to populate db structure :
 -- mysql -u <user> -p<pass> <db name> < initial_db.sql
 
-drop table if exists stations;
-create table stations (
+DROP TABLE IF EXISTS stations;
+CREATE TABLE stations (
       landmark char(10) not null,
       name text not null,
       latitude decimal(14,10) not null,
       longitude decimal(14,10) not null,
       PRIMARY KEY stations__landmark__index (landmark)
-) ENGINE=InnoDB default CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-drop table if exists availabilitys;
-create table availabilitys (
+DROP TABLE IF EXISTS availabilitys;
+CREATE TABLE availabilitys (
       id int(11) unsigned not null AUTO_INCREMENT,
       timestamp timestamp not null default CURRENT_TIMESTAMP,
       landmark char(10) not null,
@@ -27,4 +27,4 @@ create table availabilitys (
       PRIMARY KEY (id),
       KEY availabilitys__landmark__index (landmark),
       KEY availabilitys__timestamp__index (timestamp)
-) ENGINE=InnoDB default CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
