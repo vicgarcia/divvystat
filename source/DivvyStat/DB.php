@@ -70,22 +70,24 @@ class DB
 
         // collect points for display on the timeline
         $timeline = [];
+        if (count($rows) > 0) {
 
-        // add the first point to the timeline
-        $timeline[] = $rows[0];
+            // add the first point to the timeline
+            $timeline[] = $rows[0];
 
-        // add intermediate points to the timeline
-        $prev = null;
-        for ($i = 1 ; $i < (count($rows) - 1) ; $i++) {
-            // add if the # of bikes has changed since previous datapoint
-            if ($rows[$i]['bikes'] != $prev) {
-                $timeline[] = $rows[$i];
-                $prev = $rows[$i]['bikes'];
+            // add intermediate points to the timeline
+            $prev = null;
+            for ($i = 1 ; $i < (count($rows) - 1) ; $i++) {
+                // add if the # of bikes has changed since previous datapoint
+                if ($rows[$i]['bikes'] != $prev) {
+                    $timeline[] = $rows[$i];
+                    $prev = $rows[$i]['bikes'];
+                }
             }
-        }
 
-        // add the last point to the timeline
-        $timeline[] = $rows[count($rows) - 1];
+            // add the last point to the timeline
+            $timeline[] = $rows[count($rows) - 1];
+        }
 
         return $timeline;
     }
