@@ -27,7 +27,7 @@ class DB
         return $landmarks;
     }
 
-    public function getStationsData()
+    public function getStations()
     {
         $sql = "
             select
@@ -58,7 +58,7 @@ class DB
         return $stations;
     }
 
-    public function get72HourStationLine($landmark, \DateTime $end = null)
+    public function getStationTimeline($landmark, \DateTime $end = null)
     {
         // default endtime to now if not explicitly provided
         if ($end == null)
@@ -102,7 +102,7 @@ class DB
         return $timeline;
     }
 
-    public function getRecentUsageBar($landmark)
+    public function getStationGraph($landmark)
     {
         $rawDataSql = "
             select

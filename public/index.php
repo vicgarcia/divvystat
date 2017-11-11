@@ -3,19 +3,17 @@
 require_once '../bootstrap.php';
 
 
-// setup application and singleton resources
+// setup application, cache, database
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,
     'templates.path'  => '../templates',
 ]);
-
 $app->container->singleton('cache', function() {
     // return new Kaavii\NoCache;
     return new Kaavii\Cache(\Kaavii\Redis::connect());
 });
-
-$app->container->singleton('divvy', function() {
-    return new DivvyStat\DB(new MeekroDB);   // config in bootstrap.php
+$app->container->singleton('db', function() {
+    return new DivvyStat\DB(new MeekroDB);
 });
 
 
@@ -25,23 +23,23 @@ $app->get('/', function() use ($app) {
 });
 
 
-// get stations data from json api (for map)
+// endpoint for stations json (used to populate markers to map)
 $app->get('/stations', function() use ($app) {
     if (($stations = $app->cache->load('stations')) === false) {
-        $stations = $app->divvy->getStationsData();
-        $app->cache->save('stations', $stations, 900);
+        $stations = $app->db->getStations();
+        $app->cache->save('stations', $stations, 86400);
     }
     echo json_encode($stations);
 });
 
 
-// get station report data from json api (for popup)
+// endpoint for per-station json (used to populate charts in popup)
 $app->get('/stations/:landmark', function($landmark) use ($app) {
     if (($landmarks = $app->cache->load('landmarks')) === false) {
-        $landmarks = $app->divvy->getLandmarks();
+        $landmarks = $app->db->getLandmarks();
         $app->cache->save('landmarks', $landmarks, 86400);
     }
-    if (in_array($landmark, $landmarks)) {   // check if the station landmark is vallandmark
+    if (in_array($landmark, $landmarks)) {
         $report = new \stdClass;
         if (($capacity = $app->cache->load('capacity_'.$landmark)) === false) {
             $capacity = $app->db->getStationCapacity($landmark);
@@ -49,13 +47,13 @@ $app->get('/stations/:landmark', function($landmark) use ($app) {
         }
         $report->capacity = $capacity;
         if (($timeline = $app->cache->load('timeline_'.$landmark)) === false) {
-            $timeline = $app->divvy->get72HourStationLine($landmark);
-            $app->cache->save('timeline_'.$landmark, $timeline, 600);
+            $timeline = $app->db->getStationTimeline($landmark);
+            $app->cache->save('timeline:'.$landmark, $timeline, 300);
         }
         $report->timeline = $timeline;
         if (($graph = $app->cache->load('graph_'.$landmark)) === false) {
-            $graph = $app->divvy->getRecentUsageBar($landmark);
-            $app->cache->save('graph_'.$landmark, $graph, 86400);
+            $graph = $app->db->getStationGraph($landmark);
+            $app->cache->save('graph:'.$landmark, $graph, 86400);
         }
         $report->graph = $graph;
         echo json_encode($report);
