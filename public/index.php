@@ -43,6 +43,11 @@ $app->get('/stations/:landmark', function($landmark) use ($app) {
     }
     if (in_array($landmark, $landmarks)) {   // check if the station landmark is vallandmark
         $report = new \stdClass;
+        if (($capacity = $app->cache->load('capacity_'.$landmark)) === false) {
+            $capacity = $app->db->getStationCapacity($landmark);
+            $app->cache->save('capacity:'.$landmark, $capacity, 300);
+        }
+        $report->capacity = $capacity;
         if (($timeline = $app->cache->load('timeline_'.$landmark)) === false) {
             $timeline = $app->divvy->get72HourStationLine($landmark);
             $app->cache->save('timeline_'.$landmark, $timeline, 600);

@@ -34,16 +34,26 @@ class DB
                 s.landmark as 'landmark',
                 s.name as 'name',
                 s.latitude as 'lat',
-                s.longitude as 'lng',
-                ( select available_bikes from availabilitys
-                  where landmark = s.landmark
-                  order by id desc limit 1 ) as 'bikes',
-                ( select total_docks from availabilitys
-                  where landmark = s.landmark
-                  order by id desc limit 1 ) as 'docks'
+                s.longitude as 'lng'
             from stations s
             ";
         $stations = $this->db->query($sql);
+
+        return $stations;
+    }
+
+    public function getStationCapacity($landmark)
+    {
+        $sql = "
+            select
+                available_bikes as 'bikes',
+                total_docks as 'docks'
+            from availabilitys
+            where landmark = %s
+            order by id desc
+            limit 1
+            ";
+        $stations = $this->db->queryFirstRow($sql, $landmark);
 
         return $stations;
     }
