@@ -1,6 +1,4 @@
 # log availabilitys from divvy api every 2 minutes
 */2 * * * * php /opt/divvystat/divvystat.php record_data
-# reprime station map and status cache every 5 minutes
-*/5 * * * * php /opt/divvystat/divvystat.php prime_cache
-# reprime day of week average chart cache daily @ 1am
-0 1 * * * php /opt/divvystat/divvystat.php daily_cache
+# prune data to the last 45 days daily @ 2am
+0 2 * * * php /opt/divvystat/divvystat.php prune_data

@@ -7,8 +7,3 @@ git pull origin master
 composer update
 grunt build
 
-# rebuild cache
-redis-cli -n 2 flushdb
-php divvystat.php prime_cache
-php divvystat.php daily_cache
-
