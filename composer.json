@@ -12,7 +12,9 @@
         "thepixeldeveloper/sitemap": "2.0.*",
         "nategood/commando": "0.2.*",
         "rmccue/requests": "1.6.*",
-        "nesbot/carbon": "1.21.*"
+        "mailgun/mailgun-php": "^2.3",
+        "php-http/curl-client": "^1.7",
+        "guzzlehttp/psr7": "^1.4"
     },
     "autoload": {
         "psr-0": {
