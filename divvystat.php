@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  php divvystat.php <option>
  *
@@ -7,6 +6,7 @@
  *  record_data : get data from Divvy API and record in app DB
  *  update_stations : update app DB stations table from API
  *  prune_data : delete data from database older than 45 days
+ *  status_check : check that stats from divvy are being collected
  *
  */
 
