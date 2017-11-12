@@ -2,3 +2,5 @@
 */2 * * * * php /opt/divvystat/divvystat.php record_data
 # prune data to the last 45 days daily @ 2am
 0 2 * * * php /opt/divvystat/divvystat.php prune_data
+# check that divvy stats are being updated
+0 * * * * php /opt/divvystat/divvystat.php status_check
