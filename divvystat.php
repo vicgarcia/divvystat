@@ -15,12 +15,14 @@ require_once 'bootstrap.php';
 
 $db = new DivvyStat\DB(new MeekroDB);
 
-$cli = new Commando\Command();
+$key = require 'config/mailgun.php';
+$mg = Mailgun\Mailgun::create($key);
 
+$cli = new Commando\Command();
 $cli->option()
     ->require()
     ->must(function ($option) {
-        $options = [ 'record_data', 'update_stations', 'prune_data' ];
+        $options = [ 'record_data', 'update_stations', 'prune_data', 'status_check' ];
         return in_array($option, $options);
     })
     ->describedAs('provide a command line option');
@@ -34,5 +36,8 @@ switch ($cli[0]) {
         break;
     case 'prune_data':
         DivvyStat\Tasks::pruneData($db);
+        break;
+    case 'status_check':
+        DivvyStat\Tasks::statusCheck($db, $mg);
         break;
 }
