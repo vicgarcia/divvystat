@@ -152,6 +152,14 @@ class DB
         return $usageByWeekday;
     }
 
+    public function getLatestUpdate()
+    {
+        $sql = "select max(timestamp) as 'timestamp' from availabilitys";
+        $timestamp = $this->db->queryFirstField($sql);
+
+        return $timestamp;
+    }
+
     public function insertAvailability($landmark, $status, $docks, $bikes, $timestamp)
     {
         return $this->db->insert('availabilitys', [
