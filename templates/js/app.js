@@ -15,7 +15,7 @@ define([
         return ' ' +
           '<div id="markerBox-' + station.landmark + '" class="markerBox">' +
             '<h2>' + station.name + '</h2>' +
-            '<h4 id="markerCapacity-' + station.landmark + '"></h4>' +
+            '<h4 id="markerCapacity-' + station.landmark + '">&nbsp;</h4>' +
             '<div class="markerTimelineHeader">available bikes over previous 72 hours</div>' +
             '<div id="markerTimeline-' + station.landmark + '" class="markerTimeline"></div>' +
             '<div class="markerGraphHeader">average weekday usage for last 30 days</div>' +
@@ -26,7 +26,7 @@ define([
     var drawCapacity = function(landmark, data) {
         var element = '#markerCapacity-' + landmark,
             output = data.bikes + ' bikes / ' + data.docks + ' docks';
-        $(id).text(output);
+        $(element).text(output);
     };
 
     var drawTimeline = function(landmark, data) {
