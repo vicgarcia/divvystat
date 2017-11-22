@@ -1,0 +1,307 @@
+/* bourbon/neat dependency */
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+/* bower-managed dependencies */
+.morris-hover {
+  position: absolute;
+  z-index: 1000; }
+
+.morris-hover.morris-default-style {
+  border-radius: 10px;
+  padding: 6px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.8);
+  border: solid 2px rgba(230, 230, 230, 0.8);
+  font-family: sans-serif;
+  font-size: 12px;
+  text-align: center; }
+
+.morris-hover.morris-default-style .morris-hover-row-label {
+  font-weight: bold;
+  margin: 0.25em 0; }
+
+.morris-hover.morris-default-style .morris-hover-point {
+  white-space: nowrap;
+  margin: 0.1em 0; }
+
+.leaflet-control-zoom-fullscreen {
+  background-image: url(icon-fullscreen.png); }
+
+.leaflet-retina .leaflet-control-zoom-fullscreen {
+  background-image: url(icon-fullscreen-2x.png);
+  background-size: 26px 26px; }
+
+.leaflet-container:-webkit-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 99999; }
+
+.leaflet-pseudo-fullscreen {
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0px !important;
+  left: 0px !important;
+  z-index: 99999; }
+
+/*
+Author: L. Voogdt
+License: MIT
+Version: 1.0
+*/
+/* Marker setup */
+.awesome-marker {
+  background: url("images/markers-soft.png") no-repeat 0 0;
+  width: 35px;
+  height: 46px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  text-align: center; }
+
+.awesome-marker-shadow {
+  background: url("images/markers-shadow.png") no-repeat 0 0;
+  width: 36px;
+  height: 16px; }
+
+/* Retina displays */
+@media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3 / 2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+  .awesome-marker {
+    background-image: url("images/markers-soft@2x.png");
+    background-size: 720px 46px; }
+
+  .awesome-marker-shadow {
+    background-image: url("images/markers-shadow@2x.png");
+    background-size: 35px 16px; } }
+.awesome-marker i {
+  color: #333;
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 14px; }
+
+.awesome-marker .icon-white {
+  color: #fff; }
+
+/* Colors */
+.awesome-marker-icon-red {
+  background-position: 0 0; }
+
+.awesome-marker-icon-darkred {
+  background-position: -180px 0; }
+
+.awesome-marker-icon-lightred {
+  background-position: -360px 0; }
+
+.awesome-marker-icon-orange {
+  background-position: -36px 0; }
+
+.awesome-marker-icon-beige {
+  background-position: -396px 0; }
+
+.awesome-marker-icon-green {
+  background-position: -72px 0; }
+
+.awesome-marker-icon-darkgreen {
+  background-position: -252px 0; }
+
+.awesome-marker-icon-lightgreen {
+  background-position: -432px 0; }
+
+.awesome-marker-icon-blue {
+  background-position: -108px 0; }
+
+.awesome-marker-icon-darkblue {
+  background-position: -216px 0; }
+
+.awesome-marker-icon-lightblue {
+  background-position: -468px 0; }
+
+.awesome-marker-icon-purple {
+  background-position: -144px 0; }
+
+.awesome-marker-icon-darkpurple {
+  background-position: -288px 0; }
+
+.awesome-marker-icon-pink {
+  background-position: -504px 0; }
+
+.awesome-marker-icon-cadetblue {
+  background-position: -324px 0; }
+
+.awesome-marker-icon-white {
+  background-position: -574px 0; }
+
+.awesome-marker-icon-gray {
+  background-position: -648px 0; }
+
+.awesome-marker-icon-lightgray {
+  background-position: -612px 0; }
+
+.awesome-marker-icon-black {
+  background-position: -682px 0; }
+
+/* breakpoints for screen sizes */
+/* colors */
+body {
+  height: 101%;
+  font-family: 'Open Sans', sans-serif;
+  font-color: #333;
+  background-color: #ffffff; }
+  @media screen and (min-width: 1050px) {
+    body {
+      background-color: #eeeeee; } }
+
+a, a:hover {
+  color: #333; }
+
+p {
+  font-size: 1.2em; }
+
+/* structure */
+.wrap {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 15px auto 30px auto;
+  padding: 10px 10px 10px 10px;
+  background-color: #ffffff; }
+  .wrap::after {
+    clear: both;
+    content: "";
+    display: block; }
+  @media screen and (min-width: 1050px) {
+    .wrap {
+      padding: 20px 30px 40px 30px; } }
+  .wrap .map {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+    margin-right: 0;
+    height: 460px; }
+    .wrap .map:last-child {
+      margin-right: 0; }
+    @media screen and (min-width: 1050px) {
+      .wrap .map {
+        height: 560px; } }
+    @media screen and (max-width: 720px) {
+      .wrap .map {
+        height: 360px; } }
+  .wrap .content {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%; }
+    .wrap .content:last-child {
+      margin-right: 0; }
+    .wrap .content .copy {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 48.82117%; }
+      .wrap .content .copy:last-child {
+        margin-right: 0; }
+      @media screen and (max-width: 720px) {
+        .wrap .content .copy {
+          float: left;
+          display: block;
+          margin-right: 2.35765%;
+          width: 100%; }
+          .wrap .content .copy:last-child {
+            margin-right: 0; } }
+    .wrap .content .column {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 48.82117%;
+      margin-right: 0; }
+      .wrap .content .column:last-child {
+        margin-right: 0; }
+      @media screen and (max-width: 720px) {
+        .wrap .content .column {
+          display: none; } }
+  .wrap .footer {
+    margin-top: 20px;
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 100%;
+    margin-right: 0; }
+    .wrap .footer:last-child {
+      margin-right: 0; }
+    @media screen and (min-width: 1050px) {
+      .wrap .footer {
+        margin-top: 20px; } }
+
+/* style for marker popups */
+.leaflet-popup-content {
+  padding: 0 0 0 0;
+  margin: 0 10px 10px 10px;
+  width: 280px; }
+  @media screen and (max-width: 720px) {
+    .leaflet-popup-content {
+      margin: 0 10px 0 10px;
+      width: 200px; } }
+  @media screen and (min-width: 1050px) {
+    .leaflet-popup-content {
+      margin: 5px 15px 15px 15px;
+      width: 380px; } }
+
+@media screen and (min-width: 1050px) {
+  .markerBox {
+    font-size: 1.1em; } }
+@media screen and (max-width: 720px) {
+  .markerBox {
+    font-size: .9em; } }
+.markerBox h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.1em; }
+.markerBox h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1em; }
+.markerBox .markerTimelineHeader {
+  padding-right: 10px;
+  font-size: .9em;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: -8px; }
+  @media screen and (max-width: 720px) {
+    .markerBox .markerTimelineHeader {
+      padding-right: 10px; } }
+.markerBox .markerTimeline {
+  width: 96%;
+  margin: 0 auto 0 auto;
+  padding: 0;
+  clear: both;
+  height: 110px; }
+  @media screen and (min-width: 1050px) {
+    .markerBox .markerTimeline {
+      height: 130px; } }
+  @media screen and (max-width: 720px) {
+    .markerBox .markerTimeline {
+      margin-bottom: 12px; } }
+.markerBox .markerGraphHeader {
+  padding-right: 10px;
+  font-size: .9em;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: -8px; }
+  @media screen and (max-width: 720px) {
+    .markerBox .markerGraphHeader {
+      display: none; } }
+.markerBox .markerGraph {
+  width: 96%;
+  margin: 0 auto 0 auto;
+  padding: 0;
+  clear: both;
+  height: 110px; }
+  @media screen and (max-width: 720px) {
+    .markerBox .markerGraph {
+      display: none; } }
