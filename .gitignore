@@ -28,12 +28,3 @@ bower_components
 node_modules
 templates/js/lib/*
 templates/sass/lib/*
-
-# don't track compiled js/css
-public/main.js
-public/style.css.map
-public/style.css
-public/require.js
-public/src
-public/icon-fullscreen*
-public/images/*
