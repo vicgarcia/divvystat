@@ -2,7 +2,6 @@
 
 require_once '../bootstrap.php';
 
-
 // setup application, cache, database
 $app = new Slim\Slim([
     'view'            => new Slim\Views\Twig,
@@ -16,12 +15,10 @@ $app->container->singleton('db', function() {
     return new DivvyStat\DB(new MeekroDB);
 });
 
-
 // distribute page template
 $app->get('/', function() use ($app) {
     $app->render('main.html');
 });
-
 
 // endpoint for stations json (used to populate markers to map)
 $app->get('/stations', function() use ($app) {
@@ -31,7 +28,6 @@ $app->get('/stations', function() use ($app) {
     }
     echo json_encode($stations);
 });
-
 
 // endpoint for per-station json (used to populate charts in popup)
 $app->get('/stations/:landmark', function($landmark) use ($app) {
@@ -62,20 +58,17 @@ $app->get('/stations/:landmark', function($landmark) use ($app) {
     }
 });
 
-
 // return empty json array with 404
 $app->notFound(function () use ($app) {
     $app->response->setStatus(404);
     echo json_encode([]);
 });
 
-
 // return empty json array on error
 $app->error(function (\Exception $e) use ($app) {
     $app->response->setStatus(500);
     echo json_encode([]);
 });
-
 
 // run the app
 $app->run();
