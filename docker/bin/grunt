@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# use this to run grunt with arguments inside the docker container from the host cli
+# ex : from the project root call ./docker/bin/grunt watch
+
+docker-compose exec php grunt $@

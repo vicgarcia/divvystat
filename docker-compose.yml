@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  mysql:
+    build:
+      context: ./
+      dockerfile: ./docker/mysql/Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: divvystat
+      MYSQL_PASSWORD: divvystat
+      MYSQL_DATABASE: divvystat
+
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    command: /code/docker/php/start.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql

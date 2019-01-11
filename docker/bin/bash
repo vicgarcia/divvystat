@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# use this to run bash inside the docker container from the host cli
+# ex : from the project root call ./docker/bin/bash
+
+docker-compose exec php bash
