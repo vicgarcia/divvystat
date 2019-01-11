@@ -1,4 +1,5 @@
 <?php
+
 /*
  *  php divvystat.php <option>
  *
@@ -11,7 +12,6 @@
  */
 
 require_once 'bootstrap.php';
-
 
 $db = new DivvyStat\DB(new MeekroDB);
 
