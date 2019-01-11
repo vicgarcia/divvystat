@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# update code from github repo
-git pull origin master
-
-# update composer, rebuilt javascript
-composer update
-grunt build
-

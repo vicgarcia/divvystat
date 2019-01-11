@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo php -S 192.168.33.44:80 -t public
