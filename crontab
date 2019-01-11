@@ -1,6 +1,8 @@
-# log availabilitys from divvy api every 2 minutes
-*/2 * * * * php /opt/divvystat/divvystat.php record_data
+# log availabilitys from divvy api every 4 minutes
+*/4 * * * * php /opt/divvystat/divvystat.php record_data
 # prune data to the last 45 days daily @ 2am
 0 2 * * * php /opt/divvystat/divvystat.php prune_data
 # check that divvy stats are being updated
 0 * * * * php /opt/divvystat/divvystat.php status_check
+# backup the database daily @ 4 am
+0 4 * * * /opt/divvystat/backup.sh
