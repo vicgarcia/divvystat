@@ -6,13 +6,15 @@ set_include_path(dirname(__FILE__));
 // use composer autoloader
 require 'vendor/autoload.php';
 
-// configure Kaavii for Redis
-Kaavii\Redis::$config =  require 'config/redis.php';
+// config for redis
+$redis =  require 'config/redis.php';
+DivvyStat\Cache::$host = $redis['host'];
+DivvyStat\Cache::$port = $redis['port'];
+DivvyStat\Cache::$database = $redis['database'];
 
-// configure MeekroDB for MySQL
-$meekroConfig = require 'config/mysql.php';
-DB::$host = $meekroConfig['host'];
-DB::$user = $meekroConfig['user'];
-DB::$password = $meekroConfig['pass'];
-DB::$dbName = $meekroConfig['base'];
-
+// configure for mysql
+$mysql = require 'config/mysql.php';
+DB::$host = $mysql['host'];
+DB::$user = $mysql['user'];
+DB::$password = $mysql['pass'];
+DB::$dbName = $mysql['base'];

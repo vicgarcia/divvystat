@@ -1,7 +1,7 @@
 FROM debian:9-slim
 RUN apt-get update -qq
 # install basic tools
-RUN apt-get install -y -qq curl mysql-client zip unzip build-essential libssl-dev git vim-nox
+RUN apt-get install -y -qq curl mysql-client zip unzip build-essential libssl-dev git vim-nox redis-tools
 # create path for codebase inside container
 RUN mkdir /code
 COPY . /code/

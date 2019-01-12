@@ -13,12 +13,13 @@
 require_once 'bootstrap.php';
 
 $db = new DivvyStat\DB(new MeekroDB);
+$cache = new DivvyStat\Cache();
 
 $cli = new Commando\Command();
 $cli->option()
     ->require()
     ->must(function ($option) {
-        $options = [ 'record_data', 'update_stations', 'prune_data' ];
+        $options = [ 'record_data', 'update_stations', 'prune_data', 'clear_cache' ];
         return in_array($option, $options);
     })
     ->describedAs('provide a command line option');
@@ -32,5 +33,8 @@ switch ($cli[0]) {
         break;
     case 'prune_data':
         DivvyStat\Tasks::pruneData($db);
+        break;
+    case 'clear_cache':
+        DivvyStat\Tasks::clearCache($cache);
         break;
 }

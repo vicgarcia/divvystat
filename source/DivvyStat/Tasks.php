@@ -50,4 +50,8 @@ class Tasks
         $db->pruneData();
     }
 
+    public static function clearCache(Cache $cache)
+    {
+        $cache->clear();
+    }
 }

@@ -8,8 +8,7 @@ $app = new Slim\Slim([
     'templates.path'  => '../templates',
 ]);
 $app->container->singleton('cache', function() {
-    // return new Kaavii\NoCache;
-    return new Kaavii\Cache(\Kaavii\Redis::connect());
+    return new DivvyStat\Cache();
 });
 $app->container->singleton('db', function() {
     return new DivvyStat\DB(new MeekroDB);
@@ -60,8 +59,8 @@ $app->get('/stations/:landmark', function($landmark) use ($app) {
 
 // status endpoint, returns 500 when data collection is out of date
 $app->get('/status', function() use ($app) {
-    $latest = \DateTime::createFromFormat('Y-m-d H:i:s', $app->db->getLatestUpdate());
-    $latest_update_age_in_seconds = (new \DateTime)->getTimestamp() - $latest->getTimestamp();
+    $latest_update = \DateTime::createFromFormat('Y-m-d H:i:s', $app->db->getLatestUpdate());
+    $latest_update_age_in_seconds = (new \DateTime)->getTimestamp() - $latest_update->getTimestamp();
     if ($latest_update_age_in_seconds < 900) {
         $app->response->setStatus(200);
         echo json_encode([ 'status' => 'ok' ]);
