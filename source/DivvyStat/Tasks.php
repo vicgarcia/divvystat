@@ -50,20 +50,4 @@ class Tasks
         $db->pruneData();
     }
 
-    public static function statusCheck(DB $db, \Mailgun\Mailgun $mg)
-    {
-        $current = new \DateTime();
-        $latest = \DateTime::createFromFormat('Y-m-d H:i:s', $db->getLatestUpdate());
-
-        $seconds = $current->getTimestamp() - $latest->getTimestamp();
-        if ($seconds > 3600) {
-            $mg->messages()->send('divvystat.us', [
-                'from'    => 'system@divvystat.us',
-                'to'      => 'vic.garcia@outlook.com',
-                'subject' => 'DivvyStat Status Check Failed',
-                'text'    => 'DivvyStat stats are not being updated.',
-            ]);
-        }
-    }
-
 }
