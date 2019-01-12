@@ -58,16 +58,29 @@ $app->get('/stations/:landmark', function($landmark) use ($app) {
     }
 });
 
-// return empty json array with 404
-$app->notFound(function () use ($app) {
-    $app->response->setStatus(404);
-    echo json_encode([]);
+// status endpoint, returns 500 when data collection is out of date
+$app->get('/status', function() use ($app) {
+    $latest = \DateTime::createFromFormat('Y-m-d H:i:s', $app->db->getLatestUpdate());
+    $latest_update_age_in_seconds = (new \DateTime)->getTimestamp() - $latest->getTimestamp();
+    if ($latest_update_age_in_seconds < 900) {
+        $app->response->setStatus(200);
+        echo json_encode([ 'status' => 'ok' ]);
+    } else {
+        $app->response->setStatus(500);
+        echo json_encode([ 'status' => 'error' ]);
+    }
 });
 
-// return empty json array on error
+// return error json array with 404
+$app->notFound(function () use ($app) {
+    $app->response->setStatus(404);
+    echo json_encode([ 'status' => 'error' ]);
+});
+
+// return error json array on error
 $app->error(function (\Exception $e) use ($app) {
     $app->response->setStatus(500);
-    echo json_encode([]);
+    echo json_encode([ 'status' => 'error' ]);
 });
 
 // run the app
