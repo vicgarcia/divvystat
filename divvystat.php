@@ -7,6 +7,7 @@
  *  record_data : get data from Divvy API and record in app DB
  *  update_stations : update app DB stations table from API
  *  prune_data : delete data from database older than 45 days
+ *  clear_cache : delete all data in redis cache
  *
  */
 
