@@ -10,7 +10,7 @@ require 'vendor/autoload.php';
 $redis =  require 'config/redis.php';
 DivvyStat\Cache::$host = $redis['host'];
 DivvyStat\Cache::$port = $redis['port'];
-DivvyStat\Cache::$database = $redis['database'];
+DivvyStat\Cache::$database = $redis['base'];
 
 // configure for mysql
 $mysql = require 'config/mysql.php';
