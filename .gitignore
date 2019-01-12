@@ -9,11 +9,6 @@ workspace/
 vendor/
 composer.phar
 
-# config files
-config/mysql.php
-config/redis.php
-config/mailgun.php
-
 # dev scripts (may contain credentials/config)
 update_dev_db
 archive_availabilitys
