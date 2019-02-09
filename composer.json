@@ -1,9 +1,10 @@
 {
     "name": "vicgarcia/divvystat",
+    "version": "7.0.0",
     "description": "real time Divvy usage tracking and current status by station",
     "type": "project",
     "require": {
-        "php": ">=5.4.0",
+        "php": "=7.1",
         "slim/slim": "2.3.*",
         "slim/views": "0.1.*",
         "twig/twig": "1.*",
