@@ -3,4 +3,4 @@
 # prune data to the last 45 days daily @ 2am
 0 2 * * * php /opt/divvystat/divvystat.php prune_data
 # backup the database daily @ 4 am
-0 4 * * * /opt/divvystat/backup.sh
+0 4 * * * /opt/divvystat/deploy/backup.sh
