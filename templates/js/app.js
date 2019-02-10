@@ -64,7 +64,7 @@ define([
             minZoom: 13,
             maxZoom: 16,
         });
-        var tile_url = 'http://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}'
+        var tile_url = 'https://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}'
                 + (L.Browser.retina ? '@2x.png' : '.png')
                 + '?access_token='
                 + L.mapbox.accessToken;
