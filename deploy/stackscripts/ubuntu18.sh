@@ -195,6 +195,17 @@ function nginx_install {
 function certbot_install {
     echo -e "\ninstall certbot ..."
 
+    # https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04
+
     add-apt-repository -y ppa:certbot/certbot
     apt-get install -y python-certbot-nginx
+}
+
+# install supervisor
+function supervisor_install {
+    echo -e "\ninstall supervisor.d ..."
+
+    # https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
+
+    apt-get -y install supervisor
 }
