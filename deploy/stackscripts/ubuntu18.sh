@@ -3,7 +3,7 @@
 # basic functions for reuse in server specific ubuntu stackscripts
 
 # much of this is copied from https://www.linode.com/stackscripts/view/1
-# i opted to copy vs import due to outdated features in the linode stackscript
+# opted to copy vs import due to outdated features in the linode stackscript
 
 # update the os
 function system_update {
@@ -23,7 +23,7 @@ function system_basic_setup {
 
     # install common linux tools
     apt-get -y install build-essential python-software-properties
-    apt-get -y install git curl vim tmux ack zip unzip wget
+    apt-get -y install git vim tmux ack zip unzip wget curl nmap
 }
 
 # set the system timezone
