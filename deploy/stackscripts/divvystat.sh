@@ -6,7 +6,7 @@
 # deployment variables
 # <UDF name="mysql_root_password" label="mySQL root password" default="" />
 # <UDF name="mysql_app_password" label="mySQL application password (use default)" default="divvystat" />
-# <UDF name="vicgarcia_password" label="vicg4rcia user account password" default="" />
+# <UDF name="vicgarcia_password" label="vicgarcia user account password" default="" />
 
 # redirect all output to a log file at /root/deploy.log
 exec >/root/deploy.log 2>&1
