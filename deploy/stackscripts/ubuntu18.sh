@@ -23,7 +23,7 @@ function system_basic_setup {
 
     # install common linux tools
     apt-get -y install build-essential python-software-properties
-    apt-get -y install git vim tmux ack zip unzip wget curl nmap
+    apt-get -y install git vim tmux ack zip unzip wget curl nmap netcat
 }
 
 # set the system timezone
@@ -72,7 +72,7 @@ function system_add_sudoer {
     fi
 
     useradd -m -s /bin/bash -G sudo $1
-    echo "vicg4rcia:$2" | chpasswd
+    echo "$1:$2" | chpasswd
 }
 
 # get the primary ip for the system
@@ -101,7 +101,7 @@ function mysql_install {
     echo "mysql-server mysql-server/root_password_again password $1" | debconf-set-selections
     apt-get -y install mysql-server mysql-client
 
-    echo "sleeping while MySQL starts up for the first time..."
+    echo "sleeping while MySQL starts up for the first time ..."
     sleep 10
 }
 
@@ -123,7 +123,7 @@ function mysql_create_database {
     echo "CREATE DATABASE $2;" | mysql -u root -p$1
 }
 
-# create mysql user
+# create mysql user with password
 function mysql_create_user {
 
     # $1 - the mysql root password
@@ -172,6 +172,40 @@ function mysql_grant_user {
     echo "FLUSH PRIVILEGES;" | mysql -u root -p$1
 }
 
+# install postgres
+function postgres_install {
+    echo -e "\ninstall postgresql ..."
+
+    apt-get -y install postgresql
+    echo "sleeping while PostgreSQL starts up for the first time ..."
+    sleep 10
+}
+
+# create postgres database
+function postgres_create_database_and_user {
+
+    # $1 - the database to create
+    if [ ! -n "$1" ]; then
+        echo "postgres_create_database_and_user() requires the database name as its first argument"
+        return 1;
+    fi
+
+    # $2 - the user to create
+    if [ ! -n "$2" ]; then
+        echo "postgres_create_database_and_user() requires the user name as its second argument"
+        return 1;
+    fi
+
+    # $3 - the password for the user
+    if [ ! -n "$3" ]; then
+        echo "postgres_create_database_and_user() requires the password as its third argument"
+        return 1;
+    fi
+
+    su - postgres -c "psql -c \"CREATE USER $2 WITH PASSWORD '$3'\""
+    su - postgres -c "psql -c \"CREATE DATABASE $1 WITH OWNER $2\""
+}
+
 # install redis
 function redis_install {
     echo -e "\ninstall redis ..."
@@ -208,4 +242,13 @@ function supervisor_install {
     # https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
 
     apt-get -y install supervisor
+}
+
+# install python 3 on ubuntu 18
+function python3_install {
+    echo -e "\ninstall python3 ..."
+
+    # install python3 + pipenv
+    apt-get -y install python3-dev python3-pip
+    pip3 install --upgrade pip setuptools pipenv
 }
