@@ -2,8 +2,13 @@
 *.zip
 *.csv
 *.sql
+*.gz
 log/
 workspace/
+
+# configuration files
+config/mysql.php
+config/redis.php
 
 # composer files
 vendor/
