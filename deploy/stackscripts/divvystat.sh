@@ -58,14 +58,15 @@ useradd --system divvystat
 # install divvystat app code from github
 mkdir /opt/divvystat
 chown -R divvystat:divvystat /opt/divvystat
-su - divvystat -c "git clone -b dev https://github.com/vicgarcia/divvystat.git /opt/divvystat"
+su - divvystat -c "git clone https://github.com/vicgarcia/divvystat.git /opt/divvystat"
 echo
 
 # install php dependencies w/ composer
 su - divvystat -c "cd /opt/divvystat && composer install && echo"
 
 # generate ssl certificate for divvystat.us
-certbot --nginx -d divvystat.us -m vicg4rcia@gmail.com --agree-tos -n
+# XXX run this manually to avoid rate limit issues
+# certbot --nginx -d divvystat.us -m vicg4rcia@gmail.com --agree-tos -n
 
 # configure divvystat
 sed -i 's/redis/localhost/' /opt/divvystat/config/redis.php
@@ -85,7 +86,8 @@ crontab -l -u divvystat | cat - /opt/divvystat/deploy/crontab | crontab -u divvy
 
 # add nginx config for divvystat.us
 cp /opt/divvystat/deploy/nginx.conf /etc/nginx/sites-available/divvystat.us
-ln -s /etc/nginx/sites-available/divvystat.us /etc/nginx/sites-enabled/
+# XXX run this manually after generating ssl to avoid errors
+# ln -s /etc/nginx/sites-available/divvystat.us /etc/nginx/sites-enabled/
 
 # configure firewall
 ufw allow "OpenSSH"
@@ -95,6 +97,9 @@ ufw enable
 # disable root login via ssh
 system_disable_root_ssh
 
-# reboot
-echo -e "\ndivvystat.us install complete, rebooting ..."
-shutdown -r now
+# stop nginx and wait for reboot
+service nginx stop
+echo -e "\ndivvystat.us automated install complete"
+echo -e "\ncomplete manual configuration and reboot"
+echo -e "\n - run certbox command to generate ssl"
+echo -e "\n - activate nginx virtual host config"

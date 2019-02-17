@@ -6,4 +6,4 @@
 rm -rf /opt/divvystat/public/divvystat.sql.gz
 
 # backup the databases
-mysqldump -u divvystat -pPASSWORD divvystat | gzip > /opt/divvystat/public/divvystat.sql.gz
+mysqldump -u divvystat -pdivvystat divvystat | gzip > /opt/divvystat/public/divvystat.sql.gz
