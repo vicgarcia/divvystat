@@ -66,7 +66,8 @@ su - divvystat -c "cd /opt/divvystat && composer install && echo"
 
 # generate ssl certificate for divvystat.us
 # XXX run this manually to avoid rate limit issues
-# certbot --nginx -d divvystat.us -m vicg4rcia@gmail.com --agree-tos -n
+# certbot --nginx -d divvystat.us -d www.divvystat.us -m vicg4rcia@gmail.com --agree-tos -n
+# check this at : https://www.ssllabs.com/ssltest/analyze.html?d=divvystat.us
 
 # configure divvystat
 sed -i 's/redis/localhost/' /opt/divvystat/config/redis.php
