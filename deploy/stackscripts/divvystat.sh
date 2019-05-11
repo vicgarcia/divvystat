@@ -90,6 +90,11 @@ cp /opt/divvystat/deploy/nginx.conf /etc/nginx/sites-available/divvystat.us
 # XXX run this manually after generating ssl to avoid errors
 # ln -s /etc/nginx/sites-available/divvystat.us /etc/nginx/sites-enabled/
 
+# to enable certbot renew via a cron job, in root cron add ...
+# 0 5 1 */3 * echo -e "\n$(date)" >> /opt/divvystat/certbot-renew.log && certbot renew --dry-run >> /opt/divvystat/certbot-renew.log
+# create an empty file to use for log output from certbot
+# touch /opt/divvystat/certbot-renew.log
+
 # configure firewall
 ufw allow "OpenSSH"
 ufw allow "Nginx Full"
