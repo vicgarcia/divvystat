@@ -3,19 +3,43 @@ namespace DivvyStat;
 
 class Api
 {
-    const URL = 'http://divvybikes.com/stations/json';
+    const URL = 'https://layer.bicyclesharing.net/map/v1/chi/map-inventory';
 
     public function getLiveStationData()
     {
         $options = [ 'useragent' => 'DivvyStat collector / divvystat.us' ];
         $apiData = json_decode(\Requests::get(self::URL, [], $options)->body);
 
-        $timestamp = $apiData->executionTime;
+        $results = [];
+        foreach ($apiData->features as $data) {
 
-        $results = array();
-        foreach ($apiData->stationBeanList as $stationData) {
-            $stationData->timestamp = $timestamp;
-            $results[$stationData->landMark] = $stationData;
+            // parse the api results to a 'station' object
+            $station = new \stdClass;
+
+            // terminal is a alphanumeric identifier for the station
+            $station->terminal = $data->properties->station->terminal;
+
+            // name is that display name of the station
+            $station->name = $data->properties->station->name;
+
+            // parse unix timestamp to native datetime
+            $station->timestamp = (new \DateTime('@' . $data->properties->station->last_reported))
+                ->setTimezone(new \DateTimeZone('America/Chicago'));
+
+            // parse latitude and longitude
+            $station->latitude = $data->geometry->coordinates[1];
+            $station->longitude = $data->geometry->coordinates[0];
+
+            // parse available bikes and total docks at station
+            $station->availableBikes = $data->properties->station->bikes_available;
+            $station->totalDocks = $data->properties->station->capacity;
+
+            // parse if the station is currently active
+            $station->active = $data->properties->station->renting;
+
+            // prevent duplicates by indexing by unique station terminal (id)
+            $results[$station->terminal] = $station;
+
         }
 
         return $results;
