@@ -29,26 +29,26 @@ $app->get('/stations', function() use ($app) {
 });
 
 // endpoint for per-station json (used to populate charts in popup)
-$app->get('/stations/:landmark', function($landmark) use ($app) {
-    if (($landmarks = $app->cache->load('landmarks')) === false) {
-        $landmarks = $app->db->getLandmarks();
-        $app->cache->save('landmarks', $landmarks, 86400);
+$app->get('/stations/:terminal', function($terminal) use ($app) {
+    if (($terminals = $app->cache->load('terminals')) === false) {
+        $terminals = $app->db->getTerminals();
+        $app->cache->save('terminals', $terminals, 86400);
     }
-    if (in_array($landmark, $landmarks)) {
+    if (in_array($terminal, $terminals)) {
         $report = new \stdClass;
-        if (($capacity = $app->cache->load('capacity_'.$landmark)) === false) {
-            $capacity = $app->db->getStationCapacity($landmark);
-            $app->cache->save('capacity:'.$landmark, $capacity, 300);
+        if (($capacity = $app->cache->load('capacity_'.$terminal)) === false) {
+            $capacity = $app->db->getStationCapacity($terminal);
+            $app->cache->save('capacity:'.$terminal, $capacity, 300);
         }
         $report->capacity = $capacity;
-        if (($timeline = $app->cache->load('timeline_'.$landmark)) === false) {
-            $timeline = $app->db->getStationTimeline($landmark);
-            $app->cache->save('timeline:'.$landmark, $timeline, 300);
+        if (($timeline = $app->cache->load('timeline_'.$terminal)) === false) {
+            $timeline = $app->db->getStationTimeline($terminal);
+            $app->cache->save('timeline:'.$terminal, $timeline, 300);
         }
         $report->timeline = $timeline;
-        if (($graph = $app->cache->load('graph_'.$landmark)) === false) {
-            $graph = $app->db->getStationGraph($landmark);
-            $app->cache->save('graph:'.$landmark, $graph, 86400);
+        if (($graph = $app->cache->load('graph_'.$terminal)) === false) {
+            $graph = $app->db->getStationGraph($terminal);
+            $app->cache->save('graph:'.$terminal, $graph, 86400);
         }
         $report->graph = $graph;
         echo json_encode($report);

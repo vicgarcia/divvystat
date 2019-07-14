@@ -13,25 +13,25 @@ define([
 
     var generatePopupHtml = function(station) {
         return ' ' +
-          '<div id="markerBox-' + station.landmark + '" class="markerBox">' +
+          '<div id="markerBox-' + station.terminal + '" class="markerBox">' +
             '<h2>' + station.name + '</h2>' +
-            '<h4 id="markerCapacity-' + station.landmark + '">&nbsp;</h4>' +
+            '<h4 id="markerCapacity-' + station.terminal + '">&nbsp;</h4>' +
             '<div class="markerTimelineHeader">available bikes over previous 72 hours</div>' +
-            '<div id="markerTimeline-' + station.landmark + '" class="markerTimeline"></div>' +
+            '<div id="markerTimeline-' + station.terminal + '" class="markerTimeline"></div>' +
             '<div class="markerGraphHeader">average weekday usage for last 30 days</div>' +
-            '<div id="markerGraph-' + station.landmark + '" class="markerGraph"></div>' +
+            '<div id="markerGraph-' + station.terminal + '" class="markerGraph"></div>' +
           '</div>';
     };
 
-    var drawCapacity = function(landmark, data) {
-        var element = '#markerCapacity-' + landmark,
+    var drawCapacity = function(terminal, data) {
+        var element = '#markerCapacity-' + terminal,
             output = data.bikes + ' bikes / ' + data.docks + ' docks';
         $(element).text(output);
     };
 
-    var drawTimeline = function(landmark, data) {
+    var drawTimeline = function(terminal, data) {
         return new Morris.Line({       /* timeline chart */
-            element: 'markerTimeline-' + landmark,
+            element: 'markerTimeline-' + terminal,
             data: data,
             xkey: 'timestamp',
             ykeys: ['bikes'],
@@ -42,9 +42,9 @@ define([
         });
     };
 
-    var drawGraph = function(landmark, data) {
+    var drawGraph = function(terminal, data) {
         return new Morris.Bar({        /* day of week bar graph */
-            element: 'markerGraph-' + landmark,
+            element: 'markerGraph-' + terminal,
             data: data,
             xkey: 'day',
             ykeys: ['usage'],
@@ -81,7 +81,7 @@ define([
                     iconColor: 'white',
                     markerColor: 'blue'
                 });
-                L.marker([ station.lat, station.lng ], { icon: icon })
+                L.marker([ station.latitude, station.longitude ], { icon: icon })
                 .addTo(map)
                 .bindPopup(generatePopupHtml(station), {
                     autoPanPaddingTopLeft: L.point(60, 40),
@@ -92,18 +92,18 @@ define([
                 })
                 .on('click', function(e) {
                     this.openPopup();
-                    $('#markerBox-' + station.landmark).block({
+                    $('#markerBox-' + station.terminal).block({
                         message: '<h2>loading...</h2>',
                         css: { backgroundColor: 'white', border: 'none' },
                         overlayCSS: { backgroundColor: 'white', opacity: 1 },
                         fadeIn: 0,
                         fadeOut: 500
                     });
-                    $.getJSON('/stations/' + station.landmark, function(report) {
-                        drawCapacity(station.landmark, report.capacity);
-                        drawTimeline(station.landmark, report.timeline);
-                        drawGraph(station.landmark, report.graph);
-                        $('#markerBox-' + station.landmark).unblock();
+                    $.getJSON('/stations/' + station.terminal, function(report) {
+                        drawCapacity(station.terminal, report.capacity);
+                        drawTimeline(station.terminal, report.timeline);
+                        drawGraph(station.terminal, report.graph);
+                        $('#markerBox-' + station.terminal).unblock();
                     });
                 });
             });
