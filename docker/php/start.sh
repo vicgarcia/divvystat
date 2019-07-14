@@ -6,6 +6,10 @@ until mysqladmin -h mysql -u root -proot ping &> /dev/null; do
 done
 echo "starting php development server"
 
+# initialize database with initial_db.sql script
+# use this to overwrite the database dump installed at startup
+# mysql --host mysql --port 3306 -u root -p$MYSQL_ROOT_PASSWORD < /code/deploy/initial_db.sql
+
 cd /code
 
 # install php dependencies via composer
