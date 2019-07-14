@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://www.linode.com/docs/platform/stackscripts/
+
 # basic functions for reuse in server specific ubuntu stackscripts
 
 # much of this is copied from https://www.linode.com/stackscripts/view/1

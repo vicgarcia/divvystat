@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # https://www.linode.com/docs/platform/stackscripts/
 
 # deploy divvystat.us production server w/ nginx, mysql, php7, and redis
