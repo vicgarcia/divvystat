@@ -19,46 +19,37 @@ class DB
         ];
     }
 
-    public function getLandmarks()
+    public function getTerminals()
     {
-        $sql = "select landmark from stations";
-        $landmarks = $this->db->queryOneColumn('landmark', $sql);
+        $sql = "select terminal from stations";
+        $terminals = $this->db->queryOneColumn('terminal', $sql);
 
-        return $landmarks;
+        return $terminals;
     }
 
     public function getStations()
     {
-        $sql = "
-            select
-                s.landmark as 'landmark',
-                s.name as 'name',
-                s.latitude as 'lat',
-                s.longitude as 'lng'
-            from stations s
-            ";
+        $sql = "select terminal, name, latitude, longitude from stations";
         $stations = $this->db->query($sql);
 
         return $stations;
     }
 
-    public function getStationCapacity($landmark)
+    public function getStationCapacity($terminal)
     {
         $sql = "
-            select
-                available_bikes as 'bikes',
-                total_docks as 'docks'
+            select bikes, docks
             from availabilitys
-            where landmark = %s
+            where terminal = %s
             order by id desc
             limit 1
-            ";
-        $stations = $this->db->queryFirstRow($sql, $landmark);
+        ";
+        $stations = $this->db->queryFirstRow($sql, $terminal);
 
         return $stations;
     }
 
-    public function getStationTimeline($landmark, \DateTime $end = null)
+    public function getStationTimeline($terminal, \DateTime $end = null)
     {
         // default endtime to now if not explicitly provided
         if ($end == null)
@@ -70,13 +61,13 @@ class DB
 
         // query for points in interval
         $sql = "
-            select timestamp, available_bikes as 'bikes'
+            select timestamp, bikes
             from availabilitys
-            where landmark = %s
+            where terminal = %s
               and timestamp between %t and %t
             order by timestamp desc
-            ";
-        $rows = $this->db->query($sql, $landmark, $start, $end);
+        ";
+        $rows = $this->db->query($sql, $terminal, $start, $end);
 
         // collect points for display on the timeline
         $timeline = [];
@@ -102,21 +93,21 @@ class DB
         return $timeline;
     }
 
-    public function getStationGraph($landmark)
+    public function getStationGraph($terminal)
     {
         $rawDataSql = "
             select
-              date_format(a.timestamp, '%j') as 'day',
-              date_format(a.timestamp,'%w') as 'day_of_week',
-              a.timestamp,
-              a.available_bikes
-            from availabilitys a
-            where a.landmark = %s
-              and DATE(a.timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
-                                        and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
-            order by a.timestamp asc
-            ";
-        $rows = $this->db->query($rawDataSql, $landmark);
+              timestamp,
+              date_format(timestamp, '%j') as 'day',
+              date_format(timestamp,'%w') as 'day_of_week',
+              bikes as 'available_bikes'
+            from availabilitys
+            where terminal = %s
+              and DATE(timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
+                                      and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
+            order by timestamp asc
+        ";
+        $rows = $this->db->query($rawDataSql, $terminal);
 
         // populate initial day of week containers
         $days = [];
@@ -160,24 +151,23 @@ class DB
         return $timestamp;
     }
 
-    public function insertAvailability($landmark, $status, $docks, $bikes, $timestamp)
+    public function insertAvailability($terminal, $docks, $bikes, $timestamp)
     {
         return $this->db->insert('availabilitys', [
-            'landmark'        => $landmark,
-            'status_key'      => $status,
-            'total_docks'     => $docks,
-            'available_bikes' => $bikes,
-            'timestamp'       => $timestamp
+            'terminal'   => $terminal,
+            'docks'      => $docks,
+            'bikes'      => $bikes,
+            'timestamp'  => $timestamp
         ]);
     }
 
-    public function insertUpdateStation($landmark, $name, $lat, $lng)
+    public function insertUpdateStation($terminal, $name, $latitude, $longitude)
     {
         return $this->db->insertUpdate('stations', [
-            'landmark'   => $landmark,
+            'terminal'   => $terminal,
             'name'       => $name,
-            'latitude'   => $lat,
-            'longitude'  => $lng
+            'latitude'   => $latitude,
+            'longitude'  => $longitude
         ]);
     }
 
@@ -186,12 +176,12 @@ class DB
         $deleteAvails = "
             delete from availabilitys
             where timestamp < TIMESTAMP(DATE_SUB(NOW(), INTERVAL 45 day))
-            ";
+        ";
         $this->db->query($deleteAvails);
 
         $optimizeAvails = "
             optimize table availabilitys
-            ";
+        ";
         $this->db->query($optimizeAvails);
     }
 
