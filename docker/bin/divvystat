@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# use this to run divvystat.php with arguments inside the docker container from the host cli
+# ex : from the project root call ./docker/bin/divvystat.php update_stations
+
+docker-compose exec php sh -c "cd /code && php divvystat.php $@"

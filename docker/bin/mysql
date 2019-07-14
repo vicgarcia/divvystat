@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# use this to enter a mysql cli shell inside the docker container from the host cli
+# ex : from the project root call ./docker/bin/mysql
+
+docker-compose exec php sh -c "mysql -h mysql -P 3306 -u root -proot"
