@@ -9,14 +9,12 @@ class Tasks
         $api = new Api;
 
         foreach ($api->getLiveStationData() as $stationData) {
-            if ($stationData->testStation === false) {
-                $db->insertUpdateStation(
-                    $stationData->landMark,
-                    $stationData->stationName,
-                    $stationData->latitude,
-                    $stationData->longitude
-                );
-            }
+            $db->insertUpdateStation(
+                $stationData->terminal,
+                $stationData->name,
+                $stationData->latitude,
+                $stationData->longitude
+            );
         }
     }
 
@@ -25,22 +23,11 @@ class Tasks
         $api = new Api;
 
         foreach ($api->getLiveStationData() as $station) {
-            if (!isset($timestamp)) {
-                $timestamp =
-                    \DateTime::createFromFormat('Y-m-d H:i:s', $station->timestamp)
-                        ->format('Y-m-d H:i:s');
-            }
-
-            $landmark = $station->landMark;
-            $totalDocks = $station->totalDocks;
-            $availableBikes = $station->availableBikes;
-
             $db->insertAvailability(
-                $landmark,
-                $station->statusKey,
-                $totalDocks,
-                $availableBikes,
-                $timestamp
+                $station->terminal,
+                $station->totalDocks,
+                $station->availableBikes,
+                $station->timestamp
             );
         }
     }
