@@ -13,25 +13,25 @@ define([
 
     var generatePopupHtml = function(station) {
         return ' ' +
-          '<div id="markerBox-' + station.terminal + '" class="markerBox">' +
+          '<div id="markerBox-' + station.id + '" class="markerBox">' +
             '<h2>' + station.name + '</h2>' +
-            '<h4 id="markerCapacity-' + station.terminal + '">&nbsp;</h4>' +
+            '<h4 id="markerCapacity-' + station.id + '">&nbsp;</h4>' +
             '<div class="markerTimelineHeader">available bikes over previous 72 hours</div>' +
-            '<div id="markerTimeline-' + station.terminal + '" class="markerTimeline"></div>' +
+            '<div id="markerTimeline-' + station.id + '" class="markerTimeline"></div>' +
             '<div class="markerGraphHeader">average weekday usage for last 30 days</div>' +
-            '<div id="markerGraph-' + station.terminal + '" class="markerGraph"></div>' +
+            '<div id="markerGraph-' + station.id + '" class="markerGraph"></div>' +
           '</div>';
     };
 
-    var drawCapacity = function(terminal, data) {
-        var element = '#markerCapacity-' + terminal,
+    var drawCapacity = function(stationId, data) {
+        var element = '#markerCapacity-' + stationId,
             output = data.bikes + ' bikes / ' + data.docks + ' docks';
         $(element).text(output);
     };
 
-    var drawTimeline = function(terminal, data) {
-        return new Morris.Line({       /* timeline chart */
-            element: 'markerTimeline-' + terminal,
+    var drawTimeline = function(stationId, data) {
+        return new Morris.Line({
+            element: 'markerTimeline-' + stationId,
             data: data,
             xkey: 'timestamp',
             ykeys: ['bikes'],
@@ -42,9 +42,9 @@ define([
         });
     };
 
-    var drawGraph = function(terminal, data) {
-        return new Morris.Bar({        /* day of week bar graph */
-            element: 'markerGraph-' + terminal,
+    var drawGraph = function(stationId, data) {
+        return new Morris.Bar({
+            element: 'markerGraph-' + stationId,
             data: data,
             xkey: 'day',
             ykeys: ['usage'],

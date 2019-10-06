@@ -10,7 +10,7 @@ class Tasks
 
         foreach ($api->getLiveStationData() as $stationData) {
             $db->insertUpdateStation(
-                $stationData->terminal,
+                $stationData->id,
                 $stationData->name,
                 $stationData->latitude,
                 $stationData->longitude
@@ -24,7 +24,7 @@ class Tasks
 
         foreach ($api->getLiveStationData() as $station) {
             $db->insertAvailability(
-                $station->terminal,
+                $station->id,
                 $station->totalDocks,
                 $station->availableBikes,
                 $station->timestamp

@@ -29,26 +29,26 @@ $app->get('/stations', function() use ($app) {
 });
 
 // endpoint for per-station json (used to populate charts in popup)
-$app->get('/stations/:terminal', function($terminal) use ($app) {
-    if (($terminals = $app->cache->load('terminals')) === false) {
-        $terminals = $app->db->getTerminals();
-        $app->cache->save('terminals', $terminals, 86400);
+$app->get('/stations/:stationId', function($stationId) use ($app) {
+    if (($stationIds = $app->cache->load('stationIds')) === false) {
+        $stationId = $app->db->getStationIds();
+        $app->cache->save('stationIds', $stationIds, 86400);
     }
-    if (in_array($terminal, $terminals)) {
+    if (in_array($stationId, $stationIds)) {
         $report = new \stdClass;
-        if (($capacity = $app->cache->load('capacity_'.$terminal)) === false) {
-            $capacity = $app->db->getStationCapacity($terminal);
-            $app->cache->save('capacity:'.$terminal, $capacity, 300);
+        if (($capacity = $app->cache->load('capacity_'.$stationId)) === false) {
+            $capacity = $app->db->getStationCapacity($stationId);
+            $app->cache->save('capacity:'.$stationId, $capacity, 300);
         }
         $report->capacity = $capacity;
-        if (($timeline = $app->cache->load('timeline_'.$terminal)) === false) {
-            $timeline = $app->db->getStationTimeline($terminal);
-            $app->cache->save('timeline:'.$terminal, $timeline, 300);
+        if (($timeline = $app->cache->load('timeline_'.$stationId)) === false) {
+            $timeline = $app->db->getStationTimeline($stationId);
+            $app->cache->save('timeline:'.$stationId, $timeline, 300);
         }
         $report->timeline = $timeline;
-        if (($graph = $app->cache->load('graph_'.$terminal)) === false) {
-            $graph = $app->db->getStationGraph($terminal);
-            $app->cache->save('graph:'.$terminal, $graph, 86400);
+        if (($graph = $app->cache->load('graph_'.$stationId)) === false) {
+            $graph = $app->db->getStationGraph($stationId);
+            $app->cache->save('graph:'.$stationId, $graph, 86400);
         }
         $report->graph = $graph;
         echo json_encode($report);
@@ -63,23 +63,23 @@ $app->get('/status', function() use ($app) {
     $latest_update_age_in_seconds = (new \DateTime)->getTimestamp() - $latest_update->getTimestamp();
     if ($latest_update_age_in_seconds < 900) {
         $app->response->setStatus(200);
-        echo json_encode([ 'status' => 'ok' ]);
+        echo json_encode(['status' => 'ok']);
     } else {
         $app->response->setStatus(500);
-        echo json_encode([ 'status' => 'error' ]);
+        echo json_encode(['status' => 'error']);
     }
 });
 
 // return error json array with 404
 $app->notFound(function () use ($app) {
     $app->response->setStatus(404);
-    echo json_encode([ 'status' => 'error' ]);
+    echo json_encode(['status' => 'error']);
 });
 
 // return error json array on error
 $app->error(function (\Exception $e) use ($app) {
     $app->response->setStatus(500);
-    echo json_encode([ 'status' => 'error' ]);
+    echo json_encode(['status' => 'error']);
 });
 
 // run the app
