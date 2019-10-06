@@ -7,7 +7,7 @@ class Api
 
     public function getLiveStationData()
     {
-        $options = [ 'useragent' => 'DivvyStat collector / divvystat.us' ];
+        $options = ['useragent' => 'DivvyStat collector / divvystat.us'];
         $apiData = json_decode(\Requests::get(self::URL, [], $options)->body);
 
         $results = [];
@@ -16,8 +16,9 @@ class Api
             // parse the api results to a 'station' object
             $station = new \stdClass;
 
-            // terminal is a alphanumeric identifier for the station
-            $station->terminal = $data->properties->station->terminal;
+            // parse the id (int) and uuid (string)
+            $station->id = $data->properties->station->id;
+            $station->uuid = $data->properties->station->id_public;
 
             // name is that display name of the station
             $station->name = $data->properties->station->name;
@@ -38,7 +39,7 @@ class Api
             $station->active = $data->properties->station->renting;
 
             // prevent duplicates by indexing by unique station terminal (id)
-            $results[$station->terminal] = $station;
+            $results[$station->id] = $station;
 
         }
 
