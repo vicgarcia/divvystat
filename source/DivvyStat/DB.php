@@ -19,32 +19,32 @@ class DB
         ];
     }
 
-    public function getTerminals()
+    public function getStationIds()
     {
-        $sql = "select terminal from stations";
-        $terminals = $this->db->queryOneColumn('terminal', $sql);
+        $sql = "select id from stations";
+        $ids = $this->db->queryOneColumn('id', $sql);
 
-        return $terminals;
+        return $ids;
     }
 
     public function getStations()
     {
-        $sql = "select terminal, name, latitude, longitude from stations";
+        $sql = "select id, name, latitude, longitude from stations";
         $stations = $this->db->query($sql);
 
         return $stations;
     }
 
-    public function getStationCapacity($terminal)
+    public function getStationCapacity($stationId)
     {
         $sql = "
             select bikes, docks
             from availabilitys
-            where terminal = %s
+            where station = %s
             order by id desc
             limit 1
         ";
-        $stations = $this->db->queryFirstRow($sql, $terminal);
+        $stations = $this->db->queryFirstRow($sql, $stationId);
 
         return $stations;
     }
@@ -63,7 +63,7 @@ class DB
         $sql = "
             select timestamp, bikes
             from availabilitys
-            where terminal = %s
+            where station = %s
               and timestamp between %t and %t
             order by timestamp desc
         ";
@@ -151,20 +151,20 @@ class DB
         return $timestamp;
     }
 
-    public function insertAvailability($terminal, $docks, $bikes, $timestamp)
+    public function insertAvailability($station, $docks, $bikes, $timestamp)
     {
         return $this->db->insert('availabilitys', [
-            'terminal'   => $terminal,
+            'station'    => $station,
             'docks'      => $docks,
             'bikes'      => $bikes,
             'timestamp'  => $timestamp
         ]);
     }
 
-    public function insertUpdateStation($terminal, $name, $latitude, $longitude)
+    public function insertUpdateStation($id, $name, $latitude, $longitude)
     {
         return $this->db->insertUpdate('stations', [
-            'terminal'   => $terminal,
+            'id'         => $id,
             'name'       => $name,
             'latitude'   => $latitude,
             'longitude'  => $longitude
