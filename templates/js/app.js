@@ -92,18 +92,18 @@ define([
                 })
                 .on('click', function(e) {
                     this.openPopup();
-                    $('#markerBox-' + station.terminal).block({
+                    $('#markerBox-' + station.id).block({
                         message: '<h2>loading...</h2>',
                         css: { backgroundColor: 'white', border: 'none' },
                         overlayCSS: { backgroundColor: 'white', opacity: 1 },
                         fadeIn: 0,
                         fadeOut: 500
                     });
-                    $.getJSON('/stations/' + station.terminal, function(report) {
-                        drawCapacity(station.terminal, report.capacity);
-                        drawTimeline(station.terminal, report.timeline);
-                        drawGraph(station.terminal, report.graph);
-                        $('#markerBox-' + station.terminal).unblock();
+                    $.getJSON('/stations/' + station.id, function(report) {
+                        drawCapacity(station.id, report.capacity);
+                        drawTimeline(station.id, report.timeline);
+                        drawGraph(station.id, report.graph);
+                        $('#markerBox-' + station.id).unblock();
                     });
                 });
             });

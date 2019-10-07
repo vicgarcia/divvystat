@@ -13,7 +13,7 @@ CREATE TABLE stations (
       name text not null,
       latitude decimal(14,10) not null,
       longitude decimal(14,10) not null,
-      PRIMARY KEY stations__id__index (terminal)
+      PRIMARY KEY stations__id__index (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS availabilitys;

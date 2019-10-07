@@ -49,7 +49,7 @@ class DB
         return $stations;
     }
 
-    public function getStationTimeline($terminal, \DateTime $end = null)
+    public function getStationTimeline($stationId, \DateTime $end = null)
     {
         // default endtime to now if not explicitly provided
         if ($end == null)
@@ -67,7 +67,7 @@ class DB
               and timestamp between %t and %t
             order by timestamp desc
         ";
-        $rows = $this->db->query($sql, $terminal, $start, $end);
+        $rows = $this->db->query($sql, $stationId, $start, $end);
 
         // collect points for display on the timeline
         $timeline = [];
@@ -93,7 +93,7 @@ class DB
         return $timeline;
     }
 
-    public function getStationGraph($terminal)
+    public function getStationGraph($stationId)
     {
         $rawDataSql = "
             select
@@ -102,12 +102,12 @@ class DB
               date_format(timestamp,'%w') as 'day_of_week',
               bikes as 'available_bikes'
             from availabilitys
-            where terminal = %s
+            where id = %s
               and DATE(timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
                                       and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by timestamp asc
         ";
-        $rows = $this->db->query($rawDataSql, $terminal);
+        $rows = $this->db->query($rawDataSql, $stationId);
 
         // populate initial day of week containers
         $days = [];

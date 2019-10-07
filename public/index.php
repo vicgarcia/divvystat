@@ -31,7 +31,7 @@ $app->get('/stations', function() use ($app) {
 // endpoint for per-station json (used to populate charts in popup)
 $app->get('/stations/:stationId', function($stationId) use ($app) {
     if (($stationIds = $app->cache->load('stationIds')) === false) {
-        $stationId = $app->db->getStationIds();
+        $stationIds = $app->db->getStationIds();
         $app->cache->save('stationIds', $stationIds, 86400);
     }
     if (in_array($stationId, $stationIds)) {
