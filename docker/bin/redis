@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# use this to enter a redis cli shell inside the docker container from the host cli
+# ex : from the project root call ./docker/bin/redis
+
+docker-compose exec php sh -c "redis-cli -n 0 -h mysql -P 3306 -u root -proot"
