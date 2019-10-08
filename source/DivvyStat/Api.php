@@ -24,7 +24,7 @@ class Api
             $station->name = $data->properties->station->name;
 
             // parse unix timestamp to native datetime
-            $station->timestamp = (new \DateTime('@' . $data->properties->station->last_reported))
+            $station->timestamp = (new \DateTime('now'))
                 ->setTimezone(new \DateTimeZone('America/Chicago'));
 
             // parse latitude and longitude
