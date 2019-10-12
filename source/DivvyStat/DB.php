@@ -100,9 +100,9 @@ class DB
               timestamp,
               date_format(timestamp, '%j') as 'day',
               date_format(timestamp,'%w') as 'day_of_week',
-              bikes as 'available_bikes'
+              bikes
             from availabilitys
-            where id = %s
+            where station = %s
               and DATE(timestamp) between DATE(DATE_SUB(NOW(), INTERVAL 31 day))
                                       and DATE(DATE_SUB(NOW(), INTERVAL  1 day))
             order by timestamp asc
@@ -119,13 +119,13 @@ class DB
 
         // parse usage (changes in count) to day of week and track dates (for avg)
         if (count($rows) > 0) {
-            $previous = $rows[0]['available_bikes'];
+            $previous = $rows[0]['bikes'];
             foreach ($rows as $row) {
-                if ($row['available_bikes'] < $previous) {
+                if ($row['bikes'] < $previous) {
                     $days[$row['day_of_week']][] = $row['day'];
-                    $counts[$row['day_of_week']] += ($previous - $row['available_bikes']);
+                    $counts[$row['day_of_week']] += ($previous - $row['bikes']);
                 }
-                $previous = $row['available_bikes'];
+                $previous = $row['bikes'];
             }
         }
 
