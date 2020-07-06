@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -26,3 +26,14 @@ services:
       - 8000:8000
     depends_on:
       - mysql
+
+  divvystat-postgres-local:
+    restart: always
+    image: postgres:11
+    env_file:
+      - .env
+    volumes:
+      - ./docker/local/postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+

@@ -6,6 +6,9 @@
 log/
 workspace/
 
+# docker postgres data
+docker/local/postgres/data/*
+
 # composer files
 vendor/
 composer.phar
