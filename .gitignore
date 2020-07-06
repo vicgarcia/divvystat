@@ -5,6 +5,8 @@
 *.gz
 log/
 workspace/
+config/mysql.php
+config/redis.php
 
 # composer files
 vendor/
