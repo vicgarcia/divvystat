@@ -81,13 +81,15 @@ p {
     }
 
     .footer {
-        margin-top: 20px;
         @include span-columns(12);
         @include omega();
 
-        @include media($widescreen) {
-            margin-top: 20px;
+        margin: 0;
+
+        p {
+            margin: 0;
         }
+
     }
 }
 
