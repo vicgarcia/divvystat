@@ -191,7 +191,7 @@ p {
         height: 560px; } }
     @media screen and (max-width: 720px) {
       .wrap .map {
-        height: 360px; } }
+        height: 400px; } }
   .wrap .content {
     float: left;
     display: block;
@@ -226,7 +226,7 @@ p {
         .wrap .content .column {
           display: none; } }
   .wrap .footer {
-    margin-top: 20px;
+    margin: 0;
     float: left;
     display: block;
     margin-right: 2.35765%;
@@ -234,9 +234,8 @@ p {
     margin-right: 0; }
     .wrap .footer:last-child {
       margin-right: 0; }
-    @media screen and (min-width: 1050px) {
-      .wrap .footer {
-        margin-top: 20px; } }
+    .wrap .footer p {
+      margin: 0; }
 
 /* style for marker popups */
 .leaflet-popup-content {
