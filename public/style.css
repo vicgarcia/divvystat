@@ -226,12 +226,12 @@ p {
         .wrap .content .column {
           display: none; } }
   .wrap .footer {
-    margin: 0;
     float: left;
     display: block;
     margin-right: 2.35765%;
     width: 100%;
-    margin-right: 0; }
+    margin-right: 0;
+    margin: 0; }
     .wrap .footer:last-child {
       margin-right: 0; }
     .wrap .footer p {
