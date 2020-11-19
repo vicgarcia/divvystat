@@ -9,7 +9,7 @@ define([
     'use strict';
 
     L.mapbox.accessToken =
-        'pk.eyJ1IjoiYnNjdGVjaG5vbG9neSIsImEiOiJvOTlLTXVnIn0.24fpc2xTfThxnIMZ1n0egQ';
+        'pk.eyJ1IjoiYnNjdGVjaG5vbG9neSIsImEiOiJja2hvYXJjMHcwMDJtMnJ0a3h6c2pybGxiIn0.negTKrssVwBNqRY-cnl5zg';
 
     var generatePopupHtml = function(station) {
         return ' ' +
@@ -64,11 +64,8 @@ define([
             minZoom: 13,
             maxZoom: 16,
         });
-        var tile_url = 'https://{s}.tiles.mapbox.com/v4/bsctechnology.k2p1dpj1/{z}/{x}/{y}'
-                + (L.Browser.retina ? '@2x.png' : '.png')
-                + '?access_token='
-                + L.mapbox.accessToken;
-        var tiles = L.tileLayer(tile_url);
+        var tile_url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${L.mapbox.accessToken}`;
+        var tiles = L.tileLayer(tile_url, {tileSize: 512, zoomOffset: -1});
         map.addLayer(tiles);
         map.setView([41.90, -87.64], 14);
 
