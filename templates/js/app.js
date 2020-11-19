@@ -64,7 +64,9 @@ define([
             minZoom: 13,
             maxZoom: 16,
         });
-        var tile_url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${L.mapbox.accessToken}`;
+        var tile_url = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}'
+                      + (L.Browser.retina ? '@2x' : '')
+                      + `?access_token=${L.mapbox.accessToken}`;
         var tiles = L.tileLayer(tile_url, {tileSize: 512, zoomOffset: -1});
         map.addLayer(tiles);
         map.setView([41.90, -87.64], 14);
