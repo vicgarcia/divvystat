@@ -6,7 +6,7 @@ See it in action at http://divvystat.us
 
 <br />
 
-clone the repositry
+clone the repository
 
 ```
 git clone git@github.com:vicgarcia/divvystat.git
