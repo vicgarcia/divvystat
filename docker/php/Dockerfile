@@ -11,7 +11,7 @@ RUN apt-get install -y curl mysql-client zip unzip build-essential libssl-dev gi
 
 # install php + composer
 RUN add-apt-repository -y ppa:ondrej/php
-RUN apt-get install -y php7.1-cli php7.1-dev php7.1-curl php7.1-mysql php7.1-mcrypt php-redis
+RUN apt-get install -y php7.1-cli php7.1-dev php7.1-curl php7.1-mysql php7.1-mcrypt php7.1-redis
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
  && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
  && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" \
