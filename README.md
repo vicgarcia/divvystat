@@ -1,6 +1,6 @@
 Divvystat is a simple web application to scrape data and present graphs showing recent bike share usage from the City of Chicago's Divvy bike share system. This application was originally created for the 2014 Divvy Data Challenge.
 
-See it in action at http://divvystat.us
+In February of 2022 Divvy removed the API that was used by divvystat.us. Additionally, the virtual server that divvystat.us was hosted was due for an OS update. I did not have the time or interest to make the changes to continue to host divvystat.us, and decided to shut down the project.
 
 ![divvystat.us screenshot](https://raw.githubusercontent.com/vicgarcia/divvystat/master/public/screenshot.png)
 
