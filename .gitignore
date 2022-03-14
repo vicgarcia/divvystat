@@ -2,7 +2,6 @@
 *.zip
 *.csv
 *.sql
-*.gz
 log/
 workspace/
 config/mysql.php
